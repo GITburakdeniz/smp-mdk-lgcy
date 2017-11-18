@@ -3,24 +3,30 @@
 using namespace Smp::Mdk;
 
 Object::Object()
+    : _impl(new ObjectImpl)
+{
+}
+
+Object::Object(
+        ::Smp::String8 name, ::Smp::String8 description)
+throw (::Smp::InvalidObjectName)
+    : _impl(new ObjectIimpl(name, description))
 {
 }
 
 Object::~Object()
 {
+    if (this->_impl) {
+        delete this->_impl;
+    }
 }
 
 Smp::String8 Object::GetName() const
 {
-    return NULL;
+    return this->_impl->GetName();
 }
 
 Smp::String8 Object::GetDescription() const
 {
-    return NULL;
-}
-
-static Smp::Bool Object::ValidateName(Smp::String8 name)
-{
-    return false;
+    return this->_impl->GetDescription();
 }

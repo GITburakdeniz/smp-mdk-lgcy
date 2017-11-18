@@ -6,6 +6,7 @@ sources_h = \
 
 sources_c = \
 		   Mdk/Object.cpp \
+		   Mdk/ObjectImpl.cpp \
 		   $(NULL)
 
 lib_LTLIBRARIES = libsmpmdk.la
