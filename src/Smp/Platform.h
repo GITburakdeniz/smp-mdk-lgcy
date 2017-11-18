@@ -68,6 +68,11 @@
     typedef uint64_t            uint64;     ///< 64 bit unsigned integer type.
     #define PATH_SEPARATOR      '/'
 
+#elif defined (__APPLE__) && defined (__MACH__)
+    typedef int64_t             int64;      ///< 64 bit   signed integer type.
+    typedef uint64_t            uint64;     ///< 64 bit unsigned integer type.
+    #define PATH_SEPARATOR      '/'
+
 #elif defined (WIN32)
     typedef __int64             int64;      ///< 64 bit   signed integer type.
     typedef unsigned __int64    uint64;     ///< 64 bit unsigned integer type.
