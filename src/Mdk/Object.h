@@ -21,12 +21,13 @@
 
 #include "Smp/IObject.h"
 #include "Smp/Exceptions.h"
-#include "Mdk/ObjectImplForward.h"
 
 namespace Smp 
 { 
     namespace Mdk
     {
+        class ObjectImpl;
+
         class Object :
             public virtual Smp::IObject
         {

@@ -7,7 +7,6 @@ sources_h = \
 
 sources_c = \
 		   Mdk/Object.cpp \
-		   Mdk/ObjectImpl.cpp \
 		   Mdk/Management/ManagedObject.cpp \
 		   $(NULL)
 
