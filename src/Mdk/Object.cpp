@@ -115,7 +115,21 @@ ObjectImpl::~ObjectImpl(void)
 ::Smp::Bool ObjectImpl::IsValidName(
         ::Smp::String8 name) const
 {
-    return true;
+    ::Smp::Bool ret = true;
+
+    if (name == NULL) {
+        ret = false;
+    } else {
+        ::Smp::UInt64 nameLen = ::strlen(name);
+
+        if (nameLen == 0) {
+            ret = false;
+        } else if (nameLen >= 32) {
+            ret = false;
+        }
+    }
+
+    return ret;
 }
 
 ::Smp::Bool ObjectImpl::IsValidDescription(
