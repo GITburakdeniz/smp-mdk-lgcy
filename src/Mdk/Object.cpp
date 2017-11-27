@@ -19,6 +19,11 @@
 #include "Mdk/Object.h"
 
 #include <string>
+#include <cstring>
+#include <cctype>
+
+const size_t NAME_MIN_LEN = 0;
+const size_t NAME_MAX_LEN = 32;
 
 namespace Smp
 {
@@ -39,6 +44,11 @@ namespace Smp
             private:
                 ::Smp::Bool IsValidName(
                         ::Smp::String8 name) const;
+                inline ::Smp::Bool IsValidNameLength(
+                            size_t nameLen) const;
+                inline ::Smp::Bool IsValidNameChars(
+                        ::Smp::String8 name,
+                        size_t nameLen) const;
                 ::Smp::Bool IsValidDescription(
                         ::Smp::String8 description) const;
 
@@ -120,20 +130,40 @@ ObjectImpl::~ObjectImpl(void)
     if (name == NULL) {
         ret = false;
     } else {
-        ::Smp::UInt64 nameLen = ::strlen(name);
-
-        if (nameLen == 0) {
-            ret = false;
-        } else if (nameLen >= 32) {
-            ret = false;
-        }
+        size_t nameLen = ::strlen(name);
+        ret = IsValidNameLength(nameLen) && IsValidNameChars(name, nameLen);
     }
 
     return ret;
 }
 
+inline ::Smp::Bool ObjectImpl::IsValidNameLength(
+        size_t nameLen) const
+{
+    return (nameLen > NAME_MIN_LEN) && (nameLen <= NAME_MAX_LEN);
+}
+
+inline ::Smp::Bool ObjectImpl::IsValidNameChars(
+        ::Smp::String8 name,
+        size_t nameLen) const
+{
+    ::Smp::Bool remainsValid = (::isalpha(name[0]) != 0) ? true : false;
+    ::Smp::UInt32 i = 1;
+
+    while (remainsValid && (i < nameLen)) {
+        const ::Smp::Bool isLetterOrDigit = (::isalnum(name[i]) != 0) ? true : false;
+        const ::Smp::Bool isUnderscore = (name[i] == '_');
+        const ::Smp::Bool isBracket = (name[i] == '[') || (name[i] == ']');
+
+        remainsValid = isLetterOrDigit || isUnderscore || isBracket;
+        ++i;
+    }
+
+    return remainsValid;
+}
+
 ::Smp::Bool ObjectImpl::IsValidDescription(
         ::Smp::String8 description) const
 {
-    return true;
+    return description != NULL;
 }
