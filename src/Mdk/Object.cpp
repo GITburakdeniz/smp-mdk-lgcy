@@ -25,104 +25,64 @@
 const size_t NAME_MIN_LEN = 0;
 const size_t NAME_MAX_LEN = 32;
 
-namespace Smp
-{
-    namespace Mdk
-    {
-        class ObjectImpl
-        {
-            public:
-                ObjectImpl(void);
-                ObjectImpl(
-                        ::Smp::String8 name, ::Smp::String8 description)
-                    throw (::Smp::InvalidObjectName);
-                virtual ~ObjectImpl();
-
-                ::Smp::String8 GetName(void) const;
-                ::Smp::String8 GetDescription(void) const;
-
-            private:
-                ::Smp::Bool IsValidName(
-                        ::Smp::String8 name) const;
-                inline ::Smp::Bool IsValidNameLength(
-                            size_t nameLen) const;
-                inline ::Smp::Bool IsValidNameChars(
-                        ::Smp::String8 name,
-                        size_t nameLen) const;
-                ::Smp::Bool IsValidDescription(
-                        ::Smp::String8 description) const;
-
-                ::std::string _name;
-                ::std::string _description;
-        };
-    }
-}
-
 using namespace Smp::Mdk;
 
-Object::Object()
-    : _impl(new ObjectImpl)
+Object::Object(void)
 {
 }
 
 Object::Object(
         ::Smp::String8 name, ::Smp::String8 description)
 throw (::Smp::InvalidObjectName)
-    : _impl(new ObjectImpl(name, description))
 {
+    if (!_SetName(name)) {
+        throw new ::Smp::InvalidObjectName(name);
+    }
+
+    _SetDescription(description);
 }
 
 Object::~Object()
 {
-    if (this->_impl) {
-        delete this->_impl;
-    }
 }
 
-Smp::String8 Object::GetName() const
-{
-    return this->_impl->GetName();
-}
-
-Smp::String8 Object::GetDescription() const
-{
-    return this->_impl->GetDescription();
-}
-
-ObjectImpl::ObjectImpl(void)
-{
-}
-
-ObjectImpl::ObjectImpl(
-        ::Smp::String8 name, ::Smp::String8 description)
-throw (::Smp::InvalidObjectName)
-{
-    if (IsValidName(name)) {
-        this->_name = name;
-
-        if (IsValidDescription(description)) {
-            this->_description = description;
-        }
-    } else {
-        throw new ::Smp::InvalidObjectName(name);
-    }
-}
-
-ObjectImpl::~ObjectImpl(void)
-{
-}
-
-::Smp::String8 ObjectImpl::GetName(void) const
+Smp::String8 Object::GetName(void) const
 {
     return static_cast< ::Smp::String8>(this->_name.c_str());
 }
 
-::Smp::String8 ObjectImpl::GetDescription(void) const
+Smp::String8 Object::GetDescription(void) const
 {
     return static_cast< ::Smp::String8>(this->_description.c_str());
 }
 
-::Smp::Bool ObjectImpl::IsValidName(
+::Smp::Bool Object::_SetName(
+        const ::Smp::String8 name)
+{
+    ::Smp::Bool ret = false;
+
+    if (IsValidName(name)) {
+        this->_name = name;
+        ret = true;
+    }
+
+    return ret;
+}
+
+::Smp::Bool Object::_SetDescription(
+        const ::Smp::String8 description)
+{
+    ::Smp::Bool ret = false;
+
+    if (IsValidDescription(description)) {
+        this->_description = description;
+        ret = true;
+    }
+
+    return ret;
+}
+
+::Smp::Bool Object::IsValidName(
         ::Smp::String8 name) const
 {
     ::Smp::Bool ret = true;
@@ -137,13 +97,13 @@ ObjectImpl::~ObjectImpl(void)
     return ret;
 }
 
-inline ::Smp::Bool ObjectImpl::IsValidNameLength(
+inline ::Smp::Bool Object::IsValidNameLength(
         size_t nameLen) const
 {
     return (nameLen > NAME_MIN_LEN) && (nameLen <= NAME_MAX_LEN);
 }
 
-inline ::Smp::Bool ObjectImpl::IsValidNameChars(
+inline ::Smp::Bool Object::IsValidNameChars(
         ::Smp::String8 name,
         size_t nameLen) const
 {
@@ -162,7 +122,7 @@ inline ::Smp::Bool ObjectImpl::IsValidNameChars(
     return remainsValid;
 }
 
-::Smp::Bool ObjectImpl::IsValidDescription(
+::Smp::Bool Object::IsValidDescription(
         ::Smp::String8 description) const
 {
     return description != NULL;

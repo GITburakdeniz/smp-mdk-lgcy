@@ -25,8 +25,10 @@ ManagedObject::ManagedObject(void)
 }
 
 ManagedObject::ManagedObject(
-        String8 name,
-        String8 description)
+        ::Smp::String8 name,
+        ::Smp::String8 description)
+    throw (::Smp::InvalidObjectName) :
+        Object(name, description)
 {
 }
 
@@ -35,12 +37,16 @@ ManagedObject::~ManagedObject(void)
 }
 
 void ManagedObject::SetName(
-        String8 name)
-    throw (InvalidObjectName)
+        ::Smp::String8 name)
+throw (::Smp::InvalidObjectName)
 {
+    if (!_SetName(name)) {
+        throw new ::Smp::InvalidObjectName(name);
+    }
 }
 
 void ManagedObject::SetDescription(
-            String8 description)
+        ::Smp::String8 description)
 {
+    _SetDescription(description);
 }

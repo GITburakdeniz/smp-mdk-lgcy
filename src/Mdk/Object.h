@@ -22,12 +22,12 @@
 #include "Smp/IObject.h"
 #include "Smp/Exceptions.h"
 
+#include <string>
+
 namespace Smp 
 { 
     namespace Mdk
     {
-        class ObjectImpl;
-
         class Object :
             public virtual Smp::IObject
         {
@@ -41,8 +41,25 @@ namespace Smp
                 virtual ::Smp::String8 GetName(void) const;
                 virtual ::Smp::String8 GetDescription(void) const;
 
+            protected:
+                ::Smp::Bool _SetName(
+                        const ::Smp::String8 name);
+                ::Smp::Bool _SetDescription(
+                        const ::Smp::String8 description);
+
+                ::std::string _name;
+                ::std::string _description;
+
             private:
-                ObjectImpl* _impl;
+                ::Smp::Bool IsValidName(
+                        ::Smp::String8 name) const;
+                ::Smp::Bool IsValidDescription(
+                        ::Smp::String8 description) const;
+                ::Smp::Bool IsValidNameLength(
+                            size_t nameLen) const;
+                ::Smp::Bool IsValidNameChars(
+                        ::Smp::String8 name,
+                        size_t nameLen) const;
         };
     }
 }

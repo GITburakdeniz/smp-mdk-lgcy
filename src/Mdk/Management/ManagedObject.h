@@ -28,27 +28,23 @@ namespace Smp
     {
         namespace Management 
         {
-            class ManagedObjectImpl;
-
             class ManagedObject :
-                public Object,
+                public ::Smp::Mdk::Object,
                 public virtual ::Smp::Management::IManagedObject
             {
                 public:
                     ManagedObject(void);
                     ManagedObject(
                             String8 name,
-                            String8 description);
+                            String8 description)
+                        throw (::Smp::InvalidObjectName);
                     virtual ~ManagedObject(void);
 
                     virtual void SetName(
                             String8 name)
-                        throw (InvalidObjectName);
+                        throw (::Smp::InvalidObjectName);
                     virtual void SetDescription(
                             String8 description);
-
-                private:
-                    ManagedObjectImpl* _impl;
             };
         }
     }
