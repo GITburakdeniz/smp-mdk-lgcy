@@ -16,39 +16,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MDK_COMPONENT_H_
-#define MDK_COMPONENT_H_
+#ifndef MDK_MANAGEMENT_MANAGEDCOMPONENT_H_
+#define MDK_MANAGEMENT_MANAGEDCOMPONENT_H_
 
-#include "Smp/IComponent.h"
-#include "Mdk/Object.h"
+#include "Mdk/Component.h"
+#include "Smp/Management/IManagedComponent.h"
 
 namespace Smp 
-{
+{ 
     namespace Mdk
     {
-        class Component:
-            public ::Smp::Mdk::Object,
-            public virtual ::Smp::IComponent
+        namespace Management
         {
+            class ManagedComponent :
+                public Component,
+                public virtual Smp::Management::IManagedComponent
+            {
             public:
-                Component(void);
-                Component(
-                        ::Smp::String8 name, 
-                        ::Smp::String8 description, 
-                        ::Smp::IComposite* parent)
+                ManagedComponent(void);
+                ManagedComponent(
+                    ::Smp::String8 name, 
+                    ::Smp::String8 description, 
+                    IComposite* parent)
                     throw (::Smp::InvalidObjectName);
-                virtual ~Component(void);
+                virtual ~ManagedComponent(void);
 
-                virtual ::Smp::IComposite* GetParent(void) const;
-
-            protected:
-                void _SetParent(
+                virtual void SetParent(
                         ::Smp::IComposite* parent);
-
-            private:
-                ::Smp::IComposite* _parent;
-        };
+            };
+        }
     }
 }
 
-#endif  // MDK_COMPONENT_H_
+#endif  // MDK_MANAGEMENT_MANAGEDCOMPONENT_H_

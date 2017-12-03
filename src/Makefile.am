@@ -5,6 +5,7 @@ sources_h = \
 		   Mdk/Composite.h \
 		   Mdk/Component.h \
 		   Mdk/Management/ManagedObject.h \
+		   Mdk/Management/ManagedComponent.h \
 		   $(NULL)
 
 sources_c = \
@@ -12,6 +13,7 @@ sources_c = \
 		   Mdk/Composite.cpp \
 		   Mdk/Component.cpp \
 		   Mdk/Management/ManagedObject.cpp \
+		   Mdk/Management/ManagedComponent.cpp \
 		   $(NULL)
 
 lib_LTLIBRARIES = libsmpmdk.la
