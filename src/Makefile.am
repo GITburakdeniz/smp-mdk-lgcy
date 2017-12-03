@@ -2,11 +2,13 @@ NULL=
 
 sources_h = \
 		   Mdk/Object.h \
+		   Mdk/Composite.h \
 		   Mdk/Management/ManagedObject.h \
 		   $(NULL)
 
 sources_c = \
 		   Mdk/Object.cpp \
+		   Mdk/Composite.cpp \
 		   Mdk/Management/ManagedObject.cpp \
 		   $(NULL)
 
