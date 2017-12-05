@@ -1,7 +1,6 @@
 *~
 *.swp
 aclocal.m4
-autogen.sh
 autom4te.cache
 compile
 config.guess
