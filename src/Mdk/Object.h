@@ -34,9 +34,10 @@ namespace Smp
             public:
                 Object(void);
                 Object(
-                        ::Smp::String8 name, ::Smp::String8 description)
+                        ::Smp::String8 name,
+                        ::Smp::String8 description)
                     throw (::Smp::InvalidObjectName);
-                virtual ~Object();
+                virtual ~Object(void);
 
                 virtual ::Smp::String8 GetName(void) const;
                 virtual ::Smp::String8 GetDescription(void) const;
