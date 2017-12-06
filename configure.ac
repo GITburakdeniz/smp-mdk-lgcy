@@ -5,7 +5,7 @@ AM_INIT_AUTOMAKE([subdir-objects tar-ustar dist-xz no-dist-gzip foreign])
 AC_CONFIG_MACRO_DIRS([m4])
 
 AC_PROG_CXX
-PKG_CHECK_MODULES(CPPUNIT, [cppunit])
+PKG_CHECK_MODULES(CPPUNIT, [cppunit < 1.14.0])
 
 LIBSMPMDK_LT_VERSION=0:0:0
 AC_SUBST(LIBSMPMDK_LT_VERSION)

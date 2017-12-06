@@ -1,10 +1,13 @@
 #include <cppunit/ui/text/TestRunner.h>
 
+#include "EntryPointTest.h"
+
 int main(int argc, char* argv[])
 {
-    CppUnit::TextUi::TestRunner runner;
+    ::CppUnit::TextUi::TestRunner runner;
 
-    runner.run();
+    runner.addTest(EntryPointTest::suite());
+    bool testResult = runner.run();
 
-    return 0;
+    return testResult ? 0 : 1;
 }
