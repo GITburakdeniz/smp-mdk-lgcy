@@ -36,7 +36,7 @@ Object::Object(
 throw (::Smp::InvalidObjectName)
 {
     if (!_SetName(name)) {
-        throw new ::Smp::InvalidObjectName(name);
+        throw ::Smp::InvalidObjectName(name);
     }
 
     _SetDescription(description);

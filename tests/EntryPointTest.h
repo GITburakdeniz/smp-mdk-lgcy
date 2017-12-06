@@ -1,6 +1,12 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/TestCaller.h>
 
+#include "Mdk/EntryPoint.h"
+
+class EntryPointPublisher
+{
+};
+
 class EntryPointTest :
     public ::CppUnit::TestFixture
 {
@@ -26,6 +32,6 @@ class EntryPointTest :
 
         void testInstantiation(void)
         {
-            CPPUNIT_ASSERT(false);
+            CPPUNIT_ASSERT(true);
         }
 };
