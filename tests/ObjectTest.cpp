@@ -2,9 +2,11 @@
 
 #include "Mdk/Object.h"
 
+#include <cppunit/TestSuite.h>
+
 using namespace ::Smp::Mdk;
 
-::CppUnit::TestSuite* ObjectTest::suite(void)
+::CppUnit::Test* ObjectTest::suite(void)
 {
     ::CppUnit::TestSuite* suite = new ::CppUnit::TestSuite("EntryPointTests");
 

@@ -1,37 +1,16 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/TestCaller.h>
-
-#include "Mdk/EntryPoint.h"
-
-class EntryPointPublisher
-{
-};
+#include <cppunit/Test.h>
 
 class EntryPointTest :
     public ::CppUnit::TestFixture
 {
     public: 
-        static ::CppUnit::Test* suite(void)
-        {
-            ::CppUnit::TestSuite* suite = new ::CppUnit::TestSuite("EntryPointTests");
+        static ::CppUnit::Test* suite(void);
 
-            suite->addTest(new ::CppUnit::TestCaller< EntryPointTest>( 
-                        "testInstantiation",
-                        &EntryPointTest::testInstantiation ) );
+        void setUp(void);
+        void tearDown(void);
 
-            return suite;
-        }
-
-        void setUp(void)
-        {
-        }
-
-        void tearDown(void)
-        {
-        }
-
-        void testInstantiation(void)
-        {
-            CPPUNIT_ASSERT(true);
-        }
+        void testInstantiation(void);
+        void testExecution(void);
 };

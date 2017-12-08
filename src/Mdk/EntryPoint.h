@@ -20,39 +20,13 @@
 #define MDK_ENTRYPOINT_H_
 
 #include "Mdk/Object.h"
+#include "Smp/IComponent.h"
 #include "Smp/IEntryPoint.h"
 
 namespace Smp 
 {
     namespace Mdk
     {
-        template< typename T>
-            class EntryPointHelper
-            {
-                private:
-                    typedef void (T::EntryPointType*)(void);
-
-                public:
-                    EntryPointHelper(
-                            T* owner,
-                            EntryPointType entryPoint) :
-                        _owner(owner),
-                        _entryPoint(entryPoint)
-                    {
-                    }
-
-                    void Execute(void)
-                    {
-                        if (this->_owner != NULL) {
-                            (this->_owner->*_entryPoint)();
-                        }
-                    }
-
-                private:
-                    T* _owner;
-                    EntryPointType _entryPoint;
-            };
-
         class EntryPoint :
             public ::Smp::Mdk::Object,
             public virtual ::Smp::IEntryPoint
@@ -63,9 +37,9 @@ namespace Smp
                             ::Smp::String8 name,
                             ::Smp::String8 description,
                             T* owner,
-                            void (T::entryPoint*)(void))
+                            void (T::*entryPoint)(void))
                     throw (::Smp::InvalidObjectName) :
-                        _helper(new EntryPointHelper(owner, entryPoint)),
+                        _helper(new EntryPointHelper< T>(owner, entryPoint)),
                         _owner(owner)
                 {
                 }
@@ -91,8 +65,51 @@ namespace Smp
                 }
 
             private:
+                class IEntryPointHelper
+                {
+                    public:
+                        virtual ~IEntryPointHelper(void)
+                        {
+                        }
+
+                        virtual void Execute(void) = 0;
+                };
+
+                template< typename T>
+                    class EntryPointHelper :
+                        public virtual IEntryPointHelper
+                {
+                    private:
+                        typedef void (T::*EntryPointType)(void);
+
+                    public:
+                        EntryPointHelper(
+                                T* owner,
+                                EntryPointType entryPoint) :
+                            _owner(owner),
+                            _entryPoint(entryPoint)
+                        {
+                        }
+
+                        virtual ~EntryPointHelper(void)
+                        {
+                        }
+
+                        void Execute(void)
+                        {
+                            if (this->_owner != NULL) {
+                                (this->_owner->*_entryPoint)();
+                            }
+                        }
+
+                    private:
+                        T* _owner;
+                        EntryPointType _entryPoint;
+                };
+
+            private:
                 ::Smp::IComponent* _owner;
-                EntryPointHelper* _helper;
+                IEntryPointHelper* _helper;
         };
     }
 }
