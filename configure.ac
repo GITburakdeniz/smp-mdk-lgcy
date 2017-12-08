@@ -1,8 +1,8 @@
 AC_INIT([SmpMdk], [0.1], [juanrgar@gmail.com], [smpmdk])
-
-AM_INIT_AUTOMAKE([subdir-objects tar-ustar dist-xz no-dist-gzip foreign silent-rules])
-
 AC_CONFIG_MACRO_DIRS([m4])
+
+AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects tar-ustar dist-xz no-dist-gzip])
+AM_SILENT_RULES([true])
 
 AC_PROG_CXX
 PKG_CHECK_MODULES(CPPUNIT, [cppunit < 1.14.0])
@@ -10,6 +10,7 @@ PKG_CHECK_MODULES(CPPUNIT, [cppunit < 1.14.0])
 LIBSMPMDK_LT_VERSION=0:0:0
 AC_SUBST(LIBSMPMDK_LT_VERSION)
 
+AM_PROG_AR
 LT_INIT([disable-static win32-dll])
 
 # For each cycle:

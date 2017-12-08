@@ -2,8 +2,6 @@
 
 #include "Mdk/Object.h"
 
-#include <cppunit/TestSuite.h>
-
 using namespace ::Smp::Mdk;
 
 void ObjectTest::setUp(void)
