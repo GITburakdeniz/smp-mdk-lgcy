@@ -63,20 +63,6 @@ void EntryPointPublisher::ResetEntryPointCalled(void)
     this->_entryPointCalled = false;
 }
 
-::CppUnit::Test* EntryPointTest::suite(void)
-{
-    ::CppUnit::TestSuite* suite = new ::CppUnit::TestSuite("EntryPointTests");
-
-    suite->addTest(new ::CppUnit::TestCaller< EntryPointTest>( 
-                "testInstantiation",
-                &EntryPointTest::testInstantiation));
-    suite->addTest(new ::CppUnit::TestCaller< EntryPointTest>( 
-                "testExecution",
-                &EntryPointTest::testExecution));
-
-    return suite;
-}
-
 void EntryPointTest::setUp(void)
 {
 }

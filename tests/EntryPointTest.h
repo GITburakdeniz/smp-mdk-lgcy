@@ -1,12 +1,13 @@
-#include <cppunit/TestFixture.h>
-#include <cppunit/TestCaller.h>
-#include <cppunit/Test.h>
+#include "BaseTest.h"
 
 class EntryPointTest :
-    public ::CppUnit::TestFixture
+    public BaseTest
 {
     public: 
-        static ::CppUnit::Test* suite(void);
+        CPPUNIT_SUITE_BEGIN(EntryPointTest)
+            CPPUNIT_TEST(EntryPointTest, testInstantiation)
+            CPPUNIT_TEST(EntryPointTest, testExecution)
+        CPPUNIT_SUITE_END()
 
         void setUp(void);
         void tearDown(void);

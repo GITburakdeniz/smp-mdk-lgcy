@@ -1,14 +1,14 @@
-#include <cppunit/TestFixture.h>
-#include <cppunit/TestCaller.h>
-#include <cppunit/Test.h>
-
-#include "Mdk/Object.h"
+#include "BaseTest.h"
 
 class ObjectTest :
-    public ::CppUnit::TestFixture
+    public BaseTest
 {
     public: 
-        static ::CppUnit::Test* suite(void);
+        CPPUNIT_SUITE_BEGIN(ObjectTest)
+            CPPUNIT_TEST(ObjectTest, testInstantiation)
+            CPPUNIT_TEST(ObjectTest, testInterface)
+            CPPUNIT_TEST(ObjectTest, testExceptions)
+        CPPUNIT_SUITE_END()
 
         void setUp(void);
         void tearDown(void);

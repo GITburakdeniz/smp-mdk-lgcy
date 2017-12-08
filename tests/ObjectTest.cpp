@@ -6,23 +6,6 @@
 
 using namespace ::Smp::Mdk;
 
-::CppUnit::Test* ObjectTest::suite(void)
-{
-    ::CppUnit::TestSuite* suite = new ::CppUnit::TestSuite("EntryPointTests");
-
-    suite->addTest(new ::CppUnit::TestCaller< ObjectTest>( 
-                "testInstantiation",
-                &ObjectTest::testInstantiation));
-    suite->addTest(new ::CppUnit::TestCaller< ObjectTest>(
-                "testInterface",
-                &ObjectTest::testInterface));
-    suite->addTest(new ::CppUnit::TestCaller< ObjectTest>(
-                "testExceptions",
-                &ObjectTest::testExceptions));
-
-    return suite;
-}
-
 void ObjectTest::setUp(void)
 {
 }
