@@ -1,3 +1,6 @@
+#ifndef OBJECTTEST_H_
+#define OBJECTTEST_H_
+
 #include "BaseTest.h"
 
 class ObjectTest :
@@ -17,3 +20,5 @@ class ObjectTest :
         void testInterface(void);
         void testExceptions(void);
 };
+
+#endif /* OBJECTTEST_H_ */

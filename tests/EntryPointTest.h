@@ -1,3 +1,6 @@
+#ifndef ENTRYPOINTTEST_H_
+#define ENTRYPOINTTEST_H_
+
 #include "BaseTest.h"
 
 class EntryPointTest :
@@ -15,3 +18,5 @@ class EntryPointTest :
         void testInstantiation(void);
         void testExecution(void);
 };
+
+#endif /* ENTRYPOINTTEST_H_ */
