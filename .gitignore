@@ -20,3 +20,9 @@ Makefile
 .dirstamp
 .libs/
 *.lo
+*.la
+test-driver
+smp_sdk_tests
+*.o
+*.log
+*.trs
