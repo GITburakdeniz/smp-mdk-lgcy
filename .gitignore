@@ -14,6 +14,7 @@ libtool
 ltmain.sh
 m4/
 missing
+ar-lib
 Makefile.in
 Makefile
 .deps/
