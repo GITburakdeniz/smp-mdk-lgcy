@@ -1,6 +1,6 @@
 AC_INIT([SmpMdk], [0.1], [juanrgar@gmail.com], [smpmdk])
 
-AM_INIT_AUTOMAKE([subdir-objects tar-ustar dist-xz no-dist-gzip foreign])
+AM_INIT_AUTOMAKE([subdir-objects tar-ustar dist-xz no-dist-gzip foreign silent-rules])
 
 AC_CONFIG_MACRO_DIRS([m4])
 
