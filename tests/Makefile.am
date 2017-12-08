@@ -3,6 +3,7 @@ check_PROGRAMS = smp_sdk_tests
 smp_sdk_tests_SOURCES = \
 						TestRunner.cpp \
 						ObjectTest.cpp \
+						ComponentTest.cpp \
 						EntryPointTest.cpp
 smp_sdk_tests_CXXFLAGS = $(CPPUNIT_CFLAGS) -I$(top_srcdir)/src -std=c++98
 smp_sdk_tests_LDADD = $(CPPUNIT_LIBS) $(top_builddir)/src/libsmpmdk.la -ldl
