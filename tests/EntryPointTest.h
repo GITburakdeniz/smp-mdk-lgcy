@@ -19,4 +19,4 @@ class EntryPointTest :
         void testExecution(void);
 };
 
-#endif /* ENTRYPOINTTEST_H_ */
+#endif // ENTRYPOINTTEST_H_

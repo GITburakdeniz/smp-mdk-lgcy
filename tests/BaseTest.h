@@ -25,4 +25,4 @@ class BaseTest :
 {
 };
 
-#endif /* BASETEST_H_ */
+#endif // BASETEST_H_

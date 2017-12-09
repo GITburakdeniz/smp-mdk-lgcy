@@ -19,4 +19,4 @@ class ComponentTest :
         void testInterface(void);
 };
 
-#endif /* COMPONENTTEST_H_ */
+#endif // COMPONENTTEST_H_

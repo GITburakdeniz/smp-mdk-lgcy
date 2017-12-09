@@ -21,4 +21,4 @@ class ObjectTest :
         void testExceptions(void);
 };
 
-#endif /* OBJECTTEST_H_ */
+#endif // OBJECTTEST_H_

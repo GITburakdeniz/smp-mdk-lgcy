@@ -19,4 +19,4 @@ class CompositeTest :
         void testInterface(void);
 };
 
-#endif /* COMPOSITETEST_H_ */
+#endif // COMPOSITETEST_H_
