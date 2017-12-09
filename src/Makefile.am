@@ -5,6 +5,7 @@ sources_h = \
 		   Mdk/Composite.h \
 		   Mdk/Component.h \
 		   Mdk/EntryPoint.h \
+		   Mdk/EventSink.h \
 		   Mdk/Management/ManagedObject.h \
 		   Mdk/Management/ManagedComponent.h \
 		   $(NULL)
