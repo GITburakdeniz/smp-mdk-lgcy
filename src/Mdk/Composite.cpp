@@ -18,6 +18,8 @@
 
 #include "Mdk/Composite.h"
 
+#include <cstring>
+
 using namespace ::Smp::Mdk;
 
 Composite::Composite(void)
