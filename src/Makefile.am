@@ -6,6 +6,7 @@ sources_h = \
 		   Mdk/Component.h \
 		   Mdk/EntryPoint.h \
 		   Mdk/EventSink.h \
+		   Mdk/Aggregate.h \
 		   Mdk/Management/ManagedObject.h \
 		   Mdk/Management/ManagedComponent.h \
 		   $(NULL)
@@ -14,6 +15,7 @@ sources_c = \
 		   Mdk/Object.cpp \
 		   Mdk/Composite.cpp \
 		   Mdk/Component.cpp \
+		   Mdk/Aggregate.cpp \
 		   Mdk/Management/ManagedObject.cpp \
 		   Mdk/Management/ManagedComponent.cpp \
 		   $(NULL)
