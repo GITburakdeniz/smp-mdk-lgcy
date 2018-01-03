@@ -80,6 +80,8 @@ namespace Smp
                     sinkName, 
                     sourceName);
             }
+
+            ~AlreadySubscribed() throw() {}
         };
 
         /// Event sink is not subscribed.
@@ -120,6 +122,8 @@ namespace Smp
                     sinkName, 
                     sourceName);
             }
+
+            ~NotSubscribed() throw() {}
         };
 
         /// Event sink is not compatible with event source.
@@ -160,6 +164,8 @@ namespace Smp
                     sinkName, 
                     sourceName);
             }
+
+            ~InvalidEventSink() throw() {}
         };
 
         /// Event subscription.
