@@ -6,6 +6,7 @@ sources_h = \
 		   Mdk/Component.h \
 		   Mdk/EntryPoint.h \
 		   Mdk/EventSink.h \
+		   Mdk/EventSource.h \
 		   Mdk/Aggregate.h \
 		   Mdk/Reference.h \
 		   Mdk/Management/ManagedObject.h \

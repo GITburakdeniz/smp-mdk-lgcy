@@ -2,6 +2,7 @@
 
 #include "ObjectTest.h"
 #include "EntryPointTest.h"
+#include "EventsTest.h"
 
 int main(int argc, char* argv[])
 {
@@ -9,6 +10,7 @@ int main(int argc, char* argv[])
 
     runner.addTest(ObjectTest::suite());
     runner.addTest(EntryPointTest::suite());
+    runner.addTest(EventsTest::suite());
     bool testResult = runner.run();
 
     return testResult ? 0 : 1;
