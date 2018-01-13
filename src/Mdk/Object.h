@@ -24,43 +24,36 @@
 
 #include <string>
 
-namespace Smp 
-{ 
+namespace Smp
+{
     namespace Mdk
     {
         class Object :
             public virtual Smp::IObject
         {
-            public:
-                Object(void);
-                Object(
-                        ::Smp::String8 name,
-                        ::Smp::String8 description)
-                    throw (::Smp::InvalidObjectName);
-                virtual ~Object(void);
+	public:
+	    Object(void);
+	    Object(::Smp::String8 name,
+		   ::Smp::String8 description)
+		throw (::Smp::InvalidObjectName);
+	    virtual ~Object(void);
 
-                virtual ::Smp::String8 GetName(void) const;
-                virtual ::Smp::String8 GetDescription(void) const;
+	    virtual ::Smp::String8 GetName(void) const;
+	    virtual ::Smp::String8 GetDescription(void) const;
 
-            protected:
-                ::Smp::Bool _SetName(
-                        const ::Smp::String8 name);
-                ::Smp::Bool _SetDescription(
-                        const ::Smp::String8 description);
+	    static ::Smp::Bool ValidateName(::Smp::String8 name);
 
-                ::std::string _name;
-                ::std::string _description;
+	protected:
+	    ::Smp::Bool _SetName(const ::Smp::String8 name);
+	    ::Smp::Bool _SetDescription(const ::Smp::String8 description);
 
-            private:
-                ::Smp::Bool IsValidName(
-                        ::Smp::String8 name) const;
-                ::Smp::Bool IsValidDescription(
-                        ::Smp::String8 description) const;
-                ::Smp::Bool IsValidNameLength(
-                            size_t nameLen) const;
-                ::Smp::Bool IsValidNameChars(
-                        ::Smp::String8 name,
-                        size_t nameLen) const;
+	    ::std::string _name;
+	    ::std::string _description;
+
+	private:
+	    static ::Smp::Bool ValidateNameLength(size_t nameLen);
+	    static ::Smp::Bool ValidateNameChars(::Smp::String8 name,
+						 size_t nameLen);
         };
     }
 }

@@ -56,12 +56,27 @@ Smp::String8 Object::GetDescription(void) const
     return static_cast< ::Smp::String8>(this->_description.c_str());
 }
 
+::Smp::Bool Object::ValidateName(::Smp::String8 name)
+{
+    ::Smp::Bool isValid = true;
+
+    if (name == NULL) {
+	isValid = false;
+    } else {
+	size_t nameLen = ::strlen(name);
+	isValid = Object::ValidateNameLength(nameLen) &&
+	    Object::ValidateNameChars(name, nameLen);
+    }
+
+    return isValid;
+}
+
 ::Smp::Bool Object::_SetName(
         const ::Smp::String8 name)
 {
     ::Smp::Bool ret = false;
 
-    if (IsValidName(name)) {
+    if (Object::ValidateName(name)) {
         this->_name = name;
         ret = true;
     }
@@ -74,7 +89,7 @@ Smp::String8 Object::GetDescription(void) const
 {
     ::Smp::Bool ret = false;
 
-    if (IsValidDescription(description)) {
+    if (description != NULL) {
         this->_description = description;
         ret = true;
     }
@@ -82,30 +97,13 @@ Smp::String8 Object::GetDescription(void) const
     return ret;
 }
 
-::Smp::Bool Object::IsValidName(
-        ::Smp::String8 name) const
-{
-    ::Smp::Bool ret = true;
-
-    if (name == NULL) {
-        ret = false;
-    } else {
-        size_t nameLen = ::strlen(name);
-        ret = IsValidNameLength(nameLen) && IsValidNameChars(name, nameLen);
-    }
-
-    return ret;
-}
-
-inline ::Smp::Bool Object::IsValidNameLength(
-        size_t nameLen) const
+inline ::Smp::Bool Object::ValidateNameLength(size_t nameLen)
 {
     return (nameLen > NAME_MIN_LEN) && (nameLen <= NAME_MAX_LEN);
 }
 
-inline ::Smp::Bool Object::IsValidNameChars(
-        ::Smp::String8 name,
-        size_t nameLen) const
+inline ::Smp::Bool Object::ValidateNameChars(::Smp::String8 name,
+					    size_t nameLen)
 {
     ::Smp::Bool remainsValid = (::isalpha(name[0]) != 0) ? true : false;
     ::Smp::UInt32 i = 1;
@@ -120,10 +118,4 @@ inline ::Smp::Bool Object::IsValidNameChars(
     }
 
     return remainsValid;
-}
-
-::Smp::Bool Object::IsValidDescription(
-        ::Smp::String8 description) const
-{
-    return description != NULL;
 }
