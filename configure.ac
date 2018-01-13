@@ -5,13 +5,15 @@ AM_INIT_AUTOMAKE([-Wall -Werror subdir-objects tar-ustar dist-xz no-dist-gzip])
 AM_SILENT_RULES([true])
 
 AC_PROG_CXX
+AC_LANG(C++)
+AM_PROG_AR
+AC_PROG_LIBTOOL
+AC_LIBTOOL_DLOPEN
+
 PKG_CHECK_MODULES(CPPUNIT, [cppunit < 1.14.0])
 
 LIBSMPMDK_LT_VERSION=0:0:0
 AC_SUBST(LIBSMPMDK_LT_VERSION)
-
-AM_PROG_AR
-LT_INIT([disable-static win32-dll])
 
 # For each cycle:
 #  first release: increment major += 1, minor = micro = 0;
