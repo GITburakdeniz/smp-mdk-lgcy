@@ -133,9 +133,9 @@ namespace Smp
                         ::Smp::IEventSink* eventSink)
                     throw (::Smp::IEventSource::AlreadySubscribed, ::Smp::IEventSource::InvalidEventSink)
                     {
-                        VoidEventSink* voidEventSink = dynamic_cast< VoidEventSink*>(eventSink);
+                        EventSink* mdkEventSink = dynamic_cast< EventSink*>(eventSink);
 
-                        if (voidEventSink == NULL) {
+                        if (mdkEventSink == NULL) {
                             throw ::Smp::IEventSource::InvalidEventSink(this, eventSink);
                         }
 
