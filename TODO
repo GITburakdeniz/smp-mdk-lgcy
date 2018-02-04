@@ -1,0 +1,12 @@
+* Container
+* Factory
+* Invocator
+* Model
+* Request
+* SimpleTypes
+* Management/EntryPointPublisher
+* Management/EventConsumer
+* Management/EventProvider
+* Management/ManagedContainer
+* Management/ManagedModel
+* Management/ManagedReference
