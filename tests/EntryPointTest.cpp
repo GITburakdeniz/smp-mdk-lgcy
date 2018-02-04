@@ -38,14 +38,17 @@ EntryPointPublisher::~EntryPointPublisher(void)
 
 ::Smp::IComposite* EntryPointPublisher::GetParent(void) const
 {
+    return NULL;
 }
 
 ::Smp::String8 EntryPointPublisher::GetName(void) const
 {
+    return NULL;
 }
 
 ::Smp::String8 EntryPointPublisher::GetDescription(void) const
 {
+    return NULL;
 }
 
 void EntryPointPublisher::EntryPointCallback(void)
