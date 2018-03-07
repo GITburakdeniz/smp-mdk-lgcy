@@ -21,6 +21,7 @@
 
 #include "Mdk/Object.h"
 #include "Mdk/EventSink.h"
+#include "Mdk/SimpleTypes.h"
 
 #include "Smp/IComponent.h"
 #include "Smp/IEventSource.h"
@@ -175,14 +176,14 @@ namespace Smp
                         ::Smp::IComponent* sender,
                         T arg)
                 {
-//                    ::Smp::Mdk::AnySimple anyArg;
-//                    arg.Set(anyArg);
-//
-//                    for (::Smp::EventSinkCollection::iterator it(this->_eventSinks.begin());
-//                            it != this->_eventSinks.end();
-//                            ++it) {
-//                        (*it)->Notify(sender, anyArg);
-//                    }
+                    ::Smp::Mdk::AnySimple anyArg;
+                    anyArg.Set(arg);
+
+                    for (::Smp::EventSinkCollection::iterator it(this->_eventSinks.begin());
+                            it != this->_eventSinks.end();
+                            ++it) {
+                        (*it)->Notify(sender, anyArg);
+                    }
                 }
 
                 void operator()(

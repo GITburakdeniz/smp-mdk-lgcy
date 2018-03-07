@@ -1,6 +1,10 @@
 NULL=
 
 sources_h = \
+		   Mdk/SimpleTypes.h \
+		   Mdk/Duration.h \
+		   Mdk/DateTime.h \
+		   Mdk/AnySimple.h \
 		   Mdk/Object.h \
 		   Mdk/Composite.h \
 		   Mdk/Component.h \
@@ -14,6 +18,9 @@ sources_h = \
 		   $(NULL)
 
 sources_c = \
+		   Mdk/Duration.cpp \
+		   Mdk/DateTime.cpp \
+		   Mdk/AnySimple.cpp \
 		   Mdk/Object.cpp \
 		   Mdk/Composite.cpp \
 		   Mdk/Component.cpp \
