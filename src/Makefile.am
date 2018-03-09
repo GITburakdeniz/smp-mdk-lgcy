@@ -5,6 +5,7 @@ sources_h = \
 		   Mdk/Duration.h \
 		   Mdk/DateTime.h \
 		   Mdk/AnySimple.h \
+		   Mdk/Uuid.h \
 		   Mdk/Object.h \
 		   Mdk/Composite.h \
 		   Mdk/Component.h \
@@ -21,6 +22,7 @@ sources_c = \
 		   Mdk/Duration.cpp \
 		   Mdk/DateTime.cpp \
 		   Mdk/AnySimple.cpp \
+		   Mdk/Uuid.cpp \
 		   Mdk/Object.cpp \
 		   Mdk/Composite.cpp \
 		   Mdk/Component.cpp \
