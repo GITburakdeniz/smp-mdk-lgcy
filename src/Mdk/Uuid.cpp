@@ -86,11 +86,11 @@ static struct BlockInfo
     ::Smp::UInt32 ini;
     ::Smp::UInt32 len;
 } blockInfo[5] = {
-    { false, 0, 0, 8 },
-    { false, 0, 9, 4 },
-    { false, 0, 14, 4 },
-    { true, 0, 19, 4 },
-    { true, 4, 24, 12 } };
+    { false, 0,  0,  8 },
+    { false, 0,  9,  4 },
+    { false, 0, 14,  4 },
+    { true,  0, 19,  4 },
+    { true,  4, 24, 12 } };
 
 ::Smp::Bool Uuid::Set(
         const char* string)
@@ -116,11 +116,10 @@ static struct BlockInfo
     {
         BlockInfo& info = blockInfo[i];
         ::Smp::UInt32 ini = info.ini;
-        ::Smp::UInt32 end = ini + info.len;
 
-        for (::Smp::UInt32 j(ini); j != end; ++j)
+        for (::Smp::UInt32 j(0); j != info.len; ++j)
         {
-            ::Smp::Char8 c = string[j];
+            ::Smp::Char8 c = string[ini + j];
             ::Smp::UInt8 cnum = 0;
 
             if ((c >= '0') && (c <= '9'))
@@ -146,7 +145,8 @@ static struct BlockInfo
             }
             else
             {
-                blockData[i] |= (cnum << (4*j));
+                ::Smp::UInt32 off = (info.len - j - 1) * 4;
+                blockData[i] |= (cnum << off);
             }
         }
     }
@@ -162,45 +162,51 @@ static struct BlockInfo
 void Uuid::Get(
         char* string) const
 {
-    if ((string == NULL) ||
-            (::strlen(string) != (BUFFER_SIZE - 1)))
+    if (string == NULL)
     {
         return;
     }
 
-    // TODO
-//    for (::Smp::UInt32 i(0); i != 5; ++i)
-//    {
-//        BlockInfo& info = blockInfo[i];
-//        ::Smp::UInt32 ini = info.ini;
-//        ::Smp::UInt32 end = ini + info.len;
-//
-//        for (::Smp::UInt32 j(ini); j != end; ++j)
-//        {
-//            ::Smp::UInt8 cnum = 0;
-//            ::Smp::Char8 c = string[j];
-//
-//            if ((c >= '0') && (c <= '9'))
-//            {
-//                cnum = c - '0';
-//            }
-//            else if ((c >= 'a') && (c <= 'f'))
-//            {
-//                cnum = c - 'a';
-//            }
-//            else if ((c >= 'A') && (c <= 'F'))
-//            {
-//                cnum = c - 'A';
-//            }
-//
-//            if (info.isRaw)
-//            {
-//                blockRaw[info.rawOff + j] = cnum;
-//            }
-//            else
-//            {
-//                blockData[i] |= (cnum << (4*j));
-//            }
-//        }
-//    }
+    const ::Smp::UInt32 blockData[3] = {
+        this->Data1, this->Data2, this->Data3 };
+    const ::Smp::UInt8* blockRaw = this->Data4;
+
+    for (::Smp::UInt32 i(0); i != 5; ++i)
+    {
+        BlockInfo& info = blockInfo[i];
+        ::Smp::UInt32 ini = info.ini;
+
+        for (::Smp::UInt32 j(0); j != info.len; ++j)
+        {
+            ::Smp::UInt8 cnum = 0;
+
+            if (info.isRaw)
+            {
+                cnum = blockRaw[info.rawOff + j];
+            }
+            else
+            {
+                ::Smp::UInt32 off = (info.len - j - 1) * 4;
+                cnum = ((blockData[i] >> off) & 0x0F);
+            }
+            ::Smp::Char8 c = '\0';
+
+            if ((cnum >= 0) && (cnum <= 9))
+            {
+                c = cnum + '0';
+            }
+            else if ((cnum >= 10) && (cnum <= 15))
+            {
+                c = cnum + 'A';
+            }
+
+            string[ini + j] = c;
+        }
+    }
+
+    string[8] = '-';
+    string[13] = '-';
+    string[18] = '-';
+    string[23] = '-';
+    string[BUFFER_SIZE] = '\0';
 }
