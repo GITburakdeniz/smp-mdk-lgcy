@@ -35,21 +35,21 @@ namespace Smp
             Uuid(
                     const ::Smp::Uuid& source);
             Uuid(
-                    const char* string);
+                    const char* uuidString);
 
             Uuid& operator= (
                     const ::Smp::Uuid& source);
             Uuid& operator= (
-                    const char* string);
+                    const char* uuidString);
             ::Smp::Bool operator== (
                     const ::Smp::Uuid uuid) const;
             ::Smp::Bool operator!= (
                     const ::Smp::Uuid uuid) const;
 
             ::Smp::Bool Set(
-                    const char* string);
+                    const char* uuidString);
             void Get(
-                    char* string) const;
+                    char* uuidString) const;
         };
 
         static const Uuid NullUuid = Uuid("00000000-0000-0000-0000-000000000000");

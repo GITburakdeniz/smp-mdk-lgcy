@@ -37,9 +37,9 @@ Uuid::Uuid(
 }
 
 Uuid::Uuid(
-        const char* string)
+        const char* uuidString)
 {
-    Set(string);
+    Set(uuidString);
 }
 
 Uuid& Uuid::operator= (
@@ -54,7 +54,7 @@ Uuid& Uuid::operator= (
 }
 
 Uuid& Uuid::operator= (
-        const char* string)
+        const char* uuidString)
 {
     return *this;
 }
@@ -93,18 +93,18 @@ static struct BlockInfo
     { true,  4, 24, 12 } };
 
 ::Smp::Bool Uuid::Set(
-        const char* string)
+        const char* uuidString)
 {
-    if ((string == NULL) ||
-            (::strlen(string) != (BUFFER_SIZE - 1)))
+    if ((uuidString == NULL) ||
+            (::strlen(uuidString) != (BUFFER_SIZE - 1)))
     {
         return false;
     }
 
-    if ((string[8] != '-') ||
-            (string[13] != '-') ||
-            (string[18] != '-') ||
-            (string[23] != '-'))
+    if ((uuidString[8] != '-') ||
+            (uuidString[13] != '-') ||
+            (uuidString[18] != '-') ||
+            (uuidString[23] != '-'))
     {
         return false;
     }
@@ -119,7 +119,7 @@ static struct BlockInfo
 
         for (::Smp::UInt32 j(0); j != info.len; ++j)
         {
-            ::Smp::Char8 c = string[ini + j];
+            ::Smp::Char8 c = uuidString[ini + j];
             ::Smp::UInt8 cnum = 0;
 
             if ((c >= '0') && (c <= '9'))
@@ -128,11 +128,11 @@ static struct BlockInfo
             }
             else if ((c >= 'a') && (c <= 'f'))
             {
-                cnum = c - 'a';
+                cnum = c - 'a' + 10;
             }
             else if ((c >= 'A') && (c <= 'F'))
             {
-                cnum = c - 'A';
+                cnum = c - 'A' + 10;
             }
             else
             {
@@ -141,7 +141,8 @@ static struct BlockInfo
 
             if (info.isRaw)
             {
-                blockRaw[info.rawOff + j] = cnum;
+                ::Smp::UInt32 off = (1 - (j & 0x01)) * 4;
+                blockRaw[(info.rawOff + j) / 2] |= (cnum << off);
             }
             else
             {
@@ -160,9 +161,9 @@ static struct BlockInfo
 }
 
 void Uuid::Get(
-        char* string) const
+        char* uuidString) const
 {
-    if (string == NULL)
+    if (uuidString == NULL)
     {
         return;
     }
@@ -182,7 +183,8 @@ void Uuid::Get(
 
             if (info.isRaw)
             {
-                cnum = blockRaw[info.rawOff + j];
+                ::Smp::UInt32 off = (1 - (j & 0x01)) * 4;
+                cnum = ((blockRaw[(info.rawOff + j) / 2] >> off) & 0x0F);
             }
             else
             {
@@ -197,16 +199,17 @@ void Uuid::Get(
             }
             else if ((cnum >= 10) && (cnum <= 15))
             {
-                c = cnum + 'A';
+                c = cnum - 10 + 'A';
             }
 
-            string[ini + j] = c;
+            uuidString[ini + j] = c;
         }
     }
 
-    string[8] = '-';
-    string[13] = '-';
-    string[18] = '-';
-    string[23] = '-';
-    string[BUFFER_SIZE] = '\0';
+    uuidString[8] = '-';
+    uuidString[13] = '-';
+    uuidString[18] = '-';
+    uuidString[23] = '-';
+    uuidString[BUFFER_SIZE - 1] = '\0';
 }
+
