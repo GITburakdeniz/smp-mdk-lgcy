@@ -6,6 +6,7 @@ sources_h = \
 		   Mdk/DateTime.h \
 		   Mdk/AnySimple.h \
 		   Mdk/Uuid.h \
+		   Mdk/Array.h \
 		   Mdk/Object.h \
 		   Mdk/Composite.h \
 		   Mdk/Component.h \

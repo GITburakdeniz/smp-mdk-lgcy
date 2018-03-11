@@ -4,6 +4,7 @@
 #include "EntryPointTest.h"
 #include "EventsTest.h"
 #include "UuidTest.h"
+#include "ArrayTest.h"
 
 int main(int argc, char* argv[])
 {
@@ -13,6 +14,7 @@ int main(int argc, char* argv[])
     runner.addTest(EntryPointTest::suite());
     runner.addTest(EventsTest::suite());
     runner.addTest(UuidTest::suite());
+    runner.addTest(ArrayTest::suite());
     bool testResult = runner.run();
 
     return testResult ? 0 : 1;
