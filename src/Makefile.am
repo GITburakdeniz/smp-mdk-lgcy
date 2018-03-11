@@ -7,6 +7,7 @@ sources_h = \
 		   Mdk/AnySimple.h \
 		   Mdk/Uuid.h \
 		   Mdk/Array.h \
+		   Mdk/String.h \
 		   Mdk/Object.h \
 		   Mdk/Composite.h \
 		   Mdk/Component.h \

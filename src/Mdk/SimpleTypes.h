@@ -27,5 +27,6 @@
 #include "Mdk/AnySimple.h"
 #include "Mdk/Uuid.h"
 #include "Mdk/Array.h"
+#include "Mdk/String.h"
 
 #endif  // MDK_SIMPLETYPES_H_
