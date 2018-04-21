@@ -27,46 +27,45 @@ namespace Smp
 {
     namespace Mdk
     {
-        template < int size>
-        struct String
+        template < int size> struct String
         {
             ::Smp::Char8 internalArray[size + 1];
 
             String(void)
-                {
-                    ::memset(this->internalArray, 0, size + 1);
-		    this->internalArray[size] = '\0';
-                }
+            {
+                ::memset(this->internalArray, 0, size + 1);
+                this->internalArray[size] = '\0';
+            }
 
             String(
-                ::Smp::String8 string)
-                {
-		    *this = string;
-                }
+                    ::Smp::String8 string)
+            {
+                *this = string;
+            }
 
-	    inline const ::Smp::Char8& operator[] (
-		long index) const
-		{
-		    return this->internalArray[index];
-		}
+            inline const ::Smp::Char8& operator[] (
+                    long index) const
+            {
+                return this->internalArray[index];
+            }
 
-	    inline ::Smp::Char8& operator[] (
-		long index)
-		{
-		    return this->internalArray[index];
-		}
+            inline ::Smp::Char8& operator[] (
+                    long index)
+            {
+                return this->internalArray[index];
+            }
 
-	    inline ::Smp::Char8* operator& (void)
-		{
-		    return this->internalArray;
-		}
+            inline ::Smp::Char8* operator& (void)
+            {
+                return this->internalArray;
+            }
 
-	    inline ::Smp::Char8* operator= (
-		::Smp::String8 string)
-		{
-		    return ::strncpy(this->internalArray, string, size);
-		}
-	};
+            inline ::Smp::Char8* operator= (
+                    ::Smp::String8 string)
+            {
+                return ::strncpy(this->internalArray, string, size);
+            }
+        };
     }
 }
 
