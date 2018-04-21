@@ -16,6 +16,7 @@ sources_h = \
 		   Mdk/EventSource.h \
 		   Mdk/Aggregate.h \
 		   Mdk/Reference.h \
+		   Mdk/Container.h \
 		   Mdk/Management/ManagedObject.h \
 		   Mdk/Management/ManagedComponent.h \
 		   $(NULL)
