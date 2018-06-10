@@ -29,22 +29,17 @@ Component::Component(
         ::Smp::String8 description,
         ::Smp::IComposite* parent)
     throw (::Smp::InvalidObjectName) :
-        Object(name, description)
+        Object(name, description),
+        m_parent(parent)
 {
-    _SetParent(parent);
 }
 
 Component::~Component(void)
 {
-    this->_parent = NULL;
+    this->m_parent = NULL;
 }
 
 ::Smp::IComposite* Component::GetParent(void) const
 {
-    return this->_parent;
-}
-
-void Component::_SetParent(::Smp::IComposite* parent)
-{
-    this->_parent = parent;
+    return this->m_parent;
 }

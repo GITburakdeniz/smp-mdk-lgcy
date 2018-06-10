@@ -27,7 +27,7 @@ ManagedComponent::ManagedComponent(void)
 ManagedComponent::ManagedComponent(
         ::Smp::String8 name, 
         ::Smp::String8 description, 
-        IComposite* parent)
+        ::Smp::IComposite* parent)
     throw (::Smp::InvalidObjectName) :
         Component(name, description, parent)
 {
@@ -37,8 +37,33 @@ ManagedComponent::~ManagedComponent(void)
 {
 }
 
+void ManagedComponent::SetName(
+        ::Smp::String8 name)
+throw (::Smp::InvalidObjectName)
+{
+    if (Object::ValidateName(name)) {
+        if (this->m_name != NULL) {
+            free(this->m_name);
+        }
+        this->m_name = strdup(name);
+    } else {
+        throw new ::Smp::InvalidObjectName(name);
+    }
+}
+
+void ManagedComponent::SetDescription(
+        ::Smp::String8 description)
+{
+    if (description != NULL) {
+        if (this->m_description != NULL) {
+            free(this->m_description);
+        }
+        this->m_description = strdup(description);
+    }
+}
+
 void ManagedComponent::SetParent(
         ::Smp::IComposite* parent)
 {
-    _SetParent(parent);
+    this->m_parent = parent;
 }

@@ -32,17 +32,22 @@ namespace Smp
                 public Component,
                 public virtual Smp::Management::IManagedComponent
             {
-            public:
-                ManagedComponent(void);
-                ManagedComponent(
-                    ::Smp::String8 name, 
-                    ::Smp::String8 description, 
-                    IComposite* parent)
-                    throw (::Smp::InvalidObjectName);
-                virtual ~ManagedComponent(void);
+                public:
+                    ManagedComponent(void);
+                    ManagedComponent(
+                            ::Smp::String8 name, 
+                            ::Smp::String8 description, 
+                            ::Smp::IComposite* parent)
+                        throw (::Smp::InvalidObjectName);
+                    virtual ~ManagedComponent(void);
 
-                virtual void SetParent(
-                        ::Smp::IComposite* parent);
+                    virtual void SetName(
+                            ::Smp::String8 name) throw (
+                                Smp::InvalidObjectName);
+                    virtual void SetDescription(
+                            ::Smp::String8 description);
+                    virtual void SetParent(
+                            ::Smp::IComposite* parent);
             };
         }
     }

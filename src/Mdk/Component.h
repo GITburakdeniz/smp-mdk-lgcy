@@ -22,7 +22,7 @@
 #include "Smp/IComponent.h"
 #include "Mdk/Object.h"
 
-namespace Smp 
+namespace Smp
 {
     namespace Mdk
     {
@@ -33,8 +33,8 @@ namespace Smp
             public:
                 Component(void);
                 Component(
-                        ::Smp::String8 name, 
-                        ::Smp::String8 description, 
+                        ::Smp::String8 name,
+                        ::Smp::String8 description,
                         ::Smp::IComposite* parent)
                     throw (::Smp::InvalidObjectName);
                 virtual ~Component(void);
@@ -42,11 +42,7 @@ namespace Smp
                 virtual ::Smp::IComposite* GetParent(void) const;
 
             protected:
-                void _SetParent(
-                        ::Smp::IComposite* parent);
-
-            private:
-                ::Smp::IComposite* _parent;
+                ::Smp::IComposite* m_parent;
         };
     }
 }
