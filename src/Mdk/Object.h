@@ -22,8 +22,6 @@
 #include "Smp/IObject.h"
 #include "Smp/Exceptions.h"
 
-#include <string>
-
 namespace Smp
 {
     namespace Mdk

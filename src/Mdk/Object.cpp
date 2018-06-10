@@ -18,10 +18,6 @@
 
 #include "Mdk/Object.h"
 
-//#include <string>
-//#include <cstring>
-//#include <cctype>
-
 const size_t NAME_MIN_LEN = 0;
 const size_t NAME_MAX_LEN = 32;
 
