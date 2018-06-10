@@ -40,7 +40,12 @@ void ManagedObject::SetName(
         ::Smp::String8 name)
 throw (::Smp::InvalidObjectName)
 {
-    if (!_SetName(name)) {
+    if (Object::ValidateName(name)) {
+        if (this->m_name != NULL) {
+            free(this->m_name);
+        }
+        this->m_name = strdup(name);
+    } else {
         throw new ::Smp::InvalidObjectName(name);
     }
 }
@@ -48,5 +53,10 @@ throw (::Smp::InvalidObjectName)
 void ManagedObject::SetDescription(
         ::Smp::String8 description)
 {
-    _SetDescription(description);
+    if (description != NULL) {
+        if (this->m_description != NULL) {
+            free(this->m_description);
+        }
+        this->m_description = strdup(description);
+    }
 }

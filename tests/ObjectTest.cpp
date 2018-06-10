@@ -30,33 +30,30 @@ void ObjectTest::testInstantiation(void)
 void ObjectTest::testInterface(void)
 {
     {
-        ::std::string nameGiven("");
-        ::std::string descGiven("");
-
         const Object* obj1 = new Object();
 
-        ::std::string nameGot = obj1->GetName();
-        CPPUNIT_ASSERT_EQUAL(nameGiven, nameGot);
+        ::Smp::String8 nameGot = obj1->GetName();
+        CPPUNIT_ASSERT_EQUAL(::Smp::String8(NULL), nameGot);
 
-        ::std::string descGot = obj1->GetDescription();
-        CPPUNIT_ASSERT_EQUAL(descGiven, descGot);
+        ::Smp::String8 descGot = obj1->GetDescription();
+        CPPUNIT_ASSERT_EQUAL(::Smp::String8(NULL), descGot);
 
         delete obj1;
     }
 
     {
-        ::std::string nameGiven("ObjectName");
-        ::std::string descGiven("Object description");
+        ::Smp::String8 nameGiven = "ObjectName";
+        ::Smp::String8 descGiven = "Object description";
 
         const Object* obj2 = new Object(
-                nameGiven.c_str(),
-                descGiven.c_str());
+                nameGiven,
+                descGiven);
 
-        ::std::string nameGot = obj2->GetName();
-        CPPUNIT_ASSERT_EQUAL(nameGiven, nameGot);
+        ::Smp::String8 nameGot = obj2->GetName();
+        CPPUNIT_ASSERT_EQUAL(0, strcmp(nameGiven, nameGot));
 
-        ::std::string descGot = obj2->GetDescription();
-        CPPUNIT_ASSERT_EQUAL(descGiven, descGot);
+        ::Smp::String8 descGot = obj2->GetDescription();
+        CPPUNIT_ASSERT_EQUAL(0, strcmp(descGiven, descGot));
 
         delete obj2;
     }

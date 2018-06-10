@@ -18,9 +18,9 @@
 
 #include "Mdk/Object.h"
 
-#include <string>
-#include <cstring>
-#include <cctype>
+//#include <string>
+//#include <cstring>
+//#include <cctype>
 
 const size_t NAME_MIN_LEN = 0;
 const size_t NAME_MAX_LEN = 32;
@@ -28,32 +28,50 @@ const size_t NAME_MAX_LEN = 32;
 using namespace Smp::Mdk;
 
 Object::Object(void)
+    :
+        m_name(NULL),
+        m_description(NULL)
 {
 }
 
 Object::Object(
-        ::Smp::String8 name, ::Smp::String8 description)
+        ::Smp::String8 name,
+        ::Smp::String8 description)
 throw (::Smp::InvalidObjectName)
 {
-    if (!_SetName(name)) {
+    if (Object::ValidateName(name)) {
+        this->m_name = strdup(name);
+    } else {
         throw ::Smp::InvalidObjectName(name);
     }
 
-    _SetDescription(description);
+    if (description != NULL)
+    {
+        this->m_description = strdup(description);
+    }
 }
 
 Object::~Object()
 {
+    if (this->m_name != NULL) {
+        free(this->m_name);
+        this->m_name = NULL;
+    }
+
+    if (this->m_description != NULL) {
+        free(this->m_description);
+        this->m_description = NULL;
+    }
 }
 
 Smp::String8 Object::GetName(void) const
 {
-    return static_cast< ::Smp::String8>(this->_name.c_str());
+    return this->m_name;
 }
 
 Smp::String8 Object::GetDescription(void) const
 {
-    return static_cast< ::Smp::String8>(this->_description.c_str());
+    return this->m_description;
 }
 
 ::Smp::Bool Object::ValidateName(::Smp::String8 name)
@@ -61,40 +79,14 @@ Smp::String8 Object::GetDescription(void) const
     ::Smp::Bool isValid = true;
 
     if (name == NULL) {
-	isValid = false;
+        isValid = false;
     } else {
-	size_t nameLen = ::strlen(name);
-	isValid = Object::ValidateNameLength(nameLen) &&
-	    Object::ValidateNameChars(name, nameLen);
+        size_t nameLen = ::strlen(name);
+        isValid = Object::ValidateNameLength(nameLen) &&
+            Object::ValidateNameChars(name, nameLen);
     }
 
     return isValid;
-}
-
-::Smp::Bool Object::_SetName(
-        const ::Smp::String8 name)
-{
-    ::Smp::Bool ret = false;
-
-    if (Object::ValidateName(name)) {
-        this->_name = name;
-        ret = true;
-    }
-
-    return ret;
-}
-
-::Smp::Bool Object::_SetDescription(
-        const ::Smp::String8 description)
-{
-    ::Smp::Bool ret = false;
-
-    if (description != NULL) {
-        this->_description = description;
-        ret = true;
-    }
-
-    return ret;
 }
 
 inline ::Smp::Bool Object::ValidateNameLength(size_t nameLen)
@@ -103,7 +95,7 @@ inline ::Smp::Bool Object::ValidateNameLength(size_t nameLen)
 }
 
 inline ::Smp::Bool Object::ValidateNameChars(::Smp::String8 name,
-					    size_t nameLen)
+        size_t nameLen)
 {
     ::Smp::Bool remainsValid = (::isalpha(name[0]) != 0) ? true : false;
     ::Smp::UInt32 i = 1;

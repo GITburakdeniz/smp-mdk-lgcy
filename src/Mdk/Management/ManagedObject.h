@@ -35,16 +35,16 @@ namespace Smp
                 public:
                     ManagedObject(void);
                     ManagedObject(
-                            String8 name,
-                            String8 description)
+                            ::Smp::String8 name,
+                            ::Smp::String8 description)
                         throw (::Smp::InvalidObjectName);
                     virtual ~ManagedObject(void);
 
                     virtual void SetName(
-                            String8 name)
+                            ::Smp::String8 name)
                         throw (::Smp::InvalidObjectName);
                     virtual void SetDescription(
-                            String8 description);
+                            ::Smp::String8 description);
             };
         }
     }
