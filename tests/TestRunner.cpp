@@ -1,6 +1,7 @@
 #include <cppunit/ui/text/TestRunner.h>
 
 #include "ObjectTest.h"
+#include "ModelTest.h"
 #include "EntryPointTest.h"
 #include "EventsTest.h"
 #include "UuidTest.h"
@@ -12,6 +13,7 @@ int main(int argc, char* argv[])
     ::CppUnit::TextUi::TestRunner runner;
 
     runner.addTest(ObjectTest::suite());
+    runner.addTest(ModelTest::suite());
     runner.addTest(EntryPointTest::suite());
     runner.addTest(EventsTest::suite());
     runner.addTest(UuidTest::suite());

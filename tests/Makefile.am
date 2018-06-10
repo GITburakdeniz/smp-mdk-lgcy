@@ -4,6 +4,7 @@ smp_sdk_tests_SOURCES = \
 						TestRunner.cpp \
 						ObjectTest.cpp \
 						ComponentTest.cpp \
+						ModelTest.cpp \
 						EntryPointTest.cpp \
 						EventSinkTest.cpp \
 						EventsTest.cpp \

@@ -17,6 +17,7 @@ sources_h = \
 		   Mdk/Aggregate.h \
 		   Mdk/Reference.h \
 		   Mdk/Container.h \
+		   Mdk/Model.h \
 		   Mdk/Management/ManagedObject.h \
 		   Mdk/Management/ManagedComponent.h \
 		   $(NULL)
@@ -30,6 +31,7 @@ sources_c = \
 		   Mdk/Composite.cpp \
 		   Mdk/Component.cpp \
 		   Mdk/Aggregate.cpp \
+		   Mdk/Model.cpp \
 		   Mdk/Management/ManagedObject.cpp \
 		   Mdk/Management/ManagedComponent.cpp \
 		   $(NULL)
