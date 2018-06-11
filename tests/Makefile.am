@@ -10,6 +10,7 @@ smp_sdk_tests_SOURCES = \
 						EventsTest.cpp \
 						UuidTest.cpp \
 						ArrayTest.cpp \
-						StringTest.cpp
+						StringTest.cpp \
+						ReferenceTest.cpp
 smp_sdk_tests_CXXFLAGS = $(CPPUNIT_CFLAGS) -I$(top_srcdir)/src -std=c++98
 smp_sdk_tests_LDADD = $(CPPUNIT_LIBS) $(top_builddir)/src/libsmpmdk.la -ldl

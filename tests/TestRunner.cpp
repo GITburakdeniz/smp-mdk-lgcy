@@ -7,6 +7,7 @@
 #include "UuidTest.h"
 #include "ArrayTest.h"
 #include "StringTest.h"
+#include "ReferenceTest.h"
 
 int main(int argc, char* argv[])
 {
@@ -19,6 +20,7 @@ int main(int argc, char* argv[])
     runner.addTest(UuidTest::suite());
     runner.addTest(ArrayTest::suite());
     runner.addTest(StringTest::suite());
+    runner.addTest(ReferenceTest::suite());
     bool testResult = runner.run();
 
     return testResult ? 0 : 1;

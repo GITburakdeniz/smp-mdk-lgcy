@@ -1,6 +1,6 @@
 /** This file is part of smp-mdk
  *
- * Copyright (C) 2017 Juan R. Garcia Blanco
+ * Copyright (C) 2018 Juan R. Garcia Blanco
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #include "Smp/IReference.h"
 #include "Mdk/Object.h"
 
+#include <algorithm>
+
 namespace Smp
 {
     namespace Mdk
@@ -32,33 +34,36 @@ namespace Smp
             public virtual ::Smp::IReference
         {
             public:
-                Reference(void) :
-                    Object()
-                {
-                }
+                typedef typename ::std::vector< T*> ProviderCollection;
+                typedef typename ProviderCollection::const_iterator ProviderIterator;
 
                 Reference(
                         ::Smp::String8 name,
-                        ::Smp::String8 description)
+                        ::Smp::String8 description,
+                        ::Smp::IComponent* parent)
                     throw (::Smp::InvalidObjectName) :
-                        Object(name, description)
+                        Object(name, description),
+                        m_parent(parent)
                 {
                 }
 
                 virtual ~Reference(void)
                 {
+                    Clear();
                 }
 
-                const ::Smp::ComponentCollection* GetComponents(void) const
+                virtual const ::Smp::ComponentCollection* GetComponents(void) const
                 {
-                    return &(this->_components);
+                    return &(this->m_components);
                 }
 
-                ::Smp::IComponent* GetComponent(
+                virtual ::Smp::IComponent* GetComponent(
                         ::Smp::String8 name) const
                 {
-                    TypedComponentCollection::iterator it(this->_components.begin());
-                    TypedComponentCollection::iterator endIt(this->_components.end());
+                    ::Smp::ComponentCollection::const_iterator it(
+                            this->m_components.begin());
+                    ::Smp::ComponentCollection::const_iterator endIt(
+                            this->m_components.end());
                     ::Smp::IComponent* comp = NULL;
 
                     while ((comp == NULL) && (it != endIt)) {
@@ -72,16 +77,84 @@ namespace Smp
                     return comp;
                 }
 
-            protected:
-                void _AddComponent(const T* component)
+                virtual ::Smp::Int64 Count(void) const 
+                { 
+                    return this->m_providers.size(); 
+                }
+
+                virtual ProviderIterator Begin(void)
                 {
-                    this->_components.push_back(component);
+                    return this->m_providers.begin();
+                }
+
+                virtual ProviderIterator End(void)
+                {
+                    return this->m_providers.end();
+                }
+
+                virtual void Clear(void)
+                {
+                    this->m_providers.clear();
+                    this->m_components.clear();
+                }
+
+            protected:
+                virtual void Add(
+                        ::Smp::IComponent* component) throw (::Smp::InvalidObjectType)
+                {
+                    if (component == NULL) {
+                        return;
+                    }
+
+                    T* provider = dynamic_cast< T*>(component);
+
+                    if (provider == NULL) {
+                        throw ::Smp::InvalidObjectType(component);
+                    }
+
+                    this->m_providers.push_back(provider);
+                    this->m_components.push_back(component);
+                }
+
+                virtual ::Smp::Bool Remove(
+                        ::Smp::IComponent* component)
+                {
+                    if (component == NULL) {
+                        return false;
+                    }
+
+                    T* provider = dynamic_cast< T*>(component);
+
+                    if (provider == NULL) {
+                        return false;
+                    }
+
+                    ::Smp::Bool res = true;
+
+                    ProviderIterator it = ::std::find(
+                            Begin(), End(), provider);
+
+                    if (it != this->m_providers.end()) {
+                        this->m_providers.erase(it);
+
+                        ::Smp::ComponentCollection::iterator jt =
+                            ::std::find(this->m_components.begin(),
+                                    this->m_components.end(), provider);
+
+                        if (jt != this->m_components.end()) {
+                            this->m_components.erase(jt);
+                        }
+                    } else {
+                        res = false;
+                    }
+
+                    return res;
                 }
 
             private:
-                typedef ::std::vector< T*> TypedComponentCollection;
-
-                TypedComponentCollection _components;
+                ::Smp::IComponent* m_parent;
+                ProviderCollection m_providers;
+                ::Smp::ComponentCollection m_components;
         };
     }
 }
