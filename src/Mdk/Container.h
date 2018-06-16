@@ -31,39 +31,36 @@ namespace Smp
             public virtual ::Smp::IContainer
         {
             public:
-                Container(void) :
-                    Object()
-                {
-                }
+                typedef typename ::std::vector< T*> ChildCollection;
+                typedef typename ChildCollection::const_iterator ChildIterator;
 
                 Container(
                         ::Smp::String8 name,
-                        ::Smp::String8 description)
+                        ::Smp::String8 description,
+                        ::Smp::IComposite* parent)
                     throw (::Smp::InvalidObjectName) :
-                        Object(name, description)
+                        Object(name, description),
+                        m_parent(parent)
                 {
                 }
 
                 virtual ~Container(void)
                 {
-                    for (TypedContainerCollection::iterator it(this->_components.begin());
-                            it != this->_components.end();
-                            ++it)
-                    {
-                        delete *it;
-                    }
+                    Clear();
                 }
 
                 const ComponentCollection* GetComponents(void) const
                 {
-                    return &(this->_components);
+                    return &(this->m_components);
                 }
 
                 ::Smp::IComponent* GetComponent(
                         ::Smp::String8 name) const
                 {
-                    TypedContainerCollection::iterator it(this->_components.begin());
-                    TypedContainerCollection::iterator endIt(this->_components.end());
+                    ::Smp::ComponentCollection::const_iterator it(
+                            this->m_components.begin());
+                    ::Smp::ComponentCollection::const_iterator endIt(
+                            this->m_components.end());
                     ::Smp::IComponent* comp = NULL;
 
                     while ((comp == NULL) && (it != endIt)) {
@@ -77,75 +74,91 @@ namespace Smp
                     return comp;
                 }
 
-            protected:
-                void _AddComponent(const T* component)
+                virtual ::Smp::Int64 Count(void) const
                 {
-                    this->_components.push_back(component);
+                    return this->m_children.size();
                 }
 
+                ChildIterator Begin(void)
+                {
+                    return this->m_children.begin();
+                }
+
+                ChildIterator End(void)
+                {
+                    return this->m_children.end();
+                }
+
+                const ChildCollection* GetChildren(void)
+                {
+                    return &(this->m_children);
+                }
+
+                virtual T* GetChild(
+                        ::Smp::String8 name) const
+                {
+                    typename ChildCollection::const_iterator it(
+                            this->m_children.begin());
+                    typename ChildCollection::const_iterator endIt(
+                            this->m_children.end());
+                    T* child = NULL;
+
+                    while ((child == NULL) && (it != endIt)) {
+                        if (::strcmp(name, (*it)->GetName()) == 0) {
+                            child = *it;
+                        }
+
+                        ++it;
+                    }
+
+                    return child;
+                }
+
+                void Clear(void)
+                {
+                    for (typename ChildCollection::iterator it(this->m_children.begin());
+                            it != this->m_children.end();
+                            ++it)
+                    {
+                        delete *it;
+                    }
+
+                    this->m_children.clear();
+                    this->m_components.clear();
+                }
+
+            protected:
+                void Add(
+                        ::Smp::IComponent* comp)
+                    throw (::Smp::DuplicateName, ::Smp::InvalidObjectType)
+                {
+                    if (comp == NULL)
+                    {
+                        return;
+                    }
+
+                    ::Smp::IComponent* dup = GetComponent(comp->GetName());
+                    if (dup != NULL)
+                    {
+                        throw ::Smp::DuplicateName(comp->GetName());
+                    }
+
+                    T* child = dynamic_cast< T*>(comp);
+                    if (child == NULL)
+                    {
+                        throw ::Smp::InvalidObjectType(comp);
+                    }
+
+                    this->m_children.push_back(child);
+                    this->m_components.push_back(comp);
+                }
+
+                ::Smp::IComposite* m_parent;
+
             private:
-                typedef ::std::vector< T*> TypedContainerCollection;
-
-                TypedContainerCollection _components;
+                ::Smp::ComponentCollection m_components;
+                ChildCollection m_children;
         };
-
-//        template< typename T>
-//        class Reference :
-//            public ::Smp::Mdk::Object,
-//            public virtual ::Smp::IReference
-//        {
-//            public:
-//                Reference(void) :
-//                    Object()
-//                {
-//                }
-//
-//                Reference(
-//                        ::Smp::String8 name,
-//                        ::Smp::String8 description)
-//                    throw (::Smp::InvalidObjectName) :
-//                        Object(name, description)
-//                {
-//                }
-//
-//                virtual ~Reference(void)
-//                {
-//                }
-//
-//                const ::Smp::ComponentCollection* GetComponents(void) const
-//                {
-//                    return &(this->_components);
-//                }
-//
-//                ::Smp::IComponent* GetComponent(
-//                        ::Smp::String8 name) const
-//                {
-//                    TypedComponentCollection::iterator it(this->_components.begin());
-//                    TypedComponentCollection::iterator endIt(this->_components.end());
-//                    ::Smp::IComponent* comp = NULL;
-//
-//                    while ((comp == NULL) && (it != endIt)) {
-//                        if (::strcmp(name, (*it)->GetName()) == 0) {
-//                            comp = *it;
-//                        }
-//
-//                        ++it;
-//                    }
-//
-//                    return comp;
-//                }
-//
-//            protected:
-//                void _AddComponent(const T* component)
-//                {
-//                    this->_components.push_back(component);
-//                }
-//
-//            private:
-//                typedef ::std::vector< T*> TypedComponentCollection;
-//
-//                TypedComponentCollection _components;
-//        };
     }
 }
 
