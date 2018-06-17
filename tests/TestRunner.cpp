@@ -9,6 +9,7 @@
 #include "StringTest.h"
 #include "ReferenceTest.h"
 #include "ContainerTest.h"
+#include "CompositeTest.h"
 
 int main(int argc, char* argv[])
 {
@@ -23,6 +24,7 @@ int main(int argc, char* argv[])
     runner.addTest(StringTest::suite());
     runner.addTest(ReferenceTest::suite());
     runner.addTest(ContainerTest::suite());
+    runner.addTest(CompositeTest::suite());
     bool testResult = runner.run();
 
     return testResult ? 0 : 1;

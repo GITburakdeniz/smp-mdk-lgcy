@@ -32,7 +32,7 @@ Composite::~Composite(void)
 
 const ::Smp::ContainerCollection* Composite::GetContainers(void) const
 {
-    return &(this->_containers);
+    return &(this->m_containers);
 }
 
 ::Smp::IContainer* Composite::GetContainer(
@@ -42,8 +42,10 @@ const ::Smp::ContainerCollection* Composite::GetContainers(void) const
         return NULL;
     }
 
-    ::Smp::ContainerCollection::const_iterator it(this->_containers.begin());
-    ::Smp::ContainerCollection::const_iterator endIt(this->_containers.end());
+    ::Smp::ContainerCollection::const_iterator it(
+            this->m_containers.begin());
+    ::Smp::ContainerCollection::const_iterator endIt(
+            this->m_containers.end());
     ::Smp::IContainer* container = NULL;
 
     while ((container == NULL) && (it != endIt)) {
@@ -54,4 +56,27 @@ const ::Smp::ContainerCollection* Composite::GetContainers(void) const
     }
 
     return container;
+}
+
+void Composite::AddContainer(
+        ::Smp::IContainer* container)
+{
+    if (container == NULL) {
+        return;
+    }
+
+    ::Smp::ContainerCollection::iterator dup =
+        ::std::find(this->m_containers.begin(), this->m_containers.end(),
+                container);
+
+    if (dup != this->m_containers.end()) {
+        return;
+    }
+
+    this->m_containers.push_back(container);
+}
+
+void Composite::Clear(void)
+{
+    this->m_containers.clear();
 }

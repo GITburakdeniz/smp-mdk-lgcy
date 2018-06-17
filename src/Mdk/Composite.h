@@ -1,6 +1,6 @@
 /** This file is part of smp-mdk
  *
- * Copyright (C) 2017 Juan R. Garcia Blanco
+ * Copyright (C) 2018 Juan R. Garcia Blanco
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,8 +36,13 @@ namespace Smp
                 virtual ::Smp::IContainer* GetContainer(
                         ::Smp::String8 name) const;
 
+            protected:
+                void AddContainer(
+                        ::Smp::IContainer* container);
+                void Clear(void);
+
             private:
-                ::Smp::ContainerCollection _containers;
+                ::Smp::ContainerCollection m_containers;
         };
     }
 }
