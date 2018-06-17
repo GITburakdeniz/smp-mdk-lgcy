@@ -122,14 +122,18 @@ void CompositeTest::testInterface(void)
     {
         comp->AddPublic(cont1);
 
-        const ::Smp::ContainerCollection* containerCollection =
-            comp->GetContainers();
-        CPPUNIT_ASSERT_EQUAL(size_t(1), containerCollection->size());
+        CPPUNIT_ASSERT_EQUAL(size_t(1), comp->GetContainers()->size());
     }
 
     {
         ::Smp::IContainer* cont = comp->GetContainer("Cont1");
         CPPUNIT_ASSERT(dynamic_cast< ::Smp::IContainer*>(cont1) == cont);
+    }
+
+    {
+        comp->ClearPublic();
+
+        CPPUNIT_ASSERT_EQUAL(size_t(0), comp->GetContainers()->size());
     }
 
     delete cont1;
