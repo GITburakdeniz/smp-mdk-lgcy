@@ -20,7 +20,8 @@
 
 using namespace ::Smp::Mdk;
 
-Component::Component(void)
+Component::Component(void) :
+        m_parent(NULL)
 {
 }
 
