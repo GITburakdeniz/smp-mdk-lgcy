@@ -21,6 +21,7 @@
 
 #include "Mdk/Container.h"
 #include "Smp/Management/IManagedContainer.h"
+#include "Smp/Management/IManagedComponent.h"
 
 namespace Smp 
 { 
@@ -53,7 +54,17 @@ namespace Smp
                             ::Smp::IComponent* component)
                         throw (::Smp::Management::IManagedContainer::ContainerFull, ::Smp::DuplicateName, ::Smp::InvalidObjectType)
                     {
-                        // TODO
+                        if ((this->m_upper >= 0) && (Count() >= this->m_upper)) {
+                            throw ::Smp::Management::IManagedContainer::ContainerFull(GetName(), Count());
+                        }
+
+                        Container< T>::Add(component);
+
+                        ::Smp::Management::IManagedComponent* mcomp = dynamic_cast< ::Smp::Management::IManagedComponent*>(component);
+
+                        if (mcomp != NULL) {
+                            mcomp->SetParent(this->m_parent);
+                        }
                     }
 
                     virtual ::Smp::Int64 Count(void) const 

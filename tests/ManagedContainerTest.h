@@ -10,6 +10,7 @@ class ManagedContainerTest :
         CPPUNIT_SUITE_BEGIN(ContainerTest)
             CPPUNIT_TEST(ManagedContainerTest, testInstantiation)
             CPPUNIT_TEST(ManagedContainerTest, testPublicInterface)
+            CPPUNIT_TEST(ManagedContainerTest, testExceptions)
         CPPUNIT_SUITE_END()
 
         void setUp(void);
@@ -17,6 +18,7 @@ class ManagedContainerTest :
 
         void testInstantiation(void);
         void testPublicInterface(void);
+        void testExceptions(void);
 };
 
 #endif // MANAGEDCONTAINERTEST_H_

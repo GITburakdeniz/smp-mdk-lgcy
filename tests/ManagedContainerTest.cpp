@@ -89,7 +89,8 @@ void ManagedContainerTest::tearDown(void)
 void ManagedContainerTest::testInstantiation(void)
 {
     ManagedContainer< ComponentStub>* cont1 =
-        new ManagedContainer< ComponentStub>("Cont1", "ManagedContainer 1", NULL);
+        new ManagedContainer< ComponentStub>(
+                "Cont1", "ManagedContainer 1", NULL, 0, 1);
 
     CPPUNIT_ASSERT(cont1 != NULL);
 
@@ -99,50 +100,75 @@ void ManagedContainerTest::testInstantiation(void)
 void ManagedContainerTest::testPublicInterface(void)
 {
     ManagedContainer< ComponentStub>* cont1 =
-        new ManagedContainer< ComponentStub>("cont1", "ManagedContainer 1", NULL);
+        new ManagedContainer< ComponentStub>(
+                "cont1", "ManagedContainer 1", NULL);
     CPPUNIT_ASSERT(cont1 != NULL);
 
-    /*
     CPPUNIT_ASSERT_EQUAL(::Smp::Int64(0), cont1->Count());
-    CPPUNIT_ASSERT(cont1->Begin() == cont1->End());
+    CPPUNIT_ASSERT_EQUAL(::Smp::Int64(0), cont1->Lower());
+    CPPUNIT_ASSERT_EQUAL(::Smp::Int64(-1), cont1->Upper());
 
     ComponentStub* comp1 = new ComponentStub("Comp1", "Comp 1", NULL);
-    cont1->AddPublic(comp1);
+    cont1->AddComponent(comp1);
     CPPUNIT_ASSERT_EQUAL(::Smp::Int64(1), cont1->Count());
-    CPPUNIT_ASSERT(cont1->Begin() != cont1->End());
 
     ComponentStub* comp2 = new ComponentStub("Comp2", "Comp 2", NULL);
-    cont1->AddPublic(comp2);
+    cont1->AddComponent(comp2);
     CPPUNIT_ASSERT_EQUAL(::Smp::Int64(2), cont1->Count());
-    CPPUNIT_ASSERT(cont1->Begin() != cont1->End());
-
-    {
-        ::Smp::IComponent* comp = cont1->GetComponent("Comp1");
-        CPPUNIT_ASSERT_EQUAL(dynamic_cast< ::Smp::IComponent*>(comp1), comp);
-
-        ComponentStub* child = cont1->GetChild("Comp1");
-        CPPUNIT_ASSERT_EQUAL(comp1, child);
-    }
-
-    {
-        ::Smp::IComponent* comp = cont1->GetComponent("Comp2");
-        CPPUNIT_ASSERT_EQUAL(dynamic_cast< ::Smp::IComponent*>(comp2), comp);
-
-        ComponentStub* child = cont1->GetChild("Comp2");
-        CPPUNIT_ASSERT_EQUAL(comp2, child);
-    }
-
-    {
-        ::Smp::IComponent* comp = cont1->GetComponent("Comp3");
-        CPPUNIT_ASSERT(comp == NULL);
-
-        ComponentStub* child = cont1->GetChild("Comp3");
-        CPPUNIT_ASSERT(child == NULL);
-    }
-
-    cont1->Clear();
-    CPPUNIT_ASSERT_EQUAL(::Smp::Int64(0), cont1->Count());
-    */
 
     delete cont1;
+}
+
+void ManagedContainerTest::testExceptions(void)
+{
+    {
+        ManagedContainer< ComponentStub>* cont1 =
+                new ManagedContainer< ComponentStub>(
+                        "cont1", "ManagedContainer 1", NULL, 0, 0);
+        CPPUNIT_ASSERT(cont1 != NULL);
+
+        ComponentStub* comp1 = new ComponentStub("Comp1", "Comp 1", NULL);
+
+        try {
+            cont1->AddComponent(comp1);
+            CPPUNIT_ASSERT(false);
+        } catch (::Smp::Management::IManagedContainer::ContainerFull& ex) {
+            CPPUNIT_ASSERT_EQUAL(::Smp::Int64(0), ex.containerSize);
+            ::std::cout << ex.containerName;
+            CPPUNIT_ASSERT(strcmp("cont1", ex.containerName) == 0);
+        }
+
+        delete comp1;
+        delete cont1;
+    }
+
+    {
+        ManagedContainer< ComponentStub>* cont1 =
+                new ManagedContainer< ComponentStub>(
+                        "cont1", "ManagedContainer 1", NULL, 0, 1);
+        CPPUNIT_ASSERT(cont1 != NULL);
+
+        ComponentStub* comp1 = new ComponentStub("Comp1", "Comp 1", NULL);
+        ComponentStub* comp2 = new ComponentStub("Comp2", "Comp 2", NULL);
+
+        try {
+            cont1->AddComponent(comp1);
+        } catch (::Smp::Management::IManagedContainer::ContainerFull& ex) {
+            CPPUNIT_ASSERT(false);
+        }
+
+        CPPUNIT_ASSERT_EQUAL(::Smp::Int64(1), cont1->Count());
+
+        try {
+            cont1->AddComponent(comp2);
+            CPPUNIT_ASSERT(false);
+        } catch (::Smp::Management::IManagedContainer::ContainerFull& ex) {
+            CPPUNIT_ASSERT_EQUAL(::Smp::Int64(1), ex.containerSize);
+            ::std::cout << ex.containerName;
+            CPPUNIT_ASSERT(strcmp("cont1", ex.containerName) == 0);
+        }
+
+        delete comp2;
+        delete cont1;
+    }
 }
