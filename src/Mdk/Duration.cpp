@@ -201,6 +201,7 @@ void Duration::Get(
         const char* string)
 {
     //  TODO
+    return false;
 }
 
 void Duration::Get(
