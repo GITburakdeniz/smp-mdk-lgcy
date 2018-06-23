@@ -20,6 +20,7 @@ sources_h = \
 		   Mdk/Model.h \
 		   Mdk/Management/ManagedObject.h \
 		   Mdk/Management/ManagedComponent.h \
+		   Mdk/Management/ManagedContainer.h \
 		   $(NULL)
 
 sources_c = \

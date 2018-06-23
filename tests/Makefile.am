@@ -13,6 +13,7 @@ smp_sdk_tests_SOURCES = \
 						StringTest.cpp \
 						ReferenceTest.cpp \
 						ContainerTest.cpp \
-						CompositeTest.cpp
+						CompositeTest.cpp \
+						ManagedContainerTest.cpp
 smp_sdk_tests_CXXFLAGS = $(CPPUNIT_CFLAGS) -I$(top_srcdir)/src -std=c++98
 smp_sdk_tests_LDADD = $(CPPUNIT_LIBS) $(top_builddir)/src/libsmpmdk.la -ldl
