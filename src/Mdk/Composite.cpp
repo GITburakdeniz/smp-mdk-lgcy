@@ -18,7 +18,8 @@
 
 #include "Mdk/Composite.h"
 
-#include <cstring>
+#include <string.h>
+#include <algorithm>
 
 using namespace ::Smp::Mdk;
 
@@ -49,7 +50,7 @@ const ::Smp::ContainerCollection* Composite::GetContainers(void) const
     ::Smp::IContainer* container = NULL;
 
     while ((container == NULL) && (it != endIt)) {
-        if (::strcmp(name, (*it)->GetName()) == 0) {
+        if (strcmp(name, (*it)->GetName()) == 0) {
             container = *it;
         }
         ++it;
