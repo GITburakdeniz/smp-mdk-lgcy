@@ -18,6 +18,9 @@
 
 #include "ManagedObject.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 using namespace ::Smp::Mdk::Management;
 
 ManagedObject::ManagedObject(void)
