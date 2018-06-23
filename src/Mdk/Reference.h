@@ -131,8 +131,9 @@ namespace Smp
 
                     ::Smp::Bool res = true;
 
-                    ProviderIterator it = ::std::find(
-                            Begin(), End(), provider);
+                    typename ProviderCollection::iterator it = ::std::find(
+                            this->m_providers.begin(),
+                            this->m_providers.end(), provider);
 
                     if (it != this->m_providers.end()) {
                         this->m_providers.erase(it);
