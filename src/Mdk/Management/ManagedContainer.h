@@ -40,7 +40,7 @@ namespace Smp
                             ::Smp::IComposite* parent, 
                             ::Smp::Int64 lower = 0, 
                             ::Smp::Int64 upper = -1) :
-                        Container< T>(name, description, parent),
+                        ::Smp::Mdk::Container< T>(name, description, parent),
                         m_lower(lower),
                         m_upper(upper)
                     {

@@ -11,6 +11,7 @@
 #include "ContainerTest.h"
 #include "CompositeTest.h"
 #include "ManagedContainerTest.h"
+#include "ManagedReferenceTest.h"
 
 int main(int argc, char* argv[])
 {
@@ -27,6 +28,7 @@ int main(int argc, char* argv[])
     runner.addTest(ContainerTest::suite());
     runner.addTest(CompositeTest::suite());
     runner.addTest(ManagedContainerTest::suite());
+    runner.addTest(ManagedReferenceTest::suite());
     bool testResult = runner.run();
 
     return testResult ? 0 : 1;

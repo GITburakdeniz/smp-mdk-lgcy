@@ -19,10 +19,8 @@
 #ifndef MDK_MANAGEMENT_MANAGEDREFERENCE_H_
 #define MDK_MANAGEMENT_MANAGEDREFERENCE_H_
 
-#include "Smp/Management/IReference.h"
-#include "Mdk/Object.h"
-
-#include <algorithm>
+#include "Mdk/Reference.h"
+#include "Smp/Management/IManagedReference.h"
 
 namespace Smp
 {
@@ -39,9 +37,9 @@ namespace Smp
                             ::Smp::String8 name,
                             ::Smp::String8 description,
                             ::Smp::IComponent* parent,
-                            ::Smp::Int64 lower,
-                            ::Smp::Int64 upper) :
-                        Reference(name, description, parent),
+                            ::Smp::Int64 lower = 0,
+                            ::Smp::Int64 upper = -1) :
+                        ::Smp::Mdk::Reference< T>(name, description, parent),
                         m_lower(lower),
                         m_upper(upper)
                     {
@@ -56,7 +54,7 @@ namespace Smp
                         throw (::Smp::Management::IManagedReference::ReferenceFull, ::Smp::InvalidObjectType)
                     {
                         if ((this->m_upper >= 0) && (Count() >= this->m_upper)) {
-                            throw ::Smp::Management::IManagedContainer::ContainerFull(GetName(), Count());
+                            throw ::Smp::Management::IManagedReference::ReferenceFull(GetName(), Count());
                         }
 
                         Reference< T>::Add(component);
@@ -88,12 +86,12 @@ namespace Smp
 
                     virtual ::Smp::Int64 Lower(void) const
                     {
-                        this->m_lower;
+                        return this->m_lower;
                     }
 
                     virtual ::Smp::Int64 Upper(void) const
                     {
-                        this->m_upper;
+                        return this->m_upper;
                     }
 
                 private:

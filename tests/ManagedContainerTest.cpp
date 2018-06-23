@@ -1,5 +1,4 @@
-#include "ManagedContainerTest.h"
-
+#include <ManagedContainerTest.h>
 #include "Mdk/Management/ManagedContainer.h"
 
 using namespace ::Smp::Mdk::Management;
@@ -18,43 +17,6 @@ class ComponentStub :
         }
 
         virtual ~ComponentStub(void)
-        {
-        }
-
-        virtual ::Smp::String8 GetName(void) const
-        {
-            return this->_name.c_str();
-        }
-
-        virtual ::Smp::String8 GetDescription(void) const
-        {
-            return this->_desc.c_str();
-        }
-
-        virtual ::Smp::IComposite* GetParent(void) const
-        {
-            return NULL;
-        }
-
-    private:
-        ::std::string _name;
-        ::std::string _desc;
-};
-
-class OtherComponentStub :
-    public ::Smp::IComponent
-{
-    public:
-        OtherComponentStub(
-                ::Smp::String8 name,
-                ::Smp::String8 desc,
-                ::Smp::IComposite* parent) :
-            _name(name),
-            _desc(desc)
-        {
-        }
-
-        virtual ~OtherComponentStub(void)
         {
         }
 
