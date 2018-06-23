@@ -6,6 +6,5 @@
 * Management/EntryPointPublisher
 * Management/EventConsumer
 * Management/EventProvider
-* Management/ManagedContainer
 * Management/ManagedModel
 * Management/ManagedReference

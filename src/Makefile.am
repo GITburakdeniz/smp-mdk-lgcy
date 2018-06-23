@@ -21,6 +21,7 @@ sources_h = \
 		   Mdk/Management/ManagedObject.h \
 		   Mdk/Management/ManagedComponent.h \
 		   Mdk/Management/ManagedContainer.h \
+		   Mdk/Management/ManagedReference.h \
 		   $(NULL)
 
 sources_c = \

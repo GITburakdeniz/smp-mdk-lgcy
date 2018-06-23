@@ -16,71 +16,84 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MDK_MANAGEMENT_MANAGEDCONTAINER_H_
-#define MDK_MANAGEMENT_MANAGEDCONTAINER_H_
+#ifndef MDK_MANAGEMENT_MANAGEDREFERENCE_H_
+#define MDK_MANAGEMENT_MANAGEDREFERENCE_H_
 
-#include "Mdk/Container.h"
-#include "Smp/Management/IManagedContainer.h"
-#include "Smp/Management/IManagedComponent.h"
+#include "Smp/Management/IReference.h"
+#include "Mdk/Object.h"
 
-namespace Smp 
-{ 
+#include <algorithm>
+
+namespace Smp
+{
     namespace Mdk
     {
         namespace Management
         {
-            template < typename T> class ManagedContainer :
-                public ::Smp::Mdk::Container< T>,
-                public virtual ::Smp::Management::IManagedContainer
+            template< typename T> class ManagedReference :
+                    public ::Smp::Mdk::Reference< T>,
+                    public virtual ::Smp::Management::IManagedReference
             {
                 public:
-                    ManagedContainer(
-                            ::Smp::String8 name, 
-                            ::Smp::String8 description, 
-                            ::Smp::IComposite* parent, 
-                            ::Smp::Int64 lower = 0, 
-                            ::Smp::Int64 upper = -1) :
-                        Container< T>(name, description, parent),
+                    ManagedReference(
+                            ::Smp::String8 name,
+                            ::Smp::String8 description,
+                            ::Smp::IComponent* parent,
+                            ::Smp::Int64 lower,
+                            ::Smp::Int64 upper) :
+                        Reference(name, description, parent),
                         m_lower(lower),
                         m_upper(upper)
                     {
                     }
 
-                    virtual ~ManagedContainer(void)
+                    virtual ~ManagedReference(void)
                     {
                     }
 
                     virtual void AddComponent(
                             ::Smp::IComponent* component)
-                        throw (::Smp::Management::IManagedContainer::ContainerFull, ::Smp::DuplicateName, ::Smp::InvalidObjectType)
+                        throw (::Smp::Management::IManagedReference::ReferenceFull, ::Smp::InvalidObjectType)
                     {
                         if ((this->m_upper >= 0) && (Count() >= this->m_upper)) {
                             throw ::Smp::Management::IManagedContainer::ContainerFull(GetName(), Count());
                         }
 
-                        Container< T>::Add(component);
+                        Reference< T>::Add(component);
+                    }
 
-                        ::Smp::Management::IManagedComponent* mcomp =
-                            dynamic_cast< ::Smp::Management::IManagedComponent*>(component);
+                    virtual void RemoveComponent(
+                            ::Smp::IComponent* component)
+                        throw (::Smp::Management::IManagedReference::NotReferenced)
+                    {
+                        if (component == NULL) {
+                            return;
+                        }
 
-                        if (mcomp != NULL) {
-                            mcomp->SetParent(this->m_parent);
+                        T* provider = dynamic_cast< T*>(component);
+
+                        if (provider == NULL) {
+                            return;
+                        }
+
+                        if (!Reference< T>::Remove(component)) {
+                            throw ::Smp::Management::IManagedReference::NotReferenced(GetName(), component);
                         }
                     }
 
                     virtual ::Smp::Int64 Count(void) const 
                     { 
-                        return Container< T>::Count();
+                        return Reference< T>::Count();
                     }
 
                     virtual ::Smp::Int64 Lower(void) const
                     {
-                        return this->m_lower;
+                        this->m_lower;
                     }
 
                     virtual ::Smp::Int64 Upper(void) const
                     {
-                        return this->m_upper;
+                        this->m_upper;
                     }
 
                 private:
@@ -91,4 +104,4 @@ namespace Smp
     }
 }
 
-#endif  // MDK_MANAGEMENT_MANAGEDCONTAINER_H_
+#endif  // MDK_MANAGEMENT_MANAGEDREFERENCE_H_
