@@ -18,6 +18,8 @@
 
 #include "Mdk/Management/EventProvider.h"
 
+#include <cstring>
+
 using namespace ::Smp::Mdk::Management;
 
 EventProvider::EventProvider(void)
@@ -37,7 +39,24 @@ const ::Smp::EventSourceCollection* EventProvider::GetEventSources(void) const
 ::Smp::IEventSource* EventProvider::GetEventSource(
         ::Smp::String8 name) const
 {
-    return NULL;
+    if (name == NULL) {
+        return NULL;
+    }
+
+    ::Smp::EventSourceCollection::const_iterator it(this->m_eventSources.begin());
+    ::Smp::EventSourceCollection::const_iterator endIt(this->m_eventSources.end());
+
+    ::Smp::IEventSource* es = NULL;
+
+    while ((es == NULL) && (it != endIt)) {
+        if (::strcmp(name, (*it)->GetName()) == 0) {
+            es = *it;
+        }
+
+        ++it;
+    }
+
+    return es;
 }
 
 void EventProvider::AddEventSource(
