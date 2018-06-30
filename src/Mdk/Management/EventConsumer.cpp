@@ -18,6 +18,8 @@
 
 #include "Mdk/Management/EventConsumer.h"
 
+#include <cstring>
+
 using namespace ::Smp::Mdk::Management;
 
 EventConsumer::EventConsumer(void)
