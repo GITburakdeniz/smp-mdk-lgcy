@@ -4,6 +4,4 @@
 * Request
 * SimpleTypes
 * Management/EntryPointPublisher
-* Management/EventConsumer
-* Management/EventProvider
 * Management/ManagedModel
