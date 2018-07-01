@@ -18,9 +18,15 @@
 
 #include "Mdk/Model.h"
 
+#include "Smp/ISimulator.h"
+
 using namespace ::Smp::Mdk;
 
 Model::Model(void)
+    :
+        m_state(::Smp::MSK_Created),
+        m_simulator(NULL),
+        m_publication(NULL)
 {
 }
 
@@ -28,11 +34,12 @@ Model::Model(
         ::Smp::String8 name,
         ::Smp::String8 description,
         ::Smp::IComposite* parent)
-throw (::Smp::InvalidObjectName) :
-    Component(name, description, parent),
-    m_state(::Smp::MSK_Created),
-    m_simulator(NULL),
-    m_publication(NULL)
+throw (::Smp::InvalidObjectName)
+    :
+        Component(name, description, parent),
+        m_state(::Smp::MSK_Created),
+        m_simulator(NULL),
+        m_publication(NULL)
 {
 }
 
@@ -49,22 +56,59 @@ void Model::Publish(
         ::Smp::IPublication* receiver)
 throw (::Smp::IModel::InvalidModelState)
 {
+    CheckState(::Smp::MSK_Created);
+
+    this->m_state = MSK_Publishing;
+
+    if (receiver != NULL) {
+        this->m_publication = receiver;
+    }
 }
 
 void Model::Configure(
         ::Smp::Services::ILogger* logger)
 throw (::Smp::IModel::InvalidModelState)
 {
+    CheckState(::Smp::MSK_Publishing);
+
+    this->m_state = MSK_Configured;
+
+    if (logger != NULL) {
+        this->m_logger = logger;
+    }
 }
 
 void Model::Connect(
         ::Smp::ISimulator* simulator)
 throw (::Smp::IModel::InvalidModelState)
 {
+    CheckState(::Smp::MSK_Configured);
+
+    this->m_state = MSK_Connected;
+
+    if (simulator != NULL) {
+        this->m_simulator = simulator;
+    }
 }
 
 ::Smp::IService* Model::GetService(
         const ::Smp::String8 serviceName) const
 {
-    return NULL;
+    if (serviceName == NULL) {
+        return NULL;
+    }
+
+    if (this->m_simulator == NULL) {
+        return NULL;
+    }
+
+    return this->m_simulator->GetService(serviceName);
+}
+
+void Model::CheckState(
+        ::Smp::ModelStateKind exp)
+{
+    if (this->m_state != exp) {
+        throw ::Smp::IModel::InvalidModelState(this->m_state, exp);
+    }
 }

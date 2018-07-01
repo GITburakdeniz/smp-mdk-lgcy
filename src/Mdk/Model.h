@@ -57,6 +57,12 @@ namespace Smp
                 ::Smp::ModelStateKind m_state;
                 ::Smp::ISimulator* m_simulator;
                 ::Smp::IPublication* m_publication;
+
+            private:
+                void CheckState(
+                        ::Smp::ModelStateKind exp);
+
+                ::Smp::Services::ILogger* m_logger;
         };
     }
 }
