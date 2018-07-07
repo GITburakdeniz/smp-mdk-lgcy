@@ -38,8 +38,14 @@ namespace Smp
                 ::Smp::IReference* GetReference(
                         ::Smp::String8 name) const;
 
+            protected:
+                void AddReference(
+                        ::Smp::IReference* ref);
+
+                void Clear(void);
+
             private:
-                ::Smp::ReferenceCollection _references;
+                ::Smp::ReferenceCollection m_references;
         };
     }
 }

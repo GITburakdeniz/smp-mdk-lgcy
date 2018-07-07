@@ -1,6 +1,6 @@
 /** This file is part of smp-mdk
  *
- * Copyright (C) 2017 Juan R. Garcia Blanco
+ * Copyright (C) 2018 Juan R. Garcia Blanco
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ Aggregate::~Aggregate(void)
 
 const ::Smp::ReferenceCollection* Aggregate::GetReferences(void) const
 {
-    return &(this->_references);
+    return &(this->m_references);
 }
 
 ::Smp::IReference* Aggregate::GetReference(
@@ -42,8 +42,8 @@ const ::Smp::ReferenceCollection* Aggregate::GetReferences(void) const
         return NULL;
     }
 
-    ReferenceCollection::const_iterator it(this->_references.begin());
-    ReferenceCollection::const_iterator endIt(this->_references.end());
+    ReferenceCollection::const_iterator it(this->m_references.begin());
+    ReferenceCollection::const_iterator endIt(this->m_references.end());
 
     ::Smp::IReference* ref = NULL;
 
@@ -55,4 +55,24 @@ const ::Smp::ReferenceCollection* Aggregate::GetReferences(void) const
     }
 
     return ref;
+}
+
+void Aggregate::AddReference(
+        ::Smp::IReference* ref)
+{
+    if (ref == NULL) {
+        return;
+    }
+
+    ::Smp::IReference* dup = GetReference(ref->GetName());
+    if (dup != NULL) {
+        return;
+    }
+
+    this->m_references.push_back(ref);
+}
+
+void Aggregate::Clear(void)
+{
+    this->m_references.clear();
 }
