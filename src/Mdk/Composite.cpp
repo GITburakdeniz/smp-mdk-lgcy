@@ -66,11 +66,8 @@ void Composite::AddContainer(
         return;
     }
 
-    ::Smp::ContainerCollection::iterator dup =
-        ::std::find(this->m_containers.begin(), this->m_containers.end(),
-                container);
-
-    if (dup != this->m_containers.end()) {
+    ::Smp::IContainer* dup = GetContainer(container->GetName());
+    if (dup != NULL) {
         return;
     }
 
