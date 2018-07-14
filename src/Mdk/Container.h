@@ -22,6 +22,8 @@
 #include "Smp/IContainer.h"
 #include "Mdk/Object.h"
 
+#include <map>
+
 namespace Smp
 {
     namespace Mdk
@@ -33,6 +35,11 @@ namespace Smp
             public:
                 typedef typename ::std::vector< T*> ChildCollection;
                 typedef typename ChildCollection::const_iterator ChildIterator;
+                typedef ::std::map< ::std::string, ::Smp::IComponent*> Map;
+                typedef typename Map::value_type ValueType;
+                typedef typename Map::iterator Iterator;
+                typedef typename Map::const_iterator ConstIterator;
+
 
                 Container(
                         ::Smp::String8 name,
@@ -114,6 +121,11 @@ namespace Smp
                     return child;
                 }
 
+            const Map& GetMap(void) const
+            {
+                return this->m_componentsMap;
+            }
+
                 void Clear(void)
                 {
                     for (typename ChildCollection::iterator it(this->m_children.begin());
@@ -125,7 +137,25 @@ namespace Smp
 
                     this->m_children.clear();
                     this->m_components.clear();
+                    this->m_componentsMap.clear();
                 }
+
+            T* At(::Smp::UInt32 index) const
+            {
+                T* comp = NULL;
+
+                if ((index >= 0) && (index < Count())) {
+                    comp = this->m_children.at(index);
+                }
+
+                return comp;
+            }
+
+            T* operator[](::Smp::UInt32 index) const
+            {
+                return At(index);
+            }
+
 
             protected:
                 void Add(
@@ -158,6 +188,7 @@ namespace Smp
             private:
                 ::Smp::ComponentCollection m_components;
                 ChildCollection m_children;
+                Map m_componentsMap;
         };
     }
 }
