@@ -64,18 +64,11 @@ namespace Smp
                 ::Smp::IComponent* GetComponent(
                         ::Smp::String8 name) const
                 {
-                    ::Smp::ComponentCollection::const_iterator it(
-                            this->m_components.begin());
-                    ::Smp::ComponentCollection::const_iterator endIt(
-                            this->m_components.end());
                     ::Smp::IComponent* comp = NULL;
 
-                    while ((comp == NULL) && (it != endIt)) {
-                        if (::strcmp(name, (*it)->GetName()) == 0) {
-                            comp = *it;
-                        }
-
-                        ++it;
+                    ConstIterator it = this->m_componentsMap.find(name);
+                    if (it != this->m_componentsMap.end()) {
+                        comp = it->second;
                     }
 
                     return comp;
@@ -121,10 +114,10 @@ namespace Smp
                     return child;
                 }
 
-            const Map& GetMap(void) const
-            {
-                return this->m_componentsMap;
-            }
+                const Map &GetMap(void) const
+                {
+                    return this->m_componentsMap;
+                }
 
                 void Clear(void)
                 {
@@ -140,22 +133,22 @@ namespace Smp
                     this->m_componentsMap.clear();
                 }
 
-            T* At(::Smp::UInt32 index) const
-            {
-                T* comp = NULL;
+                T *At(::Smp::UInt32 index) const
+                {
+                    T *comp = NULL;
 
-                if ((index >= 0) && (index < Count())) {
-                    comp = this->m_children.at(index);
+                    if ((index >= 0) && (index < Count()))
+                    {
+                        comp = this->m_children.at(index);
+                    }
+
+                    return comp;
                 }
 
-                return comp;
-            }
-
-            T* operator[](::Smp::UInt32 index) const
-            {
-                return At(index);
-            }
-
+                T *operator[](::Smp::UInt32 index) const
+                {
+                    return At(index);
+                }
 
             protected:
                 void Add(
@@ -181,6 +174,8 @@ namespace Smp
 
                     this->m_children.push_back(child);
                     this->m_components.push_back(comp);
+
+                    this->m_componentsMap.insert(ValueType(comp->GetName(), comp));
                 }
 
                 ::Smp::IComposite* m_parent;
