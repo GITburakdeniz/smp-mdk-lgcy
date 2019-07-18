@@ -33,6 +33,7 @@ namespace Smp
                 virtual ~Composite(void);
 
                 virtual const ::Smp::ContainerCollection* GetContainers(void) const;
+
                 virtual ::Smp::IContainer* GetContainer(
                         ::Smp::String8 name) const;
 
@@ -48,3 +49,4 @@ namespace Smp
 }
 
 #endif  // MDK_COMPOSITE_H_
+

@@ -89,6 +89,16 @@ namespace Smp
                     return this->m_children.end();
                 }
 
+                ChildIterator begin(void)
+                {
+                    return this->m_children.begin();
+                }
+
+                ChildIterator end(void)
+                {
+                    return this->m_children.end();
+                }
+
                 const ChildCollection* GetChildren(void)
                 {
                     return &(this->m_children);
@@ -97,21 +107,7 @@ namespace Smp
                 virtual T* GetChild(
                         ::Smp::String8 name) const
                 {
-                    typename ChildCollection::const_iterator it(
-                            this->m_children.begin());
-                    typename ChildCollection::const_iterator endIt(
-                            this->m_children.end());
-                    T* child = NULL;
-
-                    while ((child == NULL) && (it != endIt)) {
-                        if (::strcmp(name, (*it)->GetName()) == 0) {
-                            child = *it;
-                        }
-
-                        ++it;
-                    }
-
-                    return child;
+                    return dynamic_cast< T*>(GetComponent(name));
                 }
 
                 const Map &GetMap(void) const
@@ -189,3 +185,4 @@ namespace Smp
 }
 
 #endif  // MDK_CONTAINER_H_
+

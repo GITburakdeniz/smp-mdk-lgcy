@@ -44,3 +44,4 @@ Component::~Component(void)
 {
     return this->m_parent;
 }
+

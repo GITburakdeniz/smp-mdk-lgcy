@@ -29,6 +29,9 @@ Composite::Composite(void)
 
 Composite::~Composite(void)
 {
+    // It is guaranteed this will not throw any
+    // exception.
+    Clear();
 }
 
 const ::Smp::ContainerCollection* Composite::GetContainers(void) const
@@ -48,6 +51,8 @@ const ::Smp::ContainerCollection* Composite::GetContainers(void) const
     ::Smp::ContainerCollection::const_iterator endIt(
             this->m_containers.end());
     ::Smp::IContainer* container = NULL;
+
+    // We do not allow NULL containers.
 
     while ((container == NULL) && (it != endIt)) {
         if (strcmp(name, (*it)->GetName()) == 0) {
@@ -78,3 +83,4 @@ void Composite::Clear(void)
 {
     this->m_containers.clear();
 }
+
