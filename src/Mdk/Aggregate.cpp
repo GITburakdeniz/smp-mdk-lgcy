@@ -28,6 +28,8 @@ Aggregate::Aggregate(void)
 
 Aggregate::~Aggregate(void)
 {
+    // It is guaranteed this will not throw any exception.
+    Clear();
 }
 
 const ::Smp::ReferenceCollection* Aggregate::GetReferences(void) const
@@ -46,6 +48,9 @@ const ::Smp::ReferenceCollection* Aggregate::GetReferences(void) const
     ReferenceCollection::const_iterator endIt(this->m_references.end());
 
     ::Smp::IReference* ref = NULL;
+
+    // We only allow non-NULL references.  Thus, we do not need
+    // to check references in the container.
 
     while ((ref == NULL) && (it != endIt)) {
         if (::strcmp(name, (*it)->GetName()) == 0) {
@@ -76,3 +81,4 @@ void Aggregate::Clear(void)
 {
     this->m_references.clear();
 }
+

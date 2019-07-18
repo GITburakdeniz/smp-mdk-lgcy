@@ -22,7 +22,7 @@
 #include "Smp/IAggregate.h"
 #include "Smp/IReference.h"
 
-namespace Smp 
+namespace Smp
 {
     namespace Mdk
     {
