@@ -23,7 +23,7 @@
 #include "Smp/IComponent.h"
 #include "Smp/IEntryPoint.h"
 
-namespace Smp 
+namespace Smp
 {
     namespace Mdk
     {
@@ -39,29 +39,35 @@ namespace Smp
                             T* owner,
                             void (T::*entryPoint)(void))
                     throw (::Smp::InvalidObjectName) :
-                        _helper(new EntryPointHelper< T>(owner, entryPoint)),
-                        _owner(owner)
+                        ::Smp::Mdk::Object(name, description),
+                        m_entryPointHelper(new EntryPointHelper< T>(owner, entryPoint)),
+                        m_owner(owner)
                 {
                 }
 
                 virtual ~EntryPoint(void)
                 {
-                    if (this->_helper != NULL) {
-                        delete this->_helper;
-                        this->_helper = NULL;
+                    if (this->m_entryPointHelper != NULL) {
+                        delete this->m_entryPointHelper;
+                        this->m_entryPointHelper = NULL;
                     }
                 }
 
                 ::Smp::IComponent* GetOwner(void) const
                 {
-                    return this->_owner;
+                    return this->m_owner;
                 }
 
                 void Execute(void) const
                 {
-                    if (this->_helper != NULL) {
-                        this->_helper->Execute();
+                    if (this->m_entryPointHelper != NULL) {
+                        this->m_entryPointHelper->Execute();
                     }
+                }
+
+                void operator()() const
+                {
+                    Execute();
                 }
 
             private:
@@ -86,8 +92,8 @@ namespace Smp
                         EntryPointHelper(
                                 T* owner,
                                 EntryPointType entryPoint) :
-                            _owner(owner),
-                            _entryPoint(entryPoint)
+                            m_owner(owner),
+                            m_entryPoint(entryPoint)
                         {
                         }
 
@@ -97,21 +103,22 @@ namespace Smp
 
                         void Execute(void)
                         {
-                            if (this->_owner != NULL) {
-                                (this->_owner->*_entryPoint)();
+                            if (this->m_owner != NULL) {
+                                (this->m_owner->*m_entryPoint)();
                             }
                         }
 
                     private:
-                        T* _owner;
-                        EntryPointType _entryPoint;
+                        T* m_owner;
+                        EntryPointType m_entryPoint;
                 };
 
             private:
-                ::Smp::IComponent* _owner;
-                IEntryPointHelper* _helper;
+                ::Smp::IComponent* m_owner;
+                IEntryPointHelper* m_entryPointHelper;
         };
     }
 }
 
 #endif  // MDK_ENTRYPOINT_H_
+
