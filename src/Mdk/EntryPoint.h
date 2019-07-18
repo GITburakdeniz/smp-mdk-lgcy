@@ -39,7 +39,7 @@ namespace Smp
                             T* owner,
                             void (T::*entryPoint)(void))
                     throw (::Smp::InvalidObjectName) :
-                        ::Smp::Mdk::Object(name, description),
+                        Object(name, description),
                         m_entryPointHelper(new EntryPointHelper< T>(owner, entryPoint)),
                         m_owner(owner)
                 {
