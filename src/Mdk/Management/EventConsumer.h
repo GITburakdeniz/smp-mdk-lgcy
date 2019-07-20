@@ -47,7 +47,7 @@ namespace Smp
                     void Clear(void);
 
                 private:
-                    ::Smp::EventSinkCollection m_eventSinks;
+                    ::Smp::EventSinkCollection mm_eventSinks;
             };
         }
     }

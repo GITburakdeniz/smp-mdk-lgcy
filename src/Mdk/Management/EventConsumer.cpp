@@ -33,7 +33,7 @@ EventConsumer::~EventConsumer(void)
 
 const ::Smp::EventSinkCollection* EventConsumer::GetEventSinks(void) const
 {
-    return &(this->m_eventSinks);
+    return &(this->mm_eventSinks);
 }
 
 ::Smp::IEventSink* EventConsumer::GetEventSink(
@@ -43,8 +43,8 @@ const ::Smp::EventSinkCollection* EventConsumer::GetEventSinks(void) const
         return NULL;
     }
 
-    ::Smp::EventSinkCollection::const_iterator it(this->m_eventSinks.begin());
-    ::Smp::EventSinkCollection::const_iterator endIt(this->m_eventSinks.end());
+    ::Smp::EventSinkCollection::const_iterator it(this->mm_eventSinks.begin());
+    ::Smp::EventSinkCollection::const_iterator endIt(this->mm_eventSinks.end());
 
     ::Smp::IEventSink* es = NULL;
 
@@ -72,10 +72,10 @@ void EventConsumer::AddEventSink(
         return;
     }
 
-    this->m_eventSinks.push_back(eventSink);
+    this->mm_eventSinks.push_back(eventSink);
 }
 
 void EventConsumer::Clear(void)
 {
-    this->m_eventSinks.clear();
+    this->mm_eventSinks.clear();
 }

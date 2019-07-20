@@ -23,23 +23,20 @@
 using namespace ::Smp::Mdk;
 
 Model::Model(void)
-    :
-        m_state(::Smp::MSK_Created),
-        m_simulator(NULL),
-        m_publication(NULL)
+    : m_state(::Smp::MSK_Created),
+      m_simulator(NULL),
+      m_publication(NULL)
 {
 }
 
 Model::Model(
-        ::Smp::String8 name,
-        ::Smp::String8 description,
-        ::Smp::IComposite* parent)
-throw (::Smp::InvalidObjectName)
-    :
-        Component(name, description, parent),
-        m_state(::Smp::MSK_Created),
-        m_simulator(NULL),
-        m_publication(NULL)
+    ::Smp::String8 name,
+    ::Smp::String8 description,
+    ::Smp::IComposite *parent) throw(::Smp::InvalidObjectName)
+    : Component(name, description, parent),
+      m_state(::Smp::MSK_Created),
+      m_simulator(NULL),
+      m_publication(NULL)
 {
 }
 
@@ -53,52 +50,45 @@ Model::~Model(void)
 }
 
 void Model::Publish(
-        ::Smp::IPublication* receiver)
-throw (::Smp::IModel::InvalidModelState)
+    ::Smp::IPublication *receiver) throw(::Smp::IModel::InvalidModelState)
 {
     CheckState(::Smp::MSK_Created);
 
     this->m_state = MSK_Publishing;
 
-    if (receiver != NULL) {
-        this->m_publication = receiver;
-    }
+    this->m_publication = receiver;
 }
 
 void Model::Configure(
-        ::Smp::Services::ILogger* logger)
-throw (::Smp::IModel::InvalidModelState)
+    ::Smp::Services::ILogger *logger) throw(::Smp::IModel::InvalidModelState)
 {
     CheckState(::Smp::MSK_Publishing);
 
     this->m_state = MSK_Configured;
 
-    if (logger != NULL) {
-        this->m_logger = logger;
-    }
+    this->m_logger = logger;
 }
 
 void Model::Connect(
-        ::Smp::ISimulator* simulator)
-throw (::Smp::IModel::InvalidModelState)
+    ::Smp::ISimulator *simulator) throw(::Smp::IModel::InvalidModelState)
 {
     CheckState(::Smp::MSK_Configured);
 
     this->m_state = MSK_Connected;
 
-    if (simulator != NULL) {
-        this->m_simulator = simulator;
-    }
+    this->m_simulator = simulator;
 }
 
-::Smp::IService* Model::GetService(
-        const ::Smp::String8 serviceName) const
+::Smp::IService *Model::GetService(
+    const ::Smp::String8 serviceName) const
 {
-    if (serviceName == NULL) {
+    if (serviceName == NULL)
+    {
         return NULL;
     }
 
-    if (this->m_simulator == NULL) {
+    if (this->m_simulator == NULL)
+    {
         return NULL;
     }
 
@@ -106,9 +96,10 @@ throw (::Smp::IModel::InvalidModelState)
 }
 
 void Model::CheckState(
-        ::Smp::ModelStateKind exp)
+    ::Smp::ModelStateKind exp)
 {
-    if (this->m_state != exp) {
+    if (this->m_state != exp)
+    {
         throw ::Smp::IModel::InvalidModelState(this->m_state, exp);
     }
 }

@@ -24,47 +24,42 @@
 
 namespace Smp
 {
-    namespace Mdk
-    {
-        class Model :
-            public ::Smp::Mdk::Component,
-            public virtual Smp::IModel
-        {
-            public:
-                Model(void);
-                Model(
-                        ::Smp::String8 name,
-                        ::Smp::String8 description,
-                        ::Smp::IComposite* parent)
-                    throw (::Smp::InvalidObjectName);
-                virtual ~Model(void);
+namespace Mdk
+{
+class Model : public ::Smp::Mdk::Component,
+              public virtual Smp::IModel
+{
+public:
+    Model(void);
+    Model(
+        ::Smp::String8 name,
+        ::Smp::String8 description,
+        ::Smp::IComposite *parent) throw(::Smp::InvalidObjectName);
+    virtual ~Model(void);
 
-                ::Smp::ModelStateKind GetState(void) const;
-                void Publish(
-                        ::Smp::IPublication* receiver)
-                    throw (::Smp::IModel::InvalidModelState);
-                void Configure(
-                        ::Smp::Services::ILogger* logger)
-                    throw (::Smp::IModel::InvalidModelState);
-                void Connect(
-                        ::Smp::ISimulator* simulator)
-                    throw (::Smp::IModel::InvalidModelState);
+    ::Smp::ModelStateKind GetState(void) const;
+    void Publish(
+        ::Smp::IPublication *receiver) throw(::Smp::IModel::InvalidModelState);
+    void Configure(
+        ::Smp::Services::ILogger *logger) throw(::Smp::IModel::InvalidModelState);
+    void Connect(
+        ::Smp::ISimulator *simulator) throw(::Smp::IModel::InvalidModelState);
 
-            protected:
-                ::Smp::IService* GetService(
-                        const ::Smp::String8 serviceName) const;
+protected:
+    ::Smp::IService *GetService(
+        const ::Smp::String8 serviceName) const;
 
-                ::Smp::ModelStateKind m_state;
-                ::Smp::ISimulator* m_simulator;
-                ::Smp::IPublication* m_publication;
+    ::Smp::ModelStateKind m_state;
+    ::Smp::ISimulator *m_simulator;
+    ::Smp::IPublication *m_publication;
 
-            private:
-                void CheckState(
-                        ::Smp::ModelStateKind exp);
+private:
+    void CheckState(
+        ::Smp::ModelStateKind exp);
 
-                ::Smp::Services::ILogger* m_logger;
-        };
-    }
-}
+    ::Smp::Services::ILogger *m_logger;
+};
+} // namespace Mdk
+} // namespace Smp
 
-#endif  // MDK_MODEL_H_
+#endif // MDK_MODEL_H_

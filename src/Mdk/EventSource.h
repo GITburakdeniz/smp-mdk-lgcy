@@ -28,175 +28,193 @@
 
 namespace Smp
 {
-    namespace Mdk
+namespace Mdk
+{
+class VoidEventSource : public ::Smp::Mdk::Object,
+                        public virtual ::Smp::IEventSource
+{
+public:
+    VoidEventSource(
+        ::Smp::String8 name,
+        ::Smp::String8 description,
+        ::Smp::IComponent *publisher) throw(::Smp::InvalidObjectName)
+        : Object(name, description)
     {
-        class VoidEventSource :
-            public ::Smp::Mdk::Object, public virtual ::Smp::IEventSource
-        {
-            public:
-                VoidEventSource(
-                        ::Smp::String8 name,
-                        ::Smp::String8 description,
-                        ::Smp::IComponent* publisher)
-                    throw (::Smp::InvalidObjectName)
-                    : Object(name, description)
-                {
-                }
-
-                virtual ~VoidEventSource(void)
-                {
-                }
-
-                virtual void Subscribe(
-                        ::Smp::IEventSink* eventSink)
-                    throw (::Smp::IEventSource::AlreadySubscribed, ::Smp::IEventSource::InvalidEventSink)
-                    {
-                        VoidEventSink* voidEventSink = dynamic_cast< VoidEventSink*>(eventSink);
-
-                        if (voidEventSink == NULL) {
-                            throw ::Smp::IEventSource::InvalidEventSink(this, eventSink);
-                        }
-
-                        for (::Smp::EventSinkCollection::const_iterator it(this->_eventSinks.begin());
-                                it != this->_eventSinks.end();
-                                ++it) {
-                            if (*it == eventSink) {
-                                throw ::Smp::IEventSource::AlreadySubscribed(this, eventSink);
-                            }
-                        }
-
-                        this->_eventSinks.push_back(eventSink);
-                    }
-
-                virtual void Unsubscribe(
-                        ::Smp::IEventSink* eventSink) throw (::Smp::IEventSource::NotSubscribed)
-                {
-                    ::Smp::Bool found = false;
-                    ::Smp::EventSinkCollection::iterator it(this->_eventSinks.end());
-
-                    while (!found && (it != this->_eventSinks.end())) {
-                        if (*it == eventSink) {
-                            found = true;
-                        }
-
-                        ++it;
-                    }
-
-                    if (found) {
-                        this->_eventSinks.erase(it);
-                    } else {
-                        throw ::Smp::IEventSource::NotSubscribed(this, eventSink);
-                    }
-                }
-
-                void Emit(
-                        ::Smp::IComponent* sender)
-                {
-                    ::Smp::AnySimple arg;
-                    arg.type = ::Smp::ST_None;
-
-                    for (::Smp::EventSinkCollection::iterator it(this->_eventSinks.begin());
-                            it != this->_eventSinks.end();
-                            ++it) {
-                        (*it)->Notify(sender, arg);
-                    }
-                }
-
-                void operator()(
-                        ::Smp::IComponent* sender)
-                {
-                    Emit(sender);
-                }
-
-            private:
-                ::Smp::EventSinkCollection _eventSinks;
-        };
-
-        template< typename T> class EventSource :
-            public ::Smp::Mdk::Object,
-            public virtual ::Smp::IEventSource
-        {
-            public:
-                EventSource(
-                        ::Smp::String8 name,
-                        ::Smp::String8 description,
-                        ::Smp::IComponent* publisher)
-                    throw (::Smp::InvalidObjectName)
-                    : Object(name, description)
-                {
-                }
-
-                virtual ~EventSource(void)
-                {
-                }
-
-                virtual void Subscribe(
-                        ::Smp::IEventSink* eventSink)
-                    throw (::Smp::IEventSource::AlreadySubscribed, ::Smp::IEventSource::InvalidEventSink)
-                    {
-                        EventSink* mdkEventSink = dynamic_cast< EventSink*>(eventSink);
-
-                        if (mdkEventSink == NULL) {
-                            throw ::Smp::IEventSource::InvalidEventSink(this, eventSink);
-                        }
-
-                        for (::Smp::EventSinkCollection::const_iterator it(this->_eventSinks.begin());
-                                it != this->_eventSinks.end();
-                                ++it) {
-                            if (*it == eventSink) {
-                                throw ::Smp::IEventSource::AlreadySubscribed(this, eventSink);
-                            }
-                        }
-
-                        this->_eventSinks.push_back(eventSink);
-                    }
-
-                virtual void Unsubscribe(
-                        ::Smp::IEventSink* eventSink) throw (::Smp::IEventSource::NotSubscribed)
-                {
-                    ::Smp::Bool found = false;
-                    ::Smp::EventSinkCollection::iterator it(this->_eventSinks.end());
-
-                    while (!found && (it != this->_eventSinks.end())) {
-                        if (*it == eventSink) {
-                            found = true;
-                        }
-
-                        ++it;
-                    }
-
-                    if (found) {
-                        this->_eventSinks.erase(it);
-                    } else {
-                        throw ::Smp::IEventSource::NotSubscribed(this, eventSink);
-                    }
-                }
-
-                void Emit(
-                        ::Smp::IComponent* sender,
-                        T arg)
-                {
-                    ::Smp::Mdk::AnySimple anyArg;
-                    anyArg.Set(arg);
-
-                    for (::Smp::EventSinkCollection::iterator it(this->_eventSinks.begin());
-                            it != this->_eventSinks.end();
-                            ++it) {
-                        (*it)->Notify(sender, anyArg);
-                    }
-                }
-
-                void operator()(
-                        ::Smp::IComponent* sender,
-                        T arg)
-                {
-                    Emit(sender, arg);
-                }
-
-            private:
-                ::Smp::EventSinkCollection _eventSinks;
-        };
     }
-}
 
-#endif  // MDK_EVENTSOURCE_H_
+    virtual ~VoidEventSource(void)
+    {
+        this->m_eventSinks.clear();
+    }
+
+    virtual void Subscribe(
+        ::Smp::IEventSink *eventSink) throw(::Smp::IEventSource::AlreadySubscribed,
+                                            ::Smp::IEventSource::InvalidEventSink)
+    {
+        VoidEventSink *voidEventSink = dynamic_cast<VoidEventSink *>(eventSink);
+
+        if (voidEventSink == NULL)
+        {
+            throw ::Smp::IEventSource::InvalidEventSink(this, eventSink);
+        }
+
+        for (::Smp::EventSinkCollection::const_iterator it(this->m_eventSinks.begin());
+             it != this->m_eventSinks.end();
+             ++it)
+        {
+            if (*it == eventSink)
+            {
+                throw ::Smp::IEventSource::AlreadySubscribed(this, eventSink);
+            }
+        }
+
+        this->m_eventSinks.push_back(eventSink);
+    }
+
+    virtual void Unsubscribe(
+        ::Smp::IEventSink *eventSink) throw(::Smp::IEventSource::NotSubscribed)
+    {
+        ::Smp::Bool found = false;
+        ::Smp::EventSinkCollection::iterator it(this->m_eventSinks.end());
+
+        while (!found && (it != this->m_eventSinks.end()))
+        {
+            if (*it == eventSink)
+            {
+                found = true;
+            }
+
+            ++it;
+        }
+
+        if (found)
+        {
+            this->m_eventSinks.erase(it);
+        }
+        else
+        {
+            throw ::Smp::IEventSource::NotSubscribed(this, eventSink);
+        }
+    }
+
+    void Emit(
+        ::Smp::IComponent *sender)
+    {
+        ::Smp::AnySimple arg;
+        arg.type = ::Smp::ST_None;
+
+        for (::Smp::EventSinkCollection::iterator it(this->m_eventSinks.begin());
+             it != this->m_eventSinks.end();
+             ++it)
+        {
+            (*it)->Notify(sender, arg);
+        }
+    }
+
+    void operator()(
+        ::Smp::IComponent *sender)
+    {
+        Emit(sender);
+    }
+
+private:
+    ::Smp::EventSinkCollection m_eventSinks;
+};
+
+template <typename T>
+class EventSource : public ::Smp::Mdk::Object,
+                    public virtual ::Smp::IEventSource
+{
+public:
+    EventSource(
+        ::Smp::String8 name,
+        ::Smp::String8 description,
+        ::Smp::IComponent *publisher) throw(::Smp::InvalidObjectName)
+        : Object(name, description)
+    {
+    }
+
+    virtual ~EventSource(void)
+    {
+        this->m_eventSinks.clear();
+    }
+
+    virtual void Subscribe(
+        ::Smp::IEventSink *eventSink) throw(::Smp::IEventSource::AlreadySubscribed,
+                                            ::Smp::IEventSource::InvalidEventSink)
+    {
+        EventSink *mdkEventSink = dynamic_cast<EventSink *>(eventSink);
+
+        if (mdkEventSink == NULL)
+        {
+            throw ::Smp::IEventSource::InvalidEventSink(this, eventSink);
+        }
+
+        for (::Smp::EventSinkCollection::const_iterator it(this->m_eventSinks.begin());
+             it != this->m_eventSinks.end();
+             ++it)
+        {
+            if (*it == eventSink)
+            {
+                throw ::Smp::IEventSource::AlreadySubscribed(this, eventSink);
+            }
+        }
+
+        this->m_eventSinks.push_back(eventSink);
+    }
+
+    virtual void Unsubscribe(
+        ::Smp::IEventSink *eventSink) throw(::Smp::IEventSource::NotSubscribed)
+    {
+        ::Smp::Bool found = false;
+        ::Smp::EventSinkCollection::iterator it(this->m_eventSinks.end());
+
+        while (!found && (it != this->m_eventSinks.end()))
+        {
+            if (*it == eventSink)
+            {
+                found = true;
+            }
+
+            ++it;
+        }
+
+        if (found)
+        {
+            this->m_eventSinks.erase(it);
+        }
+        else
+        {
+            throw ::Smp::IEventSource::NotSubscribed(this, eventSink);
+        }
+    }
+
+    void Emit(
+        ::Smp::IComponent *sender,
+        T arg)
+    {
+        ::Smp::Mdk::AnySimple anyArg;
+        anyArg.Set(arg);
+
+        for (::Smp::EventSinkCollection::iterator it(this->m_eventSinks.begin());
+             it != this->m_eventSinks.end();
+             ++it)
+        {
+            (*it)->Notify(sender, anyArg);
+        }
+    }
+
+    void operator()(
+        ::Smp::IComponent *sender,
+        T arg)
+    {
+        Emit(sender, arg);
+    }
+
+private:
+    ::Smp::EventSinkCollection m_eventSinks;
+};
+} // namespace Mdk
+} // namespace Smp
+
+#endif // MDK_EVENTSOURCE_H_

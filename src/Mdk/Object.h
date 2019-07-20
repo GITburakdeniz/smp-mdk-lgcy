@@ -24,37 +24,35 @@
 
 namespace Smp
 {
-    namespace Mdk
-    {
-        class Object :
-            public virtual Smp::IObject
-        {
-            public:
-                Object(void);
-                Object(
-                        ::Smp::String8 name,
-                        ::Smp::String8 description)
-                    throw (::Smp::InvalidObjectName);
-                virtual ~Object(void);
+namespace Mdk
+{
+class Object : public virtual Smp::IObject
+{
+public:
+    Object(void);
+    Object(
+        ::Smp::String8 name,
+        ::Smp::String8 description) throw(::Smp::InvalidObjectName);
+    virtual ~Object(void);
 
-                virtual ::Smp::String8 GetName(void) const;
-                virtual ::Smp::String8 GetDescription(void) const;
+    virtual ::Smp::String8 GetName(void) const;
+    virtual ::Smp::String8 GetDescription(void) const;
 
-                static ::Smp::Bool ValidateName(
-                        ::Smp::String8 name);
+    static ::Smp::Bool ValidateName(
+        ::Smp::String8 name);
 
-            protected:
-                ::Smp::Char8* m_name;
-                ::Smp::Char8* m_description;
+protected:
+    ::Smp::Char8 *m_name;
+    ::Smp::Char8 *m_description;
 
-            private:
-                static ::Smp::Bool ValidateNameLength(
-                        size_t nameLen);
-                static ::Smp::Bool ValidateNameChars(
-                        ::Smp::String8 name,
-                        size_t nameLen);
-        };
-    }
-}
+private:
+    static ::Smp::Bool ValidateNameLength(
+        size_t nameLen);
+    static ::Smp::Bool ValidateNameChars(
+        ::Smp::String8 name,
+        size_t nameLen);
+};
+} // namespace Mdk
+} // namespace Smp
 
-#endif  // MDK_OBJECT_H_
+#endif // MDK_OBJECT_H_
