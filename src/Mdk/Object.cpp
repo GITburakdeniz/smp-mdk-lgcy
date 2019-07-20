@@ -27,20 +27,21 @@ const size_t NAME_MAX_LEN = 32;
 using namespace Smp::Mdk;
 
 Object::Object(void)
-    :
-        m_name(NULL),
-        m_description(NULL)
+    : m_name(NULL),
+      m_description(NULL)
 {
 }
 
 Object::Object(
-        ::Smp::String8 name,
-        ::Smp::String8 description)
-throw (::Smp::InvalidObjectName)
+    ::Smp::String8 name,
+    ::Smp::String8 description) throw(::Smp::InvalidObjectName)
 {
-    if (Object::ValidateName(name)) {
+    if (Object::ValidateName(name))
+    {
         this->m_name = strdup(name);
-    } else {
+    }
+    else
+    {
         throw ::Smp::InvalidObjectName(name);
     }
 
@@ -52,12 +53,14 @@ throw (::Smp::InvalidObjectName)
 
 Object::~Object()
 {
-    if (this->m_name != NULL) {
+    if (this->m_name != NULL)
+    {
         free(this->m_name);
         this->m_name = NULL;
     }
 
-    if (this->m_description != NULL) {
+    if (this->m_description != NULL)
+    {
         free(this->m_description);
         this->m_description = NULL;
     }
@@ -77,12 +80,15 @@ Smp::String8 Object::GetDescription(void) const
 {
     ::Smp::Bool isValid = true;
 
-    if (name == NULL) {
+    if (name == NULL)
+    {
         isValid = false;
-    } else {
+    }
+    else
+    {
         size_t nameLen = ::strlen(name);
         isValid = Object::ValidateNameLength(nameLen) &&
-            Object::ValidateNameChars(name, nameLen);
+                  Object::ValidateNameChars(name, nameLen);
     }
 
     return isValid;
@@ -94,12 +100,13 @@ inline ::Smp::Bool Object::ValidateNameLength(size_t nameLen)
 }
 
 inline ::Smp::Bool Object::ValidateNameChars(::Smp::String8 name,
-        size_t nameLen)
+                                             size_t nameLen)
 {
     ::Smp::Bool remainsValid = (::isalpha(name[0]) != 0) ? true : false;
     ::Smp::UInt32 i = 1;
 
-    while (remainsValid && (i < nameLen)) {
+    while (remainsValid && (i < nameLen))
+    {
         const ::Smp::Bool isLetterOrDigit = (::isalnum(name[i]) != 0) ? true : false;
         const ::Smp::Bool isUnderscore = (name[i] == '_');
         const ::Smp::Bool isBracket = (name[i] == '[') || (name[i] == ']');
