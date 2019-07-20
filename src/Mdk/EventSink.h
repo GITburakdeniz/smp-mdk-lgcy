@@ -23,177 +23,183 @@
 #include "Smp/IComponent.h"
 #include "Smp/IEventSink.h"
 
-namespace Smp 
+namespace Smp
 {
-    namespace Mdk
+namespace Mdk
+{
+class MdkEventSink : public virtual ::Smp::IEventSink
+{
+};
+
+class VoidEventSink : public ::Smp::Mdk::Object,
+                      public virtual MdkEventSink
+{
+public:
+    template <typename T>
+    VoidEventSink(
+        ::Smp::String8 name,
+        ::Smp::String8 description,
+        T *consumer,
+        void (T::*callback)(::Smp::IObject *sender)) throw(::Smp::InvalidObjectName)
+        : Object(name, description),
+          m_eventSinkHelper(new VoidEventSinkHelper<T>(consumer, callback))
     {
-        class MdkEventSink :
-            public virtual ::Smp::IEventSink
-        {
-        };
-
-        class VoidEventSink :
-            public ::Smp::Mdk::Object,
-            public virtual MdkEventSink
-        {
-            public:
-                template< typename T> VoidEventSink(
-                        ::Smp::String8 name,
-                        ::Smp::String8 description,
-                        T* consumer,
-                        void (T::*callback)(::Smp::IObject* sender)) throw (::Smp::InvalidObjectName)
-                    : Object(name, description),
-                    _helper(new VoidEventSinkHelper< T>(consumer, callback))
-                {
-                }
-
-                virtual ~VoidEventSink(void)
-                {
-                    if (this->_helper != NULL) {
-                        delete this->_helper;
-                        this->_helper = NULL;
-                    }
-                }
-
-                void Notify(
-                        ::Smp::IObject* sender,
-                        ::Smp::AnySimple arg)
-                {
-                    if (this->_helper != NULL) {
-                        this->_helper->Notify(sender);
-                    }
-                }
-
-            private:
-                class IVoidEventSinkHelper
-                {
-                    public:
-                        virtual ~IVoidEventSinkHelper(void)
-                        {
-                        }
-
-                        virtual void Notify(
-                                ::Smp::IObject* sender) = 0;
-                };
-
-                template< typename T> class VoidEventSinkHelper :
-                    public virtual IVoidEventSinkHelper
-            {
-                private:
-                    typedef void (T::*CallbackType)(::Smp::IObject* sender);
-
-                public:
-                    VoidEventSinkHelper(
-                            T* consumer,
-                            CallbackType callback)
-                        : _consumer(consumer),
-                        _callback(callback)
-                    {
-                    }
-
-                    virtual ~VoidEventSinkHelper(void)
-                    {
-                    }
-
-                    void Notify(
-                            ::Smp::IObject* sender)
-                    {
-                        if (this->_consumer != NULL) {
-                            (this->_consumer->*_callback)(sender);
-                        }
-                    }
-
-                private:
-                    T* _consumer;
-                    CallbackType _callback;
-            };
-
-                IVoidEventSinkHelper* _helper;
-        };
-
-        class EventSink :
-            public ::Smp::Mdk::Object,
-            public virtual ::Smp::IEventSink
-        {
-            public:
-                template< typename T> EventSink(
-                            ::Smp::String8 name,
-                            ::Smp::String8 description,
-                            T* consumer,
-                            void (T::*callback)(::Smp::IObject* sender, ::Smp::AnySimple arg))
-                    throw (::Smp::InvalidObjectName)
-                        : Object(name, description),
-                        _helper(new EventSinkHelper< T>(consumer, callback))
-                {
-                }
-
-                virtual ~EventSink(void)
-                {
-                    if (this->_helper != NULL) {
-                        delete this->_helper;
-                        this->_helper = NULL;
-                    }
-                }
-
-                void Notify(::Smp::IObject* sender, ::Smp::AnySimple arg)
-                {
-                    if (this->_helper != NULL) {
-                        this->_helper->Notify(sender, arg);
-                    }
-                }
-
-            private:
-                class IEventSinkHelper
-                {
-                    public:
-                        virtual ~IEventSinkHelper(void)
-                        {
-                        }
-
-                        virtual void Notify(
-                                ::Smp::IObject* sender,
-                                const ::Smp::AnySimple& arg) = 0;
-                };
-
-                template< typename T> class EventSinkHelper :
-                        public virtual IEventSinkHelper
-                {
-                    private:
-                        typedef void (T::*CallbackType)(
-                                ::Smp::IObject* sender,
-                                ::Smp::AnySimple arg);
-
-                    public:
-                        EventSinkHelper(
-                                T* consumer,
-                                CallbackType callback) :
-                            _consumer(consumer),
-                            _callback(callback)
-                        {
-                        }
-
-                        virtual ~EventSinkHelper(void)
-                        {
-                        }
-
-                        void Notify(
-                                ::Smp::IObject* sender,
-                                const ::Smp::AnySimple& arg)
-                        {
-                            if (this->_consumer != NULL) {
-                                (this->_consumer->*_callback)(sender, arg);
-                            }
-                        }
-
-                    private:
-                        T* _consumer;
-                        CallbackType _callback;
-                };
-
-            private:
-                IEventSinkHelper* _helper;
-        };
     }
-}
 
-#endif  // MDK_EVENTSINK_H_
+    virtual ~VoidEventSink(void)
+    {
+        if (this->m_eventSinkHelper != NULL)
+        {
+            delete this->m_eventSinkHelper;
+            this->m_eventSinkHelper = NULL;
+        }
+    }
+
+    void Notify(
+        ::Smp::IObject *sender,
+        ::Smp::AnySimple arg)
+    {
+        if (this->m_eventSinkHelper != NULL)
+        {
+            this->m_eventSinkHelper->Notify(sender);
+        }
+    }
+
+private:
+    class IVoidEventSinkHelper
+    {
+    public:
+        virtual ~IVoidEventSinkHelper(void)
+        {
+        }
+
+        virtual void Notify(
+            ::Smp::IObject *sender) = 0;
+    };
+
+    template <typename T>
+    class VoidEventSinkHelper : public virtual IVoidEventSinkHelper
+    {
+    private:
+        typedef void (T::*CallbackType)(::Smp::IObject *sender);
+
+    public:
+        VoidEventSinkHelper(
+            T *consumer,
+            CallbackType callback)
+            : m_consumer(consumer),
+              m_callback(callback)
+        {
+        }
+
+        virtual ~VoidEventSinkHelper(void)
+        {
+        }
+
+        void Notify(
+            ::Smp::IObject *sender)
+        {
+            if (this->m_consumer != NULL)
+            {
+                (this->m_consumer->*m_callback)(sender);
+            }
+        }
+
+    private:
+        T *m_consumer;
+        CallbackType m_callback;
+    };
+
+    IVoidEventSinkHelper *m_eventSinkHelper;
+};
+
+class EventSink : public ::Smp::Mdk::Object,
+                  public virtual ::Smp::IEventSink
+{
+public:
+    template <typename T>
+    EventSink(
+        ::Smp::String8 name,
+        ::Smp::String8 description,
+        T *consumer,
+        void (T::*callback)(::Smp::IObject *sender, ::Smp::AnySimple arg)) throw(::Smp::InvalidObjectName)
+        : Object(name, description),
+          m_eventSinkHelper(new EventSinkHelper<T>(consumer, callback))
+    {
+    }
+
+    virtual ~EventSink(void)
+    {
+        if (this->m_eventSinkHelper != NULL)
+        {
+            delete this->m_eventSinkHelper;
+            this->m_eventSinkHelper = NULL;
+        }
+    }
+
+    void Notify(
+        ::Smp::IObject *sender,
+        ::Smp::AnySimple arg)
+    {
+        if (this->m_eventSinkHelper != NULL)
+        {
+            this->m_eventSinkHelper->Notify(sender, arg);
+        }
+    }
+
+private:
+    class IEventSinkHelper
+    {
+    public:
+        virtual ~IEventSinkHelper(void)
+        {
+        }
+
+        virtual void Notify(
+            ::Smp::IObject *sender,
+            const ::Smp::AnySimple &arg) = 0;
+    };
+
+    template <typename T>
+    class EventSinkHelper : public virtual IEventSinkHelper
+    {
+    private:
+        typedef void (T::*CallbackType)(
+            ::Smp::IObject *sender,
+            ::Smp::AnySimple arg);
+
+    public:
+        EventSinkHelper(
+            T *consumer,
+            CallbackType callback)
+            : m_consumer(consumer),
+              m_callback(callback)
+        {
+        }
+
+        virtual ~EventSinkHelper(void)
+        {
+        }
+
+        void Notify(
+            ::Smp::IObject *sender,
+            const ::Smp::AnySimple &arg)
+        {
+            if (this->m_consumer != NULL)
+            {
+                (this->m_consumer->*m_callback)(sender, arg);
+            }
+        }
+
+    private:
+        T *m_consumer;
+        CallbackType m_callback;
+    };
+
+private:
+    IEventSinkHelper *m_eventSinkHelper;
+};
+} // namespace Mdk
+} // namespace Smp
+
+#endif // MDK_EVENTSINK_H_
