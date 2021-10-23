@@ -22,7 +22,16 @@ Smp::Services::LogMessageKind Logger::GetLogMessageKind(Smp::String8 messageKind
 
 void Logger::Log(const IObject* sender, String8 message, const LogMessageKind kind)
 {
-    std::clog << "[" << sender->GetName() << "] " << message << std::endl;
+    if (sender)
+    {
+        std::cout << "[" << sender->GetName() << "] " << message << std::endl;
+    }
+    else
+    {
+        std::cout << "[General] " << message << std::endl;
+    }
+
+    
 }
 
 } // end namespace Services

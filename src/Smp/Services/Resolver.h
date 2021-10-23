@@ -6,6 +6,27 @@
 namespace Smp {
 namespace Services {
 
+class Resolver : public IResolver, public Service
+{
+public:
+    Resolver();
+
+    ~Resolver();    
+
+    /// Resolve reference to component via absolute path.
+    /// @param   absolutePath Absolute path to component in simulation.
+    /// @return  Component identified by path, or null for invalid path.
+    IComponent* ResolveAbsolute(String8 absolutePath);
+
+    /// Resolve reference to component via relative path.
+    /// @param   relativePath Relative path to component in simulation.
+    /// @param   sender Component that asks for resolving the reference.
+    /// @return  Component identified by path, or null for invalid path.
+    IComponent* ResolveRelative(String8 relativePath, IComponent* sender);    
+private:
+
+};
+
 } // end namespace Services
 } // end namespace Smp
 

@@ -2,11 +2,12 @@
 #define SMP_SERVICE_H
 
 #include "Smp/IService.h"
+#include "Mdk/Component.h"
 
 namespace Smp {
 namespace Services {
 
-class Service: public IService {
+class Service: public IService, public Mdk::Component {
 public:
     
     Service();

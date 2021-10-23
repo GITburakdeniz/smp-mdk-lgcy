@@ -22,6 +22,9 @@ set( SMP2_SOURCES
 
 	${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/Service.cpp
 	${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/Logger.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/Scheduler.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/TimeKeeper.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/EventManager.cpp    
 	${CMAKE_CURRENT_LIST_DIR}/src/Smp/Simulator.cpp
 )
 

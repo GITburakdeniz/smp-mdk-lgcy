@@ -6,6 +6,17 @@
 #include "Mdk/Composite.h"
 #include "Mdk/Component.h"
 
+#include "Smp/Services/Logger.h"
+#include "Smp/Services/Scheduler.h"
+#include "Smp/Services/TimeKeeper.h"
+#include "Smp/Services/EventManager.h"
+
+#include <iostream>
+#include <atomic>
+#include <thread>
+#include <chrono>
+#include <boost/asio.hpp>
+
 namespace Smp
 {
     class Simulator :
@@ -188,14 +199,21 @@ namespace Smp
         void AddInitEntryPoint(IEntryPoint* entryPoint);
 
     private:
-        SimulatorStateKind m_state;
+        std::atomic<SimulatorStateKind> m_state;
 
-        Services::ILogger* m_logger;
+        Smp::Services::ILogger* m_logger;
         Services::IScheduler* m_scheduler;
         Services::ITimeKeeper* m_timeKeeper;
         Services::IEventManager* m_eventManager;
 
         ModelCollection m_models;
+
+        // Ticker        
+        boost::asio::io_service ioService;
+        boost::posix_time::seconds interval;  // 1 second
+        boost::asio::deadline_timer timer;
+        std::thread simulationThread;
+        void tick(const boost::system::error_code& ec);
     };
 }
 

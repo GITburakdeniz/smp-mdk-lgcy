@@ -2,11 +2,12 @@
 #define SMP_LOGGER_H
 
 #include "ILogger.h"
+#include "Service.h"
 
 namespace Smp {
 namespace Services {
 
-class Logger: public ILogger 
+class Logger: public ILogger, public Service 
 {
 public:
     Logger();
@@ -27,7 +28,7 @@ public:
     /// @param   sender Object that sends the message.
     /// @param   message The message to log.
     /// @param   kind Kind of message.
-    void Log(
+    virtual void Log(
         const IObject* sender,
         String8 message,
         const LogMessageKind kind = LMK_Information);
