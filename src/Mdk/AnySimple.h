@@ -33,85 +33,37 @@ namespace Smp
             public ::Smp::AnySimple
         {
             public:
-                ::Smp::AnySimple& operator=(
-                        const ::Smp::AnySimple& source);
-
-                void Set(::Smp::Int64 v, ::Smp::SimpleTypeKind t)
-                    throw (::Smp::InvalidAnyType);
-
-                void Set(
-                        ::Smp::Bool v);
-                void Set(
-                        ::Smp::Char8 v);
-                void Set(
-                        ::Smp::Int8 v);
-                void Set(
-                        ::Smp::UInt8 v);
-                void Set(
-                        ::Smp::Int16 v);
-                void Set(
-                        ::Smp::UInt16 v);
-                void Set(
-                        ::Smp::Int32 v);
-                void Set(
-                        ::Smp::UInt32 v);
-                void Set(
-                        ::Smp::Int64 v);
-                void Set(
-                        ::Smp::UInt64 v);
-                void Set(
-                        ::Smp::Float32 v);
-                void Set(
-                        ::Smp::Float64 v);
-                void Set(
-                        ::Smp::Mdk::DateTime& v);
-                void Set(
-                        ::Smp::Mdk::Duration& v);
-                void Set(
-                        ::Smp::String8 const v);
-                void Set(
-                        ::Smp::AnySimple& source)
-                    throw (::Smp::InvalidAnyType);
-
-                void Get(
-                        ::Smp::Char8& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::Bool& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::Int8& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::Int16& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::Int32& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::Int64& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::UInt8& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::UInt16& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::UInt32& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::UInt64& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::Float32& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::Float64& v)
-                    throw (::Smp::InvalidAnyType);
-                void Get(
-                        ::Smp::String8& v)
-                    throw (::Smp::InvalidAnyType);
+                ::Smp::AnySimple& operator=(const ::Smp::AnySimple& source);
+                void Set(::Smp::Int64 v, ::Smp::SimpleTypeKind t);
+                void Set(::Smp::Bool v);
+                void Set(::Smp::Char8 v);
+                void Set(::Smp::Int8 v);
+                void Set(::Smp::UInt8 v);
+                void Set(::Smp::Int16 v);
+                void Set(::Smp::UInt16 v);
+                void Set(::Smp::Int32 v);
+                void Set(::Smp::UInt32 v);
+                void Set(::Smp::Int64 v);
+                void Set(::Smp::UInt64 v);
+                void Set(::Smp::Float32 v);
+                void Set(::Smp::Float64 v);
+                void Set(::Smp::Mdk::DateTime& v);
+                void Set(::Smp::Mdk::Duration& v);
+                void Set(::Smp::String8 const v);
+                void Set(::Smp::AnySimple& source);
+                void Get(::Smp::Char8& v);
+                void Get(::Smp::Bool& v);
+                void Get(::Smp::Int8& v);
+                void Get(::Smp::Int16& v);
+                void Get(::Smp::Int32& v);
+                void Get(::Smp::Int64& v);
+                void Get(::Smp::UInt8& v);
+                void Get(::Smp::UInt16& v);
+                void Get(::Smp::UInt32& v);
+                void Get(::Smp::UInt64& v);
+                void Get(::Smp::Float32& v);
+                void Get(::Smp::Float64& v);
+                void Get(::Smp::String8& v);
         };
     }
 }

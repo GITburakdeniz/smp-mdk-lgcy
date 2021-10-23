@@ -39,7 +39,7 @@ public:
     Reference(
         ::Smp::String8 name,
         ::Smp::String8 description,
-        ::Smp::IComponent *parent) throw(::Smp::InvalidObjectName)
+        ::Smp::IComponent *parent)
         : Object(name, description),
           m_parent(parent)
     {
@@ -128,7 +128,7 @@ public:
 
 protected:
     virtual void Add(
-        ::Smp::IComponent *component) throw(::Smp::InvalidObjectType)
+        ::Smp::IComponent *component)
     {
         if (component == NULL)
         {

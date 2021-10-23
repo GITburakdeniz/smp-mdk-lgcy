@@ -55,8 +55,7 @@ namespace Smp
                 /// Fully qualified field name that is invalid.
                 String8 fieldName;
 
-                InvalidFieldName(
-                    String8 _fieldName) throw() :
+                InvalidFieldName(String8 _fieldName):
                 Smp::Exception("InvalidFieldName"),
                     fieldName(_fieldName)
                 {
@@ -66,7 +65,7 @@ namespace Smp
                     sprintf(description, InvalidFieldNameTemplate, 
                         fieldName);
                 }
-                ~InvalidFieldName() throw() {}
+                ~InvalidFieldName() {}
             };
 
             /// Invalid value for field.
@@ -82,7 +81,7 @@ namespace Smp
 
                 InvalidFieldValue(
                     String8 _fieldName,
-                    const AnySimple _invalidValue) throw() :
+                    const AnySimple _invalidValue):
                 Smp::Exception("InvalidFieldValue"),
                     fieldName(_fieldName),
                     invalidValue(_invalidValue)
@@ -94,7 +93,7 @@ namespace Smp
                         fieldName);
                 }
                 
-                virtual ~InvalidFieldValue() throw ( )
+                virtual ~InvalidFieldValue()
                 {
                 }                
             };
@@ -115,7 +114,7 @@ namespace Smp
                 InvalidArraySize(
                     String8 _fieldName,
                     const Int64 _givenSize,
-                    const Int64 _arraySize) throw() :
+                    const Int64 _arraySize):
                 Smp::Exception("InvalidArraySize"),
                     fieldName(_fieldName),
                     givenSize(_givenSize),
@@ -134,7 +133,7 @@ namespace Smp
                     strcpy(description, ss.str().c_str());
                 }
 
-                ~InvalidArraySize() throw() {}
+                ~InvalidArraySize() {}
             };
 
             /// Invalid value for field.
@@ -150,7 +149,7 @@ namespace Smp
 
                 InvalidArrayValue(
                     String8 _fieldName,
-                    const AnySimpleArray _invalidValue) throw() :
+                    const AnySimpleArray _invalidValue):
                 Smp::Exception("InvalidArrayValue"),
                     fieldName(_fieldName),
                     invalidValue(_invalidValue)
@@ -162,7 +161,7 @@ namespace Smp
                         fieldName);
                 }
 
-                ~InvalidArrayValue() throw() {}
+                ~InvalidArrayValue() {}
             };
 
             /// Get the value of a field which is typed by a system type.
@@ -173,8 +172,7 @@ namespace Smp
             ///          this method may be called multiply, e.g. specifying
             ///          "Position.x" to get the x component of a position.
             ///          For arrays of simple type, use GetArrayValue.
-            virtual AnySimple GetFieldValue(String8 fullName) throw (
-                Smp::Management::IManagedModel::InvalidFieldName) = 0;
+            virtual AnySimple GetFieldValue(String8 fullName)  = 0;
 
             /// Set the value of a field which is typed by a system type.
             /// @param   fullName Fully qualified field name.
@@ -184,9 +182,7 @@ namespace Smp
             ///          this method may be called multiply, e.g. specifying
             ///          "Position.x" to set the x component of a position.
             ///          For arrays of simple type, use SetArrayValue.
-            virtual void SetFieldValue(String8 fullName, const AnySimple value) throw (
-                Smp::Management::IManagedModel::InvalidFieldName, 
-                Smp::Management::IManagedModel::InvalidFieldValue) = 0;
+            virtual void SetFieldValue(String8 fullName, const AnySimple value)  = 0;
 
             /// Get the value of an array field which is typed by a system type.
             /// @param   fullName Fully qualified array field name.
@@ -197,9 +193,7 @@ namespace Smp
             virtual void GetArrayValue(
                 String8 fullName,
                 const AnySimpleArray values,
-                const Int32 length) throw (
-                Smp::Management::IManagedModel::InvalidFieldName, 
-                Smp::Management::IManagedModel::InvalidArraySize) = 0;
+                const Int32 length)  = 0;
 
             /// Set the value of an array field which is typed by a system type.
             /// @param   fullName Fully qualified array field name.
@@ -213,10 +207,7 @@ namespace Smp
             virtual void SetArrayValue(
                 String8 fullName, 
                 const AnySimpleArray values, 
-                const Int32 length) throw (
-                Smp::Management::IManagedModel::InvalidFieldName, 
-                Smp::Management::IManagedModel::InvalidArraySize, 
-                Smp::Management::IManagedModel::InvalidArrayValue) = 0;
+                const Int32 length) = 0;
         };
     }
 }

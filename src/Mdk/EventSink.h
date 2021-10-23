@@ -40,7 +40,7 @@ public:
         ::Smp::String8 name,
         ::Smp::String8 description,
         T *consumer,
-        void (T::*callback)(::Smp::IObject *sender)) throw(::Smp::InvalidObjectName)
+        void (T::*callback)(::Smp::IObject *sender))
         : Object(name, description),
           m_eventSinkHelper(new VoidEventSinkHelper<T>(consumer, callback))
     {
@@ -122,7 +122,7 @@ public:
         ::Smp::String8 name,
         ::Smp::String8 description,
         T *consumer,
-        void (T::*callback)(::Smp::IObject *sender, ::Smp::AnySimple arg)) throw(::Smp::InvalidObjectName)
+        void (T::*callback)(::Smp::IObject *sender, ::Smp::AnySimple arg))
         : Object(name, description),
           m_eventSinkHelper(new EventSinkHelper<T>(consumer, callback))
     {

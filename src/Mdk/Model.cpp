@@ -32,7 +32,7 @@ Model::Model(void)
 Model::Model(
     ::Smp::String8 name,
     ::Smp::String8 description,
-    ::Smp::IComposite *parent) throw(::Smp::InvalidObjectName)
+    ::Smp::IComposite *parent)
     : Component(name, description, parent),
       m_state(::Smp::MSK_Created),
       m_simulator(NULL),
@@ -50,7 +50,7 @@ Model::~Model(void)
 }
 
 void Model::Publish(
-    ::Smp::IPublication *receiver) throw(::Smp::IModel::InvalidModelState)
+    ::Smp::IPublication *receiver)
 {
     CheckState(::Smp::MSK_Created);
 
@@ -59,8 +59,7 @@ void Model::Publish(
     this->m_publication = receiver;
 }
 
-void Model::Configure(
-    ::Smp::Services::ILogger *logger) throw(::Smp::IModel::InvalidModelState)
+void Model::Configure(::Smp::Services::ILogger *logger)
 {
     CheckState(::Smp::MSK_Publishing);
 
@@ -69,8 +68,7 @@ void Model::Configure(
     this->m_logger = logger;
 }
 
-void Model::Connect(
-    ::Smp::ISimulator *simulator) throw(::Smp::IModel::InvalidModelState)
+void Model::Connect(::Smp::ISimulator *simulator)
 {
     CheckState(::Smp::MSK_Configured);
 
@@ -79,8 +77,7 @@ void Model::Connect(
     this->m_simulator = simulator;
 }
 
-::Smp::IService *Model::GetService(
-    const ::Smp::String8 serviceName) const
+::Smp::IService *Model::GetService(const ::Smp::String8 serviceName) const
 {
     if (serviceName == NULL)
     {

@@ -255,8 +255,7 @@ namespace Smp
             ///          event will never be executed, but immediately removed.
             virtual void SetEventSimulationTime(
                 const EventId event, 
-                const Duration simulationTime) throw (
-                Smp::Services::InvalidEventId) = 0;
+                const Duration simulationTime) = 0;
 
             /// Set event execution time using mission time.
             /// Update when an existing event on the scheduler shall be called.
@@ -270,8 +269,7 @@ namespace Smp
             ///          event will never be executed, but immediately removed.
             virtual void SetEventMissionTime(
                 const EventId event, 
-                const Duration missionTime) throw (
-                Smp::Services::InvalidEventId) = 0;
+                const Duration missionTime) = 0;
 
             /// Set event execution time using epoch time.
             /// Update when an existing event on the scheduler shall be called.
@@ -285,8 +283,7 @@ namespace Smp
             ///          event will never be executed, but immediately removed.
             virtual void SetEventEpochTime(
                 const EventId event, 
-                const DateTime epochTime) throw (
-                Smp::Services::InvalidEventId) = 0;
+                const DateTime epochTime) = 0;
 
             /// Set event execution time using Zulu time.
             /// Update when an existing event on the scheduler shall be called.
@@ -300,8 +297,7 @@ namespace Smp
             ///          event will never be executed, but immediately removed.
             virtual void SetEventZuluTime(
                 const EventId event, 
-                const DateTime zuluTime) throw (
-                Smp::Services::InvalidEventId) = 0;
+                const DateTime zuluTime) = 0;
 
             /// Set event cycle time.
             /// Update cycle time of an existing event on the scheduler.
@@ -314,8 +310,7 @@ namespace Smp
             ///          For non-cyclic events, it is ignored.
             virtual void SetEventCycleTime(
                 const EventId event, 
-                const Duration cycleTime) throw (
-                Smp::Services::InvalidEventId) = 0;
+                const Duration cycleTime) = 0;
 
             /// Set event count.
             /// Update the count of an existing event on the scheduler.
@@ -342,8 +337,7 @@ namespace Smp
             ///          For non-cyclic events, it is ignored.
             virtual void SetEventCount(
                 const EventId event, 
-                const Int64 count) throw (
-                Smp::Services::InvalidEventId) = 0;
+                const Int64 count) = 0;
 
             /// Remove an event from the scheduler.
             /// @param   event Event identifier of the event to remove.
@@ -352,8 +346,7 @@ namespace Smp
             ///          An event with <code>count>=0</code> is removed 
             ///          automatically after it has been triggered
             ///          <code>count+1</code> times, and is no longer accessable.
-            virtual void RemoveEvent(const EventId event)  throw (
-                Smp::Services::InvalidEventId) = 0;
+            virtual void RemoveEvent(const EventId event) = 0;
         };
     }
 }

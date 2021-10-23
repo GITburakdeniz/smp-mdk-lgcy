@@ -48,8 +48,7 @@ public:
     }
 
     virtual void Subscribe(
-        ::Smp::IEventSink *eventSink) throw(::Smp::IEventSource::AlreadySubscribed,
-                                            ::Smp::IEventSource::InvalidEventSink)
+        ::Smp::IEventSink *eventSink)
     {
         VoidEventSink *voidEventSink = dynamic_cast<VoidEventSink *>(eventSink);
 
@@ -72,7 +71,7 @@ public:
     }
 
     virtual void Unsubscribe(
-        ::Smp::IEventSink *eventSink) throw(::Smp::IEventSource::NotSubscribed)
+        ::Smp::IEventSink *eventSink)
     {
         ::Smp::Bool found = false;
         ::Smp::EventSinkCollection::iterator it(this->m_eventSinks.end());
@@ -129,7 +128,7 @@ public:
     EventSource(
         ::Smp::String8 name,
         ::Smp::String8 description,
-        ::Smp::IComponent *publisher) throw(::Smp::InvalidObjectName)
+        ::Smp::IComponent *publisher)
         : Object(name, description)
     {
     }
@@ -140,8 +139,7 @@ public:
     }
 
     virtual void Subscribe(
-        ::Smp::IEventSink *eventSink) throw(::Smp::IEventSource::AlreadySubscribed,
-                                            ::Smp::IEventSource::InvalidEventSink)
+        ::Smp::IEventSink *eventSink)
     {
         EventSink *mdkEventSink = dynamic_cast<EventSink *>(eventSink);
 
@@ -164,7 +162,7 @@ public:
     }
 
     virtual void Unsubscribe(
-        ::Smp::IEventSink *eventSink) throw(::Smp::IEventSource::NotSubscribed)
+        ::Smp::IEventSink *eventSink)
     {
         ::Smp::Bool found = false;
         ::Smp::EventSinkCollection::iterator it(this->m_eventSinks.end());

@@ -28,8 +28,7 @@ Component::Component(void) :
 Component::Component(
         ::Smp::String8 name,
         ::Smp::String8 description,
-        ::Smp::IComposite* parent)
-    throw (::Smp::InvalidObjectName) :
+        ::Smp::IComposite* parent):
         Object(name, description),
         m_parent(parent)
 {

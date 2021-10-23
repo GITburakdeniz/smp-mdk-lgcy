@@ -75,14 +75,13 @@ namespace Smp
 
         /// Protected constructor available to derived classes only.
         Exception(
-            String8 _exceptionName) throw() :
-        exceptionName(_exceptionName),
+            String8 _exceptionName) : exceptionName(_exceptionName),
             description(NULL)
         {
         }
 
         /// Virtual destructor to release memory.
-        virtual ~Exception() throw()
+        virtual ~Exception()
         {
             delete[] description;
         }
@@ -136,7 +135,7 @@ namespace Smp
             sprintf(description, InvalidObjectNameTemplate, 
                 objectName);
         }
-        ~InvalidObjectName() throw() {}
+        ~InvalidObjectName() {}
     };
 }
 
@@ -154,7 +153,7 @@ namespace Smp
 
         /// Constructor for new exception.
         DuplicateName(
-            String8 _name) throw() :
+            String8 _name) :
         Exception("DuplicateName"),
             name(_name)
         {
@@ -165,7 +164,7 @@ namespace Smp
                 name);
         }
 
-        ~DuplicateName() throw() {}
+        ~DuplicateName() {}
     };
 }
 
@@ -187,7 +186,7 @@ namespace Smp
         /// Constructor for new exception.
         InvalidAnyType(
             Smp::SimpleTypeKind _invalidType,
-            Smp::SimpleTypeKind _expectedType) throw() :
+            Smp::SimpleTypeKind _expectedType) :
         Exception("InvalidAnyType"),
             invalidType(_invalidType),
             expectedType(_expectedType)
@@ -201,7 +200,7 @@ namespace Smp
                 TypeName[invalidType]);
         }
 
-        ~InvalidAnyType() throw() {}
+        ~InvalidAnyType() {}
     };
 }
 
@@ -239,7 +238,7 @@ namespace Smp
                 objectName);
         }
 
-        ~InvalidObjectType() throw() {}
+        ~InvalidObjectType() {}
     };
 }
 

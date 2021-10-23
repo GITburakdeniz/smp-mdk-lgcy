@@ -34,16 +34,16 @@ public:
     Model(
         ::Smp::String8 name,
         ::Smp::String8 description,
-        ::Smp::IComposite *parent) throw(::Smp::InvalidObjectName);
+        ::Smp::IComposite *parent);
     virtual ~Model(void);
 
     ::Smp::ModelStateKind GetState(void) const;
     void Publish(
-        ::Smp::IPublication *receiver) throw(::Smp::IModel::InvalidModelState);
+        ::Smp::IPublication *receiver);
     void Configure(
-        ::Smp::Services::ILogger *logger) throw(::Smp::IModel::InvalidModelState);
+        ::Smp::Services::ILogger *logger);
     void Connect(
-        ::Smp::ISimulator *simulator) throw(::Smp::IModel::InvalidModelState);
+        ::Smp::ISimulator *simulator);
 
 protected:
     ::Smp::IService *GetService(

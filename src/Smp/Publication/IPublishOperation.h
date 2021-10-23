@@ -58,8 +58,7 @@ namespace Smp
             virtual void PublishParameter(
                 String8 name,
                 String8 description,
-                const Smp::Uuid typeUuid) throw (
-                Smp::Publication::NotRegistered) = 0;
+                const Smp::Uuid typeUuid) = 0;
         };
     }
 }

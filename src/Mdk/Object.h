@@ -32,7 +32,7 @@ public:
     Object(void);
     Object(
         ::Smp::String8 name,
-        ::Smp::String8 description) throw(::Smp::InvalidObjectName);
+        ::Smp::String8 description);
     virtual ~Object(void);
 
     virtual ::Smp::String8 GetName(void) const;

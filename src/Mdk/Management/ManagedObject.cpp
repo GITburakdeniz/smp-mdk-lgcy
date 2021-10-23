@@ -29,8 +29,7 @@ ManagedObject::ManagedObject(void)
 
 ManagedObject::ManagedObject(
         ::Smp::String8 name,
-        ::Smp::String8 description)
-    throw (::Smp::InvalidObjectName) :
+        ::Smp::String8 description):
         Object(name, description)
 {
 }
@@ -41,7 +40,6 @@ ManagedObject::~ManagedObject(void)
 
 void ManagedObject::SetName(
         ::Smp::String8 name)
-throw (::Smp::InvalidObjectName)
 {
     if (Object::ValidateName(name)) {
         if (this->m_name != NULL) {

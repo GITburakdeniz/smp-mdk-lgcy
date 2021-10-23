@@ -30,8 +30,7 @@ ManagedComponent::ManagedComponent(void)
 ManagedComponent::ManagedComponent(
         ::Smp::String8 name, 
         ::Smp::String8 description, 
-        ::Smp::IComposite* parent)
-    throw (::Smp::InvalidObjectName) :
+        ::Smp::IComposite* parent):
         Component(name, description, parent)
 {
 }
@@ -42,7 +41,6 @@ ManagedComponent::~ManagedComponent(void)
 
 void ManagedComponent::SetName(
         ::Smp::String8 name)
-throw (::Smp::InvalidObjectName)
 {
     if (Object::ValidateName(name)) {
         if (this->m_name != NULL) {

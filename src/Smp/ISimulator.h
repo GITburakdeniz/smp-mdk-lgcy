@@ -198,8 +198,7 @@ namespace Smp
         ///          needs to have a unique name within the root models.
         ///          Otherwise, it will not be added, and an exception of type
         ///          DuplicateName will be raised.
-        virtual void AddModel(IModel* model) throw (
-            Smp::DuplicateName) = 0;
+        virtual void AddModel(IModel* model) = 0;
 
         /// Get all services.
         /// Query for the collection of all services.
@@ -225,8 +224,7 @@ namespace Smp
         ///          needs to have a unique name within the services.
         ///          Otherwise, it will not be added, and an exception of type
         ///          DuplicateName will be raised.
-        virtual void AddService(IService* service) throw (
-            Smp::DuplicateName) = 0;
+        virtual void AddService(IService* service) = 0;
 
         /// Get logger service.
         /// Query for mandatory logger service.

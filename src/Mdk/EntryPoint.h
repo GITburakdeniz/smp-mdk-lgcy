@@ -37,8 +37,7 @@ namespace Smp
                             ::Smp::String8 name,
                             ::Smp::String8 description,
                             T* owner,
-                            void (T::*entryPoint)(void))
-                    throw (::Smp::InvalidObjectName) :
+                            void (T::*entryPoint)(void)):
                         Object(name, description),
                         m_entryPointHelper(new EntryPointHelper< T>(owner, entryPoint)),
                         m_owner(owner)

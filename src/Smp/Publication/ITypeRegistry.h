@@ -79,7 +79,7 @@ namespace Smp
             Uuid uuid;
 
             NotRegistered(
-                Uuid _uuid) throw() :
+                Uuid _uuid) :
             Smp::Exception("NotRegistered"),
                 uuid(_uuid)
             {
@@ -98,7 +98,7 @@ namespace Smp
                     uuid.Data4[6],
                     uuid.Data4[7]);
             }
-            ~NotRegistered() throw() {}
+            ~NotRegistered() {}
         };
     }
 }
@@ -124,7 +124,7 @@ namespace Smp
 
             AlreadyRegistered(
                 String8 _name,
-                IType* _type) throw() :
+                IType* _type) :
             Smp::Exception("AlreadyRegistered"),
                 name(_name),
                 type(_type)
@@ -137,7 +137,7 @@ namespace Smp
                     name,
                     type->GetName());
             }
-            ~AlreadyRegistered() throw() {}
+            ~AlreadyRegistered() {}
         };
     }
 }
@@ -210,8 +210,7 @@ namespace Smp
                 const Bool minInclusive,
                 const Bool maxInclusive,
                 String8 unit,
-                const SimpleTypeKind type = ST_Float64) throw (
-                AlreadyRegistered) = 0;
+                const SimpleTypeKind type = ST_Float64) = 0;
 
             /// Add an integer type to the registry.
             /// @param   name   Name of the registered type.
@@ -232,8 +231,7 @@ namespace Smp
                 const Uuid typeUuid,
                 const Int64 minimum,
                 const Int64 maximum,
-                const SimpleTypeKind type = ST_Int32) throw (
-                AlreadyRegistered) = 0;
+                const SimpleTypeKind type = ST_Int32) = 0;
 
             /// Add an enumeration type to the registry.
             /// @param   name   Name of the registered type.
@@ -251,8 +249,7 @@ namespace Smp
                 String8 name,
                 String8 description,
                 const Uuid typeUuid,
-                const Int16 memorySize) throw (
-                AlreadyRegistered) = 0;
+                const Int16 memorySize) = 0;
 
             /// Add an array type to the registry.
             /// @param   name   Name of the registered type.
@@ -271,8 +268,7 @@ namespace Smp
                 const Uuid typeUuid,
                 const Uuid itemTypeUuid,
                 const Int64 itemSize,
-                const Int64 arrayCount) throw (
-                AlreadyRegistered) = 0;
+                const Int64 arrayCount) = 0;
 
             /// Add a string type to the registry.
             /// @param   name   Name of the registered type.
@@ -286,8 +282,7 @@ namespace Smp
                 String8 name,
                 String8 description,
                 const Uuid typeUuid,
-                const Int64 length) throw (
-                AlreadyRegistered) = 0;
+                const Int64 length) = 0;
 
             /// Add a structure type to the registry.
             /// @param   name   Name of the registered type.
@@ -299,8 +294,7 @@ namespace Smp
             virtual IStructureType* AddStructureType(
                 String8 name,
                 String8 description,
-                const Uuid typeUuid) throw (
-                AlreadyRegistered) = 0;
+                const Uuid typeUuid) = 0;
 
             /// Add a class type to the registry.
             /// @param   name   Name of the registered type.
@@ -316,8 +310,7 @@ namespace Smp
                 String8 name,
                 String8 description,
                 const Uuid typeUuid,
-                const Smp::Uuid baseClassUuid) throw (
-                AlreadyRegistered) = 0;
+                const Smp::Uuid baseClassUuid) = 0;
         };
     }
 }

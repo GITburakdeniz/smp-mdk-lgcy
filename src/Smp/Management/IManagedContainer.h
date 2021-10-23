@@ -57,7 +57,7 @@ namespace Smp
 
                 ContainerFull(
                     String8 _containerName, 
-                    const Int64 _containerSize) throw() : 
+                    const Int64 _containerSize): 
                 Smp::Exception("ContainerFull"),
                     containerName(_containerName),
                     containerSize(_containerSize)
@@ -75,7 +75,7 @@ namespace Smp
                     strcpy(description, ss.str().c_str());
                 }
 
-                ~ContainerFull() throw() {}
+                ~ContainerFull() {}
             };
 
             /// Add component.
@@ -83,10 +83,7 @@ namespace Smp
             /// @param  component New contained component.
             /// @remarks This method raises a ContainerFull exception if the 
             /// container is full.
-            virtual void AddComponent(IComponent* component) throw (
-                Smp::Management::IManagedContainer::ContainerFull, 
-                Smp::DuplicateName,
-                Smp::InvalidObjectType) = 0;
+            virtual void AddComponent(IComponent* component) = 0;
 
             /// Get the number of contained components.
             /// Query for the number of components in the container.

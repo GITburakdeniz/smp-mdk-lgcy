@@ -62,7 +62,7 @@ namespace Smp
             String8 operationName;
 
             InvalidOperationName(
-                String8 _operationName) throw() :
+                String8 _operationName) :
             Smp::Exception("InvalidOperationName"),
                 operationName (_operationName)
             {
@@ -72,7 +72,7 @@ namespace Smp
                 sprintf(description, InvalidOperationNameTemplate, 
                     operationName);
             }
-            ~InvalidOperationName() throw() {}
+            ~InvalidOperationName() {}
         };
 
         /// Invalid parameter count.
@@ -94,7 +94,7 @@ namespace Smp
             InvalidParameterCount(
                 String8 _operationName,
                 const Int32 _operationParameters,
-                const Int32 _requestParameters) throw() :
+                const Int32 _requestParameters) :
             Smp::Exception("InvalidParameterCount"),
                 operationName (_operationName),
                 operationParameters(_operationParameters),
@@ -110,7 +110,7 @@ namespace Smp
                     operationParameters, 
                     requestParameters);
             }
-            ~InvalidParameterCount() throw() {}
+            ~InvalidParameterCount() {}
 
         };
 
@@ -136,7 +136,7 @@ namespace Smp
                 String8 _operationName,
                 String8 _parameterName,
                 Smp::SimpleTypeKind _invalidType,
-                Smp::SimpleTypeKind _expectedType) throw() :
+                Smp::SimpleTypeKind _expectedType) :
             Smp::Exception("InvalidParameterType"),
                 operationName(_operationName),
                 parameterName(_parameterName),
@@ -155,7 +155,7 @@ namespace Smp
                     TypeName[expectedType], 
                     TypeName[invalidType]);
             }
-            ~InvalidParameterType() throw() {}
+            ~InvalidParameterType() {}
 
         };
 

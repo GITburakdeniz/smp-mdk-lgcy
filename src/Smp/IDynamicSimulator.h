@@ -56,7 +56,7 @@ namespace Smp
 
             DuplicateUuid(
                 String8 _newName,
-                String8 _oldName) throw() :
+                String8 _oldName) :
             Smp::Exception("DuplicateUuid"),
                 newName(_newName),
                 oldName(_oldName)
@@ -69,14 +69,13 @@ namespace Smp
                     newName,
                     oldName);
             }
-            ~DuplicateUuid() throw() {}
+            ~DuplicateUuid() {}
         };
 
         /// Register a global component factory with the simulator.
         /// @param   componentFactory Component factory that creates and deletes
         ///          the component instances.
-        virtual void RegisterFactory(IFactory* componentFactory) throw (
-            Smp::IDynamicSimulator::DuplicateUuid) = 0;
+        virtual void RegisterFactory(IFactory* componentFactory) = 0;
 
         /// Create an instance of the given component implementation.
         /// @param   implUuid Identifier of component Implementation.

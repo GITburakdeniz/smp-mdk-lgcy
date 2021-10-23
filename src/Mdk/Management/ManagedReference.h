@@ -49,9 +49,7 @@ namespace Smp
                     {
                     }
 
-                    virtual void AddComponent(
-                            ::Smp::IComponent* component)
-                        throw (::Smp::Management::IManagedReference::ReferenceFull, ::Smp::InvalidObjectType)
+                    virtual void AddComponent(::Smp::IComponent* component)
                     {
                         if ((this->m_upper >= 0) && (Count() >= this->m_upper)) {
                             throw ::Smp::Management::IManagedReference::ReferenceFull(GetName(), Count());
@@ -60,9 +58,7 @@ namespace Smp
                         Reference< T>::Add(component);
                     }
 
-                    virtual void RemoveComponent(
-                            ::Smp::IComponent* component)
-                        throw (::Smp::Management::IManagedReference::NotReferenced)
+                    virtual void RemoveComponent(::Smp::IComponent* component)
                     {
                         if (component == NULL) {
                             return;

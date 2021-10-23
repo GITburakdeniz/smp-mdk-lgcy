@@ -55,7 +55,7 @@ namespace Smp
 
             AlreadySubscribed(
                 const IEventSource* _eventSource,
-                const IEventSink*   _eventSink) throw() :
+                const IEventSink*   _eventSink) :
             Smp::Exception("AlreadySubscribed"),
                 eventSource(_eventSource),
                 eventSink  (_eventSink)
@@ -81,7 +81,7 @@ namespace Smp
                     sourceName);
             }
 
-            ~AlreadySubscribed() throw() {}
+            ~AlreadySubscribed() {}
         };
 
         /// Event sink is not subscribed.
@@ -97,7 +97,7 @@ namespace Smp
 
             NotSubscribed(
                 const IEventSource* _eventSource,
-                const IEventSink*   _eventSink) throw() :
+                const IEventSink*   _eventSink) :
             Smp::Exception("NotSubscribed"),
                 eventSource(_eventSource),
                 eventSink  (_eventSink)
@@ -123,7 +123,7 @@ namespace Smp
                     sourceName);
             }
 
-            ~NotSubscribed() throw() {}
+            ~NotSubscribed() {}
         };
 
         /// Event sink is not compatible with event source.
@@ -139,7 +139,7 @@ namespace Smp
 
             InvalidEventSink(
                 const IEventSource* _eventSource,
-                const IEventSink*   _eventSink) throw() :
+                const IEventSink*   _eventSink) :
             Smp::Exception("InvalidEventSink"),
                 eventSource(_eventSource),
                 eventSink  (_eventSink)
@@ -165,7 +165,7 @@ namespace Smp
                     sourceName);
             }
 
-            ~InvalidEventSink() throw() {}
+            ~InvalidEventSink() {}
         };
 
         /// Event subscription.
@@ -179,17 +179,14 @@ namespace Smp
         ///          @par
         ///          Event sinks will be called synchronously in the order 
         ///          they have been subscribed to the event source.
-        virtual void Subscribe(IEventSink* eventSink) throw (
-            Smp::IEventSource::AlreadySubscribed,
-            Smp::IEventSource::InvalidEventSink) = 0;
+        virtual void Subscribe(IEventSink* eventSink) = 0;
 
         /// Event unsubscription.
         /// Unsubscribe from the event source, i.e. cancel notifications.
         /// @param eventSink Event sink to unsubscribe from event source.
         /// @remarks An event sink can only be unsubscribed if it has been
         ///          subscribed before.
-        virtual void Unsubscribe(IEventSink* eventSink) throw (
-            Smp::IEventSource::NotSubscribed) = 0;
+        virtual void Unsubscribe(IEventSink* eventSink)  = 0;
     };
 }
 

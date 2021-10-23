@@ -47,7 +47,6 @@ using namespace ::Smp::Mdk;
 void AnySimple::Set(
         const ::Smp::Int64 v,
         ::Smp::SimpleTypeKind t)
-throw (::Smp::InvalidAnyType)
 {
     this->type = t;
     this->value.int64Value = v;
@@ -107,7 +106,6 @@ void AnySimple::Set(
 
 void AnySimple::Set(
         ::Smp::AnySimple& source)
-throw (::Smp::InvalidAnyType)
 {
     *this = source;
 }
@@ -116,7 +114,6 @@ throw (::Smp::InvalidAnyType)
 #define ANY_SIMPLE_GETTER(typeU, typeu) \
     void AnySimple::Get( \
             ::Smp::typeU& v) \
-            throw (::Smp::InvalidAnyType) \
 { \
     if (this->type == ::Smp::ST_##typeU) \
     { \

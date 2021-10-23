@@ -36,15 +36,12 @@ namespace Smp
                     ManagedObject(void);
                     ManagedObject(
                             ::Smp::String8 name,
-                            ::Smp::String8 description)
-                        throw (::Smp::InvalidObjectName);
+                            ::Smp::String8 description);
                     virtual ~ManagedObject(void);
 
                     virtual void SetName(
-                            ::Smp::String8 name)
-                        throw (::Smp::InvalidObjectName);
-                    virtual void SetDescription(
-                            ::Smp::String8 description);
+                            ::Smp::String8 name);
+                    virtual void SetDescription(::Smp::String8 description);
             };
         }
     }

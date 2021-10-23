@@ -2,11 +2,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_library(smp 
-	Mdk/Management/EntryPointPublisher.cpp
-	Mdk/Management/EventConsumer.cpp
-	Mdk/Management/EventProvider.cpp
-	Mdk/Management/ManagedComponent.cpp
-	Mdk/Management/ManagedObject.cpp
+	${SMP2_SOURCES}
 )
 
 target_include_directories(smp PRIVATE

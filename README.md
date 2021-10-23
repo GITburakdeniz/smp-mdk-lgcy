@@ -6,6 +6,7 @@ This project is forked from [Burak Deniz's implementation of SMP (Simulation Mod
 Differences from original author's code:
 
 - Migrating to CMake build system (WIP).
+- Modifying original code for compatibility with C++11 (removed throws)
 - Adding examples from the official handbook (WIP).
 - Adding minimal implementation of a simulation infrastructure (WIP).
 
@@ -27,7 +28,6 @@ make && make install
 ~~~
 
 Tested on Ubuntu 18.04.
-
 
 Related resources and references
 --------------------------------

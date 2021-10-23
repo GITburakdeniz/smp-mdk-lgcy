@@ -34,7 +34,7 @@ Object::Object(void)
 
 Object::Object(
     ::Smp::String8 name,
-    ::Smp::String8 description) throw(::Smp::InvalidObjectName)
+    ::Smp::String8 description)
 {
     if (Object::ValidateName(name))
     {

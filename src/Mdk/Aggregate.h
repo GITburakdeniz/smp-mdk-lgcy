@@ -35,12 +35,10 @@ namespace Smp
 
                 const ::Smp::ReferenceCollection* GetReferences(void) const;
 
-                ::Smp::IReference* GetReference(
-                        ::Smp::String8 name) const;
+                ::Smp::IReference* GetReference(::Smp::String8 name) const;
 
             protected:
-                void AddReference(
-                        ::Smp::IReference* ref);
+                void AddReference(::Smp::IReference* ref);
 
                 void Clear(void);
 

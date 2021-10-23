@@ -35,8 +35,7 @@ namespace Smp
                 Component(
                         ::Smp::String8 name,
                         ::Smp::String8 description,
-                        ::Smp::IComposite* parent)
-                    throw (::Smp::InvalidObjectName);
+                        ::Smp::IComposite* parent);
                 virtual ~Component(void);
 
                 virtual ::Smp::IComposite* GetParent(void) const;

@@ -61,8 +61,7 @@ namespace Smp
             ///          - must start with a letter, and
             ///          - must only contain letters, digits, the underscore ("_")
             ///            and brackets ("[" and "]").
-            virtual void SetName(String8 name) throw (
-                Smp::InvalidObjectName) = 0;
+            virtual void SetName(String8 name) = 0;
 
             /// Defines the description of the managed object ("property setter").
             /// Management components may use this to set object descriptions.

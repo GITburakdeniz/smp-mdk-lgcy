@@ -104,7 +104,7 @@ namespace Smp
 
                 AlreadySubscribed(
                     String8 _eventName,
-                    const IEntryPoint* _entryPoint) throw() :
+                    const IEntryPoint* _entryPoint) :
                 Smp::Exception("AlreadySubscribed"),
                     eventName(_eventName),
                     entryPoint(_entryPoint)
@@ -133,7 +133,7 @@ namespace Smp
                         eventName);
                 }
 
-                ~AlreadySubscribed() throw() {}
+                ~AlreadySubscribed() {}
             };
 
             /// Entry point is not subscribed.
@@ -149,7 +149,7 @@ namespace Smp
 
                 NotSubscribed(
                     String8 _eventName,
-                    const IEntryPoint* _entryPoint) throw() :
+                    const IEntryPoint* _entryPoint) :
                 Smp::Exception("NotSubscribed"),
                     eventName(_eventName),
                     entryPoint(_entryPoint)
@@ -178,7 +178,7 @@ namespace Smp
                         eventName);
                 }
 
-                ~NotSubscribed() throw() {}
+                ~NotSubscribed() {}
             };
 
             /// Get event identifier.
@@ -198,9 +198,7 @@ namespace Smp
             ///          AlreadySubscribed is raised.
             virtual void Subscribe(
                 const EventId event, 
-                const IEntryPoint* entryPoint) throw (
-                Smp::Services::InvalidEventId, 
-                Smp::Services::IEventManager::AlreadySubscribed) = 0;
+                const IEntryPoint* entryPoint) = 0;
 
             /// Unsubscribe entry point.
             /// Unsubscribe an entry point from a global event.
@@ -212,9 +210,7 @@ namespace Smp
             ///          it before, a NotSubscribed exception is raised.
             virtual void Unsubscribe(
                 const EventId event, 
-                const IEntryPoint* entryPoint) throw (
-                Smp::Services::InvalidEventId, 
-                Smp::Services::IEventManager::NotSubscribed) = 0;
+                const IEntryPoint* entryPoint) = 0;
 
             /// Emit a global event.
             /// @param   event Event identifier of global event to emit.
@@ -223,8 +219,7 @@ namespace Smp
             ///          @par
             ///          Entry points will be called synchronously in the order 
             ///          they have been subscribed to the global event.
-            virtual void Emit(const EventId event) throw (
-                Smp::Services::InvalidEventId) = 0;
+            virtual void Emit(const EventId event) = 0;
         };
     }
 }

@@ -113,7 +113,7 @@ namespace Smp
             /// Constructor for new exception.
             InvalidModelState(
                 Smp::ModelStateKind _invalidState,
-                Smp::ModelStateKind _expectedState) throw() :
+                Smp::ModelStateKind _expectedState) :
             Smp::Exception("InvalidModelState"),
                 invalidState(_invalidState),
                 expectedState(_expectedState)
@@ -126,7 +126,7 @@ namespace Smp
                     ModelStateName[expectedState], 
                     ModelStateName[invalidState]);
             }
-            ~InvalidModelState() throw() {}
+            ~InvalidModelState() {}
         };
 
         /// Return model state.
@@ -148,8 +148,7 @@ namespace Smp
         /// @param   receiver Publication receiver.
         /// @remarks The simulation environment typically calls this
         ///          method in the <em>Building</em> state.
-        virtual void Publish(IPublication* receiver) throw (
-            Smp::IModel::InvalidModelState) = 0;
+        virtual void Publish(IPublication* receiver) = 0;
 
         /// Request for configuration.
         /// Request the model to perform any custom configuration.
@@ -164,8 +163,7 @@ namespace Smp
         /// @param   logger Logger.
         /// @remarks The simulation environment typically calls this
         ///          method in the <em>Building</em> state.
-        virtual void Configure(Smp::Services::ILogger* logger) throw (
-            Smp::IModel::InvalidModelState) = 0;
+        virtual void Configure(Smp::Services::ILogger* logger) = 0;
 
         /// Connect model to simulator.
         /// Allow the model to connect to the simulator (ISimulator).
@@ -185,8 +183,7 @@ namespace Smp
         /// @param   simulator Simulation Environment that hosts the model.
         /// @remarks The simulation environment typically calls this
         ///          method in the <em>Connecting</em> state.
-        virtual void Connect(ISimulator* simulator) throw (
-            Smp::IModel::InvalidModelState) = 0;
+        virtual void Connect(ISimulator* simulator) = 0;
     };
 }
 

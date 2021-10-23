@@ -59,7 +59,7 @@ namespace Smp
 
                 ReferenceFull(
                     String8 _referenceName,
-                    const Int64  _referenceSize) throw() :
+                    const Int64  _referenceSize) :
                 Smp::Exception("ReferenceFull"),
                     referenceName(_referenceName), 
                     referenceSize(_referenceSize)
@@ -76,7 +76,7 @@ namespace Smp
 
                     strcpy(description, ss.str().c_str());
                 }
-                ~ReferenceFull() throw() {}
+                ~ReferenceFull() {}
             };
 
             /// Component was not referenced.
@@ -92,7 +92,7 @@ namespace Smp
 
                 NotReferenced(
                     String8 _referenceName,
-                    const IComponent* _component) throw() :
+                    const IComponent* _component) :
                 Smp::Exception("NotReferenced"),
                     referenceName(_referenceName), 
                     component(_component)
@@ -112,7 +112,7 @@ namespace Smp
                         referenceName, 
                         componentName);
                 }
-                ~NotReferenced() throw() {}
+                ~NotReferenced() {}
             };
 
             /// Add component.
@@ -120,9 +120,7 @@ namespace Smp
             /// @param   component New referenced component.
             /// @remarks This method raises a ReferenceFull exception if the 
             /// reference is full.
-            virtual void AddComponent(IComponent* component) throw (
-                Smp::Management::IManagedReference::ReferenceFull,
-                Smp::InvalidObjectType) = 0;
+            virtual void AddComponent(IComponent* component) = 0;
 
             /// Get the number of referenced components.
             /// Query for the number of referenced components.
@@ -148,8 +146,7 @@ namespace Smp
             /// @param   component Referenced component to remove.
             /// @remarks This method raises a NotReferenced exception if the 
             ///          given component is not referenced.
-            virtual void RemoveComponent(IComponent* component) throw (
-                Smp::Management::IManagedReference::NotReferenced) = 0;
+            virtual void RemoveComponent(IComponent* component) = 0;
         };
     }
 }
