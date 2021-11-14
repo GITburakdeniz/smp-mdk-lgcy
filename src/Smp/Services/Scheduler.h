@@ -241,6 +241,9 @@ public:
     ///          automatically after it has been triggered
     ///          <code>count+1</code> times, and is no longer accessable.
     void RemoveEvent(const EventId event);
+
+private:
+
 };
 
 } // end namespace Services

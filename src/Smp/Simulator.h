@@ -210,10 +210,14 @@ namespace Smp
 
         // Ticker        
         boost::asio::io_service ioService;
-        boost::posix_time::seconds interval;  // 1 second
-        boost::asio::deadline_timer timer;
+        boost::posix_time::milliseconds sliceInterval;         
         std::thread simulationThread;
+        uint64_t simulationTime;
         void tick(const boost::system::error_code& ec);
+        void executeEvent(const boost::system::error_code& ec, uint32_t param);
+
+        void start();
+        void stop();
     };
 }
 

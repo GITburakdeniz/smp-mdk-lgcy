@@ -39,6 +39,7 @@ int main(int argc,const char* argv[])
 		std::cout << "Press any key to stop" << std::endl;
 		std::getchar();
 		
+		sim.Hold();
 
 		// Exit simulation
 		sim.Exit();

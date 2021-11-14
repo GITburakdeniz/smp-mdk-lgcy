@@ -9,9 +9,9 @@ namespace Smp
 
 Simulator::Simulator():
     Component( "root", "Simulator", nullptr)
-    , interval(1)
-    , timer(this->ioService, this->interval)
-    , simulationThread(  [this] { this->ioService.run(); })
+    , sliceInterval(1000)
+    , timer(this->ioService, this->sliceInterval)
+    , simulationTime(0)
 {
     // FIXME: ver estado inicial.
     m_state = SimulatorStateKind::SSK_Building;
@@ -34,17 +34,16 @@ Simulator::Simulator():
     // Create timekeeper
     this->m_eventManager = new Smp::Services::EventManager;
     this->m_logger->Log(this,"EventManager instanced");
-
-    // Start 
-    this->timer.async_wait( std::bind(&Simulator::tick, this, std::placeholders::_1));
 }
 
 Simulator::~Simulator()
 {
     this->m_logger->Log(this,"Shutting down simulator");
 
-    this->timer.cancel();
-    this->simulationThread.join();
+    if (SimulatorStateKind::SSK_Executing == this->m_state)
+    {
+        this->Hold();
+    }
 
     delete this->m_logger;
     delete this->m_scheduler;
@@ -161,9 +160,11 @@ void Simulator::Initialise()
 
 void Simulator::Hold()
 {
-    this->m_logger->Log(this,"Simulation at hold state.");
+    this->m_logger->Log(this,"Simulation at Standby state.");
     // FIXME
     this->m_state = SimulatorStateKind::SSK_Standby;
+
+    this->stop();
 }
 
 void Simulator::Run()
@@ -171,15 +172,22 @@ void Simulator::Run()
     if (this->m_state != SimulatorStateKind::SSK_Standby)
     {
         // throw invalid state
+        return;
     }
     this->m_logger->Log(this,"Simulation is being resumed.");
     this->m_state = SimulatorStateKind::SSK_Executing;
 
-    
+    this->start();
 }
 
 void Simulator::Store(String8 filename)
 {
+    if (this->m_state != SimulatorStateKind::SSK_Standby)
+    {
+        // throw invalid state
+        return;
+    }
+
     this->m_logger->Log(this,"Store stage.");
     this->m_state = SimulatorStateKind::SSK_Storing;
     
@@ -190,11 +198,16 @@ void Simulator::Store(String8 filename)
 
 void Simulator::Restore(String8 filename)
 {
+    if (this->m_state != SimulatorStateKind::SSK_Standby)
+    {
+        // throw invalid state
+        return;
+    }
+
     this->m_logger->Log(this,"Restore stage.");
     this->m_state = SimulatorStateKind::SSK_Restoring;
 
-    // FIXME: throw not implemented
-        
+    // FIXME: throw not implemented        
     this->m_state = SimulatorStateKind::SSK_Standby;
 }
 
@@ -215,24 +228,48 @@ void Simulator::AddInitEntryPoint(IEntryPoint* entryPoint)
     // FIXME: not implemented
 }
 
+void Simulator::start()
+{
+    // Start 
+    this->timer.async_wait( std::bind(&Simulator::tick, this, std::placeholders::_1));    
+    this->simulationThread = std::thread([this] { this->ioService.run(); });
+}
+
+void Simulator::stop()
+{
+    this->timer.cancel();
+    this->simulationThread.join();
+}
+
+void Simulator::executeEvent(const boost::system::error_code& ec, uint32_t param)
+{
+    if(!ec)
+    {
+        if ( SimulatorStateKind::SSK_Executing == this->m_state )
+        {
+            std::cout << "[" << this->simulationTime << "] Scheduled event " << param << std::endl;
+        }
+    }  
+}
+
 void Simulator::tick(const boost::system::error_code& ec)
 {
     if(!ec)
     {
         // Reschedule the timer for 1 second in the future:
-        this->timer.expires_at(timer.expires_at() + this->interval);
+        this->timer.expires_at(this->timer.expires_at() + this->sliceInterval);
+        
         // Posts the timer event
         this->timer.async_wait( std::bind(&Simulator::tick, this, std::placeholders::_1));
 
         if ( SimulatorStateKind::SSK_Executing == this->m_state )
         {
-            
-            std::cout << "Tick" << std::endl ;
+            // Run scheduler for dt
+            //dynamic_cast<Scheduler*>(this->m_scheduler)->
+            std::cout << "[" << this->simulationTime << "] Tick" << std::endl;
+            this->simulationTime+=1000; // FIXME
         }
     }
 }
 
-void Simulator::tick(const boost::system::error_code& ec)
-{
-
-}
+} // end namespace Smp

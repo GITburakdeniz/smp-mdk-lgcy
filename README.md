@@ -29,7 +29,7 @@ make && make install
 ~~~
 
 Tested on Ubuntu 18.04.
-
+    
 Examples can be run from command line:
 
 ~~~bash
