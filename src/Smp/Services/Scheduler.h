@@ -1,14 +1,20 @@
 #ifndef SMP_SCHEDULER_H
 #define SMP_SCHEDULER_H
 
-#include "IScheduler.h"
-#include "Service.h"
+#include "Smp/ISimulator.h"
+#include "Smp/Exceptions.h"
+#include "Smp/Services/IScheduler.h"
+#include "Smp/Services/ILogger.h"
+#include "Smp/Services/Service.h"
 
 #include <map>
 #include <iostream>
 #include <thread>
+#include <mutex>
 #include <atomic>
 #include <memory>
+#include <chrono>
+
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/core/noncopyable.hpp>
@@ -18,6 +24,7 @@ namespace Services {
 
 
 class HWTimedEvent;
+class Scheduler;
 
 /* Add some HW clock related info and constraints 
    to a SMP2 event */
@@ -25,13 +32,13 @@ class HWTimedEvent : public boost::noncopyable
 {
 public:
     HWTimedEvent(  boost::asio::io_service& ioservice,
-                   int offsetInterval, 
+                   Duration offsetInterval,
                    int count,
-                   int interval,
+                   Duration interval,
                    const IEntryPoint* entrypoint,
 
                    EventId eventId,
-                   std::map<EventId,std::shared_ptr<HWTimedEvent>>& events);
+                   Scheduler& owner);
 
     ~HWTimedEvent();
 
@@ -41,13 +48,13 @@ public:
     void cancel();
 private:
     const IEntryPoint* m_entryPoint;
-    int m_offsetInterval;
+    Duration m_offsetInterval;
     int m_count;
-    int m_interval;
+    Duration m_interval;
     boost::asio::deadline_timer m_timer;
 
     EventId m_eventId;
-    std::map<EventId,std::shared_ptr<HWTimedEvent>>& m_events;
+    Scheduler& m_owner;
     
     void startWait();
 };
@@ -56,8 +63,7 @@ private:
 // FIXME, not sure if should inherit Smp::IEntryPoint. Find a cleaner way.
 class Scheduler : 
         public Service, 
-        public Smp::Services::IScheduler,
-        public Smp::IEntryPoint
+        public Smp::Services::IScheduler
 {
 public:
     Scheduler(
@@ -296,15 +302,13 @@ public:
     void RemoveEvent(const EventId event);
 
     // Run scheduler
-    void start();
+    void Start();
 
     // Stop scheduler
-    void stop();
+    void Stop();
 
-	// FIXME, not sure if should inherit Smp::IEntryPoint. Find a cleaner way.
-	void Execute() const;
-	Smp::IComponent* GetOwner() const;
-    // END FIXME
+
+    Duration GetSimulationTime() const;
 
 private:
     std::unique_ptr<boost::asio::io_service> m_ioservice;
@@ -312,9 +316,23 @@ private:
     std::unique_ptr<std::thread> m_workingThread;    
     std::atomic<bool> m_isRunning;
 
-    std::map<EventId,std::shared_ptr<HWTimedEvent>> m_events;
-    std::vector<EventId> eventsTaggedForDeletion;
+    std::mutex m_eventsMutex;  // protects m_events
+    std::map<EventId,std::shared_ptr<HWTimedEvent>> m_events;    
     std::atomic<EventId> eventIdCounter;
+
+    struct PendingEvent
+    {
+        const IEntryPoint* entryPoint;
+        Duration simulationTime;
+        Duration cycleTime;
+        Int64 count;
+    };
+    std::map<EventId,PendingEvent> m_pendingEvents;
+
+    // Time    
+    std::chrono::steady_clock::time_point m_simulationStart;
+
+    Smp::Services::ILogger* m_logger;
 };
 
 } // end namespace Services

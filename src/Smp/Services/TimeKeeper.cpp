@@ -9,7 +9,8 @@ TimeKeeper::TimeKeeper( ::Smp::String8 name,
     :
         Service(name,description,parent)
 {
-    
+    m_scheduler = dynamic_cast<Scheduler*>(dynamic_cast<ISimulator*>(parent)->GetScheduler());
+    assert(m_scheduler);
 }
 
 TimeKeeper::~TimeKeeper()
@@ -19,41 +20,38 @@ TimeKeeper::~TimeKeeper()
 
 Duration TimeKeeper::GetSimulationTime()
 {
-    // FIXME
-    return 0;
+    // HIL TimeKeeper gets time from scheduler    
+    return m_scheduler->GetSimulationTime();
 }
 
 DateTime TimeKeeper::GetEpochTime()
 {
-    // FIXME
-    return 0;
+    return m_epochTime;
 }
 
 Duration TimeKeeper::GetMissionTime()
 {
-    // FIXME
-    return 0;
+    return m_missionTime;
 }
 
 DateTime TimeKeeper::GetZuluTime()
 {
-    // FIXME
-    return 0;
+    return m_zuluTime;
 }
 
 void TimeKeeper::SetEpochTime(const DateTime epochTime)
 {
-    // FIXME
+    m_epochTime = epochTime;
 }
 
 void TimeKeeper::SetMissionStart(const DateTime missionStart)
 {
-    // FIXME
+    m_missionStart = missionStart;
 }
 
 void TimeKeeper::SetMissionTime(const Duration missionTime)
 {
-    // FIXME
+    m_missionTime = missionTime;
 }
 
 

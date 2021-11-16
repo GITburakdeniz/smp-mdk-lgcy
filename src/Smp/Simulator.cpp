@@ -20,13 +20,15 @@ Simulator::Simulator():
     this->m_logger = new Smp::Services::Logger("logger", "Logger", this);
     this->m_logger->Log(this,"Simulator instanced");
 
-    // Create HIL Timekeeper
-    this->m_timeKeeper = new Smp::Services::TimeKeeper("time_keeper", "HIL Time Keeper", this);
-    this->m_logger->Log(this,"HIL Timekeeper instanced");
+    // FIXME: HIL Timekeeper requires HIL scheduler to be created first.
 
     // Create HIL Scheduler.
     this->m_scheduler = new Smp::Services::Scheduler("scheduler", "HIL Scheduler", this);
     this->m_logger->Log(this,"HIL Scheduler instanced");
+
+    // Create HIL Timekeeper
+    this->m_timeKeeper = new Smp::Services::TimeKeeper("time_keeper", "HIL Time Keeper", this);
+    this->m_logger->Log(this,"HIL Timekeeper instanced");
 
     // Create event manager (dummy)
     this->m_eventManager = new Smp::Services::EventManager("event_manager", "Event Manager", this);
@@ -160,7 +162,7 @@ void Simulator::Hold()
     this->m_logger->Log(this,"Simulation at Standby state.");
     // FIXME
     this->m_state = SimulatorStateKind::SSK_Standby;
-    dynamic_cast<Smp::Services::Scheduler*>(this->m_scheduler)->stop();
+    dynamic_cast<Smp::Services::Scheduler*>(this->m_scheduler)->Stop();
 }
 
 void Simulator::Run()
@@ -173,7 +175,7 @@ void Simulator::Run()
     this->m_logger->Log(this,"Simulation is being resumed.");
     this->m_state = SimulatorStateKind::SSK_Executing;
 
-    dynamic_cast<Smp::Services::Scheduler*>(this->m_scheduler)->start();
+    dynamic_cast<Smp::Services::Scheduler*>(this->m_scheduler)->Start();
 }
 
 void Simulator::Store(String8 filename)

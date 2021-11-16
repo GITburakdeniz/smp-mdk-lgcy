@@ -62,7 +62,7 @@ namespace Smp
 
             InvalidParameterIndex(
                 String8 _operationName,
-                const Int32  _parameterIndex) throw() :
+                const Int32  _parameterIndex)  :
             Smp::Exception("InvalidParameterIndex"),
                 operationName (_operationName),
                 parameterIndex(_parameterIndex)
@@ -76,7 +76,7 @@ namespace Smp
                     operationName);
             }
 
-            ~InvalidParameterIndex() throw() {}
+            ~InvalidParameterIndex() {}
         };
 
         /// Invalid value for parameter.
@@ -92,7 +92,7 @@ namespace Smp
 
             InvalidParameterValue(
                 String8 _parameterName,
-                const AnySimple _value) throw() :
+                const AnySimple _value) :
             Smp::Exception("InvalidParameterValue"),
                 parameterName (_parameterName),
                 value(_value)
@@ -104,7 +104,7 @@ namespace Smp
                     parameterName);
             }
             
-            virtual ~InvalidParameterValue() throw ( )
+            virtual ~InvalidParameterValue() 
             {
             }
         };
@@ -122,7 +122,7 @@ namespace Smp
 
             InvalidReturnValue(
                 String8 _operationName,
-                const AnySimple _value) throw() :
+                const AnySimple _value) :
             Smp::Exception("InvalidReturnValue"),
                 operationName (_operationName),
                 value(_value)
@@ -134,7 +134,7 @@ namespace Smp
                     operationName);
             }
             
-            virtual ~InvalidReturnValue() throw ( )
+            virtual ~InvalidReturnValue()
             {
             }            
         };
@@ -149,7 +149,7 @@ namespace Smp
             String8 operationName;
 
             VoidOperation(
-                String8 _operationName) throw() :
+                String8 _operationName) :
             Smp::Exception("VoidOperation"),
                 operationName (_operationName)
             {
@@ -159,7 +159,7 @@ namespace Smp
                 sprintf(description, VoidOperationTemplate, 
                     operationName);
             }
-            ~VoidOperation() throw() {}
+            ~VoidOperation() {}
         };
 
         /// Get operation name.
@@ -197,31 +197,23 @@ namespace Smp
         /// @param   value Value of parameter.
         virtual void SetParameterValue(
             const Int32 index, 
-            const AnySimple value) throw (
-            Smp::IRequest::InvalidParameterIndex, 
-            Smp::IRequest::InvalidParameterValue,
-            Smp::InvalidAnyType) = 0;
+            const AnySimple value) = 0;
 
         /// Get a parameter value.
         /// Query a value of a parameter at a given position.
         /// @param   index Index of parameter (0-based).
         /// @return  Value of parameter with given index.
-        virtual AnySimple GetParameterValue(const Int32 index) const throw (
-            Smp::IRequest::InvalidParameterIndex) = 0;
+        virtual AnySimple GetParameterValue(const Int32 index) const = 0;
 
         /// Set the return value.
         /// Assign the return value of the operation.
         /// @param   value Return value.
-        virtual void SetReturnValue(const AnySimple value) throw (
-            Smp::IRequest::InvalidReturnValue, 
-            Smp::IRequest::VoidOperation,
-            Smp::InvalidAnyType) = 0;
+        virtual void SetReturnValue(const AnySimple value) = 0;
 
         /// Get the return value.
         /// Query the return value of the operation.
         /// @return  Return value of the operation.
-        virtual AnySimple GetReturnValue() const throw (
-            Smp::IRequest::VoidOperation) = 0;
+        virtual AnySimple GetReturnValue() const = 0;
     };
 }
 

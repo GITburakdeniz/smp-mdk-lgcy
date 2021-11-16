@@ -4,12 +4,12 @@ namespace Smp {
 namespace Services {
 
 HWTimedEvent::HWTimedEvent(  boost::asio::io_service& ioservice,
-                             int offsetInterval, 
+                             Duration offsetInterval, 
                              int count,
-                             int interval,
+                             Duration interval,
                              const IEntryPoint* entryPoint,
                              EventId eventId,
-                             std::map<EventId,std::shared_ptr<HWTimedEvent>>& events)
+                             Scheduler& owner)
     :           
       m_timer(ioservice)
     , m_entryPoint(entryPoint)
@@ -17,7 +17,7 @@ HWTimedEvent::HWTimedEvent(  boost::asio::io_service& ioservice,
     , m_count(count)
     , m_interval(interval)
     , m_eventId(eventId)
-    , m_events(events)
+    , m_owner(owner)
 {
     // Schedule start to be ran by the io_service
     ioservice.post(boost::bind(&HWTimedEvent::start, this));    
@@ -35,10 +35,11 @@ void HWTimedEvent::execute(boost::system::error_code const& ec)
     {
         if (m_count)
         {
-            m_timer.expires_at( m_timer.expires_at() + boost::posix_time::milliseconds(m_interval) );
+            m_timer.expires_at( m_timer.expires_at() + 
+                                boost::posix_time::microseconds(m_interval/1000) );
             this->startWait();
 
-            // -1 is infinite
+            // m_count == -1 is infinite
             if( m_count != -1 )
             {
                 m_count--;
@@ -46,7 +47,7 @@ void HWTimedEvent::execute(boost::system::error_code const& ec)
         }
         else
         {
-            m_events.erase(m_eventId);
+            m_owner.RemoveEvent(m_eventId);
         }
         m_entryPoint->Execute();
     }
@@ -55,22 +56,21 @@ void HWTimedEvent::execute(boost::system::error_code const& ec)
         if ( boost::asio::error::operation_aborted == ec) 
         {
             // FIXME
-            std::cerr << "Operation aborted" << std::endl;            
+            //m_logger->Log(nullptr,"Event was cancelled.", Smp::Services::LMK_Error);
         }
         else 
         {
             // FIXME
-            std::cerr << "Other error" << std::endl;
-            
+            //m_logger->Log(nullptr,"Unknown error handling event.", Smp::Services::LMK_Error);
         }
 
-        m_events.erase(m_eventId);
+        m_owner.RemoveEvent(m_eventId);
     }
 }
 
 void HWTimedEvent::start()
 {
-    m_timer.expires_from_now(boost::posix_time::milliseconds(m_offsetInterval));
+    m_timer.expires_from_now(boost::posix_time::microseconds(m_offsetInterval/1000));
     this->startWait();
 }
 
@@ -95,30 +95,32 @@ Scheduler::Scheduler(::Smp::String8 name,
         , m_isRunning(false)
         , eventIdCounter(0)
 {
-
+    m_logger = dynamic_cast<ISimulator*>(parent)->GetLogger();
+    m_logger->Log(this,"Scheduler instanced.", Smp::Services::LMK_Information);
 }
 
 Scheduler::~Scheduler()
-{
-    this->stop();   
+{    
+    this->Stop();   
 }
 
 void Scheduler::AddImmediateEvent(const IEntryPoint* entryPoint)
 {
     if(m_isRunning)
     {
-        // aquire mutex
+        m_logger->Log(this,"Adding inmediate events to scheduler.", Smp::Services::LMK_Debug);
+        const std::lock_guard<std::mutex> lock(m_eventsMutex);
         EventId eventId = ++eventIdCounter;
         m_events[eventId] = std::make_shared<HWTimedEvent>( *m_ioservice, 
                                                             0, 
                                                             1,
                                                             0, 
-                                                            this,
-                                                            eventId, m_events );
+                                                            entryPoint,
+                                                            eventId, *this );
     }
     else
     {
-        std::cerr << "Inmediate events are only supported when running" << std::endl;
+        m_logger->Log(this,"Inmediate events are only supported when running.", Smp::Services::LMK_Error);
     }
 }
 
@@ -128,22 +130,33 @@ EventId Scheduler::AddSimulationTimeEvent(
     const Duration cycleTime,
     const Int64 count)
 {
+    // If scheduler is running, post event to hw clock scheduler,
+    // otherwise, store it in a temporary structure to schedule when scheduler starts.
     if(m_isRunning)
     {
-        // TODO: aquire lock
-        // TODO: convert simulationTime
-        // TODO: convert cycleTime
-        EventId eventId = ++eventIdCounter;
-        m_events[eventId] = std::make_shared<HWTimedEvent>( *m_ioservice, 
-                                                            0,              // converted simulationTime
-                                                            count,
-                                                            1000,              // convert cycleTime
-                                                            this,
-                                                            eventId, m_events );
+        const std::lock_guard<std::mutex> lock(m_eventsMutex);
+        Duration offsetInterval = simulationTime;
+
+        if(offsetInterval > 0 )
+        {
+            EventId eventId = ++eventIdCounter;
+            m_events[eventId] = std::make_shared<HWTimedEvent>( *m_ioservice, 
+                                                                offsetInterval, 
+                                                                count,
+                                                                cycleTime,  
+                                                                entryPoint,
+                                                                eventId, *this );
+        }
+        else
+        {
+            m_logger->Log(this,"Cannot post event in the past.", Smp::Services::LMK_Error);
+        }        
+
     }   
     else
     {
-        // TODO
+        EventId eventId = ++eventIdCounter;
+        m_pendingEvents[eventId] = PendingEvent{ entryPoint, simulationTime, cycleTime, count };
     }
     
     return 0; 
@@ -155,7 +168,8 @@ EventId Scheduler::AddMissionTimeEvent(
     const Duration cycleTime,
     const Int64 count)
 {
-    // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
     return 0; 
 }
 
@@ -165,7 +179,8 @@ EventId Scheduler::AddEpochTimeEvent(
     const Duration cycleTime,
     const Int64 count)
 {
-    // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
     return 0; 
 }
 
@@ -175,7 +190,8 @@ EventId Scheduler::AddZuluTimeEvent(
     const Duration cycleTime,
     const Int64 count)
 {
-    // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
     return 0; 
 }
 
@@ -185,14 +201,19 @@ void Scheduler::SetEventSimulationTime(
 {
     // This is not so straightforward in HIL.
     // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
 }    
 
 void Scheduler::SetEventMissionTime(
     const EventId event, 
     const Duration missionTime)
 {
+    //m_logger->Log(this,"Scheduler instanced.", Smp::Services::LMK_Information);
     // This is not so straightforward in HIL.
     // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
 }
 
 void Scheduler::SetEventEpochTime(
@@ -201,6 +222,8 @@ void Scheduler::SetEventEpochTime(
 {
     // This is not so straightforward in HIL.
     // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
 }
 
 void Scheduler::SetEventZuluTime(
@@ -209,31 +232,38 @@ void Scheduler::SetEventZuluTime(
 {
     // This is not so straightforward in HIL.
     // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
 }
 
 void Scheduler::SetEventCycleTime( const EventId event, const Duration cycleTime)
 {
     // This is not so useful in HIL.
     // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
 }
 
 void Scheduler::SetEventCount(const EventId event, const Int64 count)
 {
     // This is not so useful in HIL.
     // Unsupported
+    // FIXME: Change exception type when available. 
+    throw InvalidObjectType(this);
 }
 
 void Scheduler::RemoveEvent(const EventId event)
 {
-    // FIXME: lock!
+    const std::lock_guard<std::mutex> lock(m_eventsMutex);
     m_events[event]->cancel();
 }
 
 
-void Scheduler::start()
+void Scheduler::Start()
 {
     if(m_isRunning)
     {
+        // Already started
         return;
     }
 
@@ -241,19 +271,24 @@ void Scheduler::start()
     m_work = std::make_unique<boost::asio::io_service::work>(*m_ioservice);
     m_isRunning = true;
 
-    // All events registered by the scheduler should be actually scheduled in the HW clock.
-    EventId eventId = eventIdCounter;
-    m_events[eventId] = std::make_shared<HWTimedEvent>( *m_ioservice, 
-                                                        0,          // offsetInterval
-                                                        -1,         // count (-1=infinite)
-                                                        1000,       // cycleTime (ms)
-                                                        this,       // EntryPoint
-                                                        eventId, m_events ); 
-    eventIdCounter++;
+    m_simulationStart = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+    // All events registered by the scheduler should be actually scheduled in the HW clock.    
+    for (auto const& x : m_pendingEvents)
+    {        
+        m_events[x.first] = std::make_shared<HWTimedEvent>( *m_ioservice,                                                             
+                                                            x.second.simulationTime,   // offsetInterval (ns)
+                                                            x.second.count,            // count (-1=infinite)
+                                                            x.second.cycleTime,        // cycleTime (ns)
+                                                            x.second.entryPoint,       // EntryPoint
+                                                            x.first,  *this ); 
+    }
+    m_pendingEvents.clear();
     m_workingThread = std::make_unique<std::thread>([this]() { m_ioservice->run(); } );    
 }
 
-void Scheduler::stop()
+void Scheduler::Stop()
 {
     if(!m_isRunning)
     {
@@ -263,7 +298,7 @@ void Scheduler::stop()
     // WARNING All scheduled events will be lost!
     if (m_events.size() > 0 )
     {
-        
+        m_events.clear();
     }
 
     m_ioservice->stop();
@@ -271,17 +306,19 @@ void Scheduler::stop()
     m_isRunning = false;
 }
 
+    
 
-// FIXME: Scheduler owns an entrypoint to use as synchonizer, etc.
-// Requires Execute() and GetOwner()
-void Scheduler::Execute() const
+Duration Scheduler::GetSimulationTime() const
 {
-    std::cout << "Synch event" << std::endl;
-}
-
-Smp::IComponent* Scheduler::GetOwner() const
-{
-    return nullptr;
+    if (m_isRunning)
+    {
+        std::chrono::steady_clock::time_point t = std::chrono::steady_clock::now();
+        return std::chrono::duration_cast<std::chrono::nanoseconds> (t - m_simulationStart).count();
+    }
+    else
+    {
+        return 0;
+    }    
 }
 
 } // end namespace Services

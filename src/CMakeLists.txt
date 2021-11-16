@@ -1,15 +1,17 @@
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
+
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_library(smp 
+add_library(smp2 
 	${SMP2_SOURCES}
 )
 
-target_include_directories(smp PRIVATE
-	${CMAKE_CURRENT_LIST_DIR}	
+target_include_directories(smp2 PRIVATE
+	${CMAKE_CURRENT_LIST_DIR}
+        ../thirdparty/
 )
 
-install(TARGETS smp DESTINATION lib)
+install(TARGETS smp2 DESTINATION lib)
 
 install(DIRECTORY Smp
         DESTINATION include        

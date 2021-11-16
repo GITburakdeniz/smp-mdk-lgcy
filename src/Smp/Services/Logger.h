@@ -4,6 +4,9 @@
 #include "ILogger.h"
 #include "Service.h"
 
+#include "spdlog/spdlog.h"
+#include <memory>
+
 namespace Smp {
 namespace Services {
 

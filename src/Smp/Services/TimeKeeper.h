@@ -1,8 +1,12 @@
 #ifndef SMP_TIMEKEEPER_H
 #define SMP_TIMEKEEPER_H
 
-#include "ITimeKeeper.h"
-#include "Service.h"
+#include "Smp/ISimulator.h"
+#include "Smp/Exceptions.h"
+#include "Smp/Services/ITimeKeeper.h"
+#include "Smp/Services/ILogger.h"
+#include "Smp/Services/Scheduler.h"
+#include "Smp/Services/Service.h"
 
 namespace Smp {
 namespace Services {
@@ -66,7 +70,13 @@ public:
     /// @param      missionTime New mission time.
     /// @remarks This shall raise an SMP_MissionTimeChanged event.
     void SetMissionTime(const Duration missionTime);
-private:
+private:    
+    Scheduler* m_scheduler;
+    Duration m_simulationTime;
+    Duration m_missionTime;
+    DateTime m_missionStart;
+    DateTime m_epochTime;
+    DateTime m_zuluTime;
 };
 
 } // end namespace Services

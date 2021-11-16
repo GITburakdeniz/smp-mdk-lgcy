@@ -66,7 +66,7 @@ namespace Smp
             Smp::SimpleTypeKind invalidType;
     
             /// Constructor for new exception.
-            InvalidFieldType(Smp::SimpleTypeKind _invalidType) throw() :
+            InvalidFieldType(Smp::SimpleTypeKind _invalidType) :
                 Exception("InvalidFieldType"),
                 invalidType(_invalidType)
             {
@@ -77,7 +77,7 @@ namespace Smp
                 sprintf(description, InvalidFieldTypeTemplate, 
                     TypeName[invalidType]);
             }
-            ~InvalidFieldType() throw() {}
+            ~InvalidFieldType() {}
         };
     }
 }
@@ -337,8 +337,7 @@ namespace Smp
             const Bool view = true,
             const Bool state = true,
             const Bool input = false,
-            const Bool output = false) 
-        throw(Smp::Publication::NotRegistered, Smp::Publication::InvalidFieldType) = 0;
+            const Bool output = false) = 0;
 
         /// Publish array of simple type.
         /// @param name Array name.
@@ -359,8 +358,7 @@ namespace Smp
             const Bool view = true,
             const Bool state = true,
             const Bool input = false,
-            const Bool output = false)
-        throw(Smp::Publication::InvalidFieldType) = 0;
+            const Bool output = false) = 0;
 
         /// Publish array of any type.
         /// @param name Array name.
@@ -391,7 +389,7 @@ namespace Smp
         virtual Publication::IPublishOperation* PublishOperation(
             String8 name,
             String8 description,
-            const Smp::Uuid returnTypeUuid) throw (Smp::Publication::NotRegistered) = 0;
+            const Smp::Uuid returnTypeUuid) = 0;
 
         // ---------------------------------------------------------------------
         // Property publication mechanism
@@ -406,7 +404,7 @@ namespace Smp
             String8 name,
             String8 description,
             const Smp::Uuid typeUuid,
-            const AccessKind accessKind) throw (Smp::Publication::NotRegistered) = 0;
+            const AccessKind accessKind) = 0;
 
         // ---------------------------------------------------------------------
         // Managed Model method implementation
@@ -441,9 +439,7 @@ namespace Smp
         virtual void GetArrayValue(
             String8 fullName,
             const AnySimpleArray values,
-            const Int32 length) throw (
-            Smp::Management::IManagedModel::InvalidFieldName, 
-            Smp::Management::IManagedModel::InvalidArraySize) = 0;
+            const Int32 length) = 0;
 
         /// Set the value of an array field which is typed by a system type.
         /// @param   fullName Fully qualified array field name.
@@ -457,10 +453,7 @@ namespace Smp
         virtual void SetArrayValue(
             String8 fullName, 
             const AnySimpleArray values, 
-            const Int32 length) throw (
-            Smp::Management::IManagedModel::InvalidFieldName, 
-            Smp::Management::IManagedModel::InvalidArraySize, 
-            Smp::Management::IManagedModel::InvalidArrayValue) = 0;
+            const Int32 length) = 0;
 
         // ---------------------------------------------------------------------
         // Dynamic Invocation method implementation
