@@ -3,9 +3,13 @@
 namespace Smp {
 namespace Services {
 
-TimeKeeper::TimeKeeper()
+TimeKeeper::TimeKeeper( ::Smp::String8 name,
+                        ::Smp::String8 description,
+                        ::Smp::IComposite* parent)
+    :
+        Service(name,description,parent)
 {
-
+    
 }
 
 TimeKeeper::~TimeKeeper()

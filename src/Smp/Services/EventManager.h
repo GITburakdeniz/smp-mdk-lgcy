@@ -10,8 +10,9 @@ namespace Services {
 class EventManager : public IEventManager, public Service
 {
 public:
-    EventManager();
-
+    EventManager( ::Smp::String8 name,
+                  ::Smp::String8 description,
+                  ::Smp::IComposite* parent);
     ~EventManager();
 
      /// Get event identifier.

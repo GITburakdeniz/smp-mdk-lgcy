@@ -10,7 +10,9 @@ namespace Services {
 class TimeKeeper : public ITimeKeeper, public Service
 {
 public:
-    TimeKeeper();
+    TimeKeeper(::Smp::String8 name,
+               ::Smp::String8 description,
+               ::Smp::IComposite* parent);
 
     ~TimeKeeper();
 

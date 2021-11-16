@@ -9,9 +9,6 @@ namespace Smp
 
 Simulator::Simulator():
     Component( "root", "Simulator", nullptr)
-    , sliceInterval(1000)
-    , timer(this->ioService, this->sliceInterval)
-    , simulationTime(0)
 {
     // FIXME: ver estado inicial.
     m_state = SimulatorStateKind::SSK_Building;
@@ -20,19 +17,19 @@ Simulator::Simulator():
     // Create mandatory services
 
     // Create logger
-    this->m_logger = new Smp::Services::Logger();
+    this->m_logger = new Smp::Services::Logger("logger", "Logger", this);
     this->m_logger->Log(this,"Simulator instanced");
 
-    // Create scheduler
-    this->m_scheduler = new Smp::Services::Scheduler();
-    this->m_logger->Log(this,"Scheduler instanced");
+    // Create HIL Timekeeper
+    this->m_timeKeeper = new Smp::Services::TimeKeeper("time_keeper", "HIL Time Keeper", this);
+    this->m_logger->Log(this,"HIL Timekeeper instanced");
 
-    // Create timekeeper
-    this->m_timeKeeper = new Smp::Services::TimeKeeper;
-    this->m_logger->Log(this,"Timekeeper instanced");
+    // Create HIL Scheduler.
+    this->m_scheduler = new Smp::Services::Scheduler("scheduler", "HIL Scheduler", this);
+    this->m_logger->Log(this,"HIL Scheduler instanced");
 
-    // Create timekeeper
-    this->m_eventManager = new Smp::Services::EventManager;
+    // Create event manager (dummy)
+    this->m_eventManager = new Smp::Services::EventManager("event_manager", "Event Manager", this);
     this->m_logger->Log(this,"EventManager instanced");
 }
 
@@ -163,8 +160,7 @@ void Simulator::Hold()
     this->m_logger->Log(this,"Simulation at Standby state.");
     // FIXME
     this->m_state = SimulatorStateKind::SSK_Standby;
-
-    this->stop();
+    dynamic_cast<Smp::Services::Scheduler*>(this->m_scheduler)->stop();
 }
 
 void Simulator::Run()
@@ -177,7 +173,7 @@ void Simulator::Run()
     this->m_logger->Log(this,"Simulation is being resumed.");
     this->m_state = SimulatorStateKind::SSK_Executing;
 
-    this->start();
+    dynamic_cast<Smp::Services::Scheduler*>(this->m_scheduler)->start();
 }
 
 void Simulator::Store(String8 filename)
@@ -226,50 +222,6 @@ void Simulator::Abort()
 void Simulator::AddInitEntryPoint(IEntryPoint* entryPoint)
 {
     // FIXME: not implemented
-}
-
-void Simulator::start()
-{
-    // Start 
-    this->timer.async_wait( std::bind(&Simulator::tick, this, std::placeholders::_1));    
-    this->simulationThread = std::thread([this] { this->ioService.run(); });
-}
-
-void Simulator::stop()
-{
-    this->timer.cancel();
-    this->simulationThread.join();
-}
-
-void Simulator::executeEvent(const boost::system::error_code& ec, uint32_t param)
-{
-    if(!ec)
-    {
-        if ( SimulatorStateKind::SSK_Executing == this->m_state )
-        {
-            std::cout << "[" << this->simulationTime << "] Scheduled event " << param << std::endl;
-        }
-    }  
-}
-
-void Simulator::tick(const boost::system::error_code& ec)
-{
-    if(!ec)
-    {
-        // Reschedule the timer for 1 second in the future:
-        this->timer.expires_at(this->timer.expires_at() + this->sliceInterval);
-        
-        // Posts the timer event
-        this->timer.async_wait( std::bind(&Simulator::tick, this, std::placeholders::_1));
-
-        if ( SimulatorStateKind::SSK_Executing == this->m_state )
-        {
-            // Run scheduler for dt
-            //dynamic_cast<Scheduler*>(this->m_scheduler)->
-            std::cout << "[" << this->simulationTime << "] Tick" << std::endl;
-            this->simulationTime+=1000; // FIXME
-        }
-    }
 }
 
 } // end namespace Smp

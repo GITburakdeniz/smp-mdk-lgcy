@@ -8,10 +8,12 @@ namespace Smp {
 namespace Services {
 
 class Service: public IService, public Mdk::Component {
-public:
-    
+public:    
     Service();
-    
+    Service(
+        ::Smp::String8 name,
+        ::Smp::String8 description,
+        ::Smp::IComposite* parent);    
     ~Service();
 private:
 };

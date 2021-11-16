@@ -5,7 +5,42 @@
 
 // A custom dummy model
 //#include "Mdk/Model.h"
+#include "Smp/IEntryPoint.h"
+#include "Mdk/Object.h"
 
+
+class MyEntryPoint : public Smp::IEntryPoint, Smp::Mdk::Object 
+{
+public:
+	MyEntryPoint()
+		:
+			counter(0)
+		{}
+	~MyEntryPoint() {}
+	/// Entry point owner.
+	/// This method returns the Component that owns the entry point.
+	/// @return  Owner of entry point.
+	/// @remarks This is required to be able to store and later restore
+	///          entry points.
+	Smp::IComponent* GetOwner() const
+	{
+		return nullptr;
+	}
+
+	/// Entry point execution.
+	/// Method that is called when an associated event is emitted.
+	/// @remarks Models providing entry points must ensure that these 
+	///          entry points do not throw exceptions.
+	void Execute() const
+	{
+		std::cout << "Executing event" << std::endl;
+	}
+private:
+	uint32_t counter;
+};
+
+
+        
 
 int main(int argc,const char* argv[])
 {
@@ -34,7 +69,6 @@ int main(int argc,const char* argv[])
 
 		// Run simulation
     	sim.Run();
-
 
 		std::cout << "Press any key to stop" << std::endl;
 		std::getchar();

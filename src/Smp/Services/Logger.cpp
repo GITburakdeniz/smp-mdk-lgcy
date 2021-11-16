@@ -5,7 +5,11 @@
 namespace Smp {
 namespace Services {
 
-Logger::Logger()
+Logger::Logger( ::Smp::String8 name,
+                ::Smp::String8 description,
+                ::Smp::IComposite* parent)
+    :
+        Service(name,description,parent)
 {
 
 }

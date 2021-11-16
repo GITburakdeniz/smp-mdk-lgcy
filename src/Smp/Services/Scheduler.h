@@ -4,13 +4,66 @@
 #include "IScheduler.h"
 #include "Service.h"
 
+#include <map>
+#include <iostream>
+#include <thread>
+#include <atomic>
+#include <memory>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/core/noncopyable.hpp>
+
 namespace Smp {
 namespace Services {
 
-class Scheduler : public IScheduler, public Service
+
+class HWTimedEvent;
+
+/* Add some HW clock related info and constraints 
+   to a SMP2 event */
+class HWTimedEvent : public boost::noncopyable
 {
 public:
-    Scheduler();
+    HWTimedEvent(  boost::asio::io_service& ioservice,
+                   int offsetInterval, 
+                   int count,
+                   int interval,
+                   const IEntryPoint* entrypoint,
+
+                   EventId eventId,
+                   std::map<EventId,std::shared_ptr<HWTimedEvent>>& events);
+
+    ~HWTimedEvent();
+
+    // FIXME access
+    void execute(boost::system::error_code const& ec);
+    void start();
+    void cancel();
+private:
+    const IEntryPoint* m_entryPoint;
+    int m_offsetInterval;
+    int m_count;
+    int m_interval;
+    boost::asio::deadline_timer m_timer;
+
+    EventId m_eventId;
+    std::map<EventId,std::shared_ptr<HWTimedEvent>>& m_events;
+    
+    void startWait();
+};
+
+
+// FIXME, not sure if should inherit Smp::IEntryPoint. Find a cleaner way.
+class Scheduler : 
+        public Service, 
+        public Smp::Services::IScheduler,
+        public Smp::IEntryPoint
+{
+public:
+    Scheduler(
+        ::Smp::String8 name,
+        ::Smp::String8 description,
+        ::Smp::IComposite* parent);    
 
     ~Scheduler();
 
@@ -242,8 +295,26 @@ public:
     ///          <code>count+1</code> times, and is no longer accessable.
     void RemoveEvent(const EventId event);
 
-private:
+    // Run scheduler
+    void start();
 
+    // Stop scheduler
+    void stop();
+
+	// FIXME, not sure if should inherit Smp::IEntryPoint. Find a cleaner way.
+	void Execute() const;
+	Smp::IComponent* GetOwner() const;
+    // END FIXME
+
+private:
+    std::unique_ptr<boost::asio::io_service> m_ioservice;
+    std::unique_ptr<boost::asio::io_service::work> m_work;
+    std::unique_ptr<std::thread> m_workingThread;    
+    std::atomic<bool> m_isRunning;
+
+    std::map<EventId,std::shared_ptr<HWTimedEvent>> m_events;
+    std::vector<EventId> eventsTaggedForDeletion;
+    std::atomic<EventId> eventIdCounter;
 };
 
 } // end namespace Services

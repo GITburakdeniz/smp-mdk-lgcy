@@ -10,7 +10,9 @@ namespace Services {
 class Logger: public ILogger, public Service 
 {
 public:
-    Logger();
+    Logger( ::Smp::String8 name,
+            ::Smp::String8 description,
+            ::Smp::IComposite* parent);
     ~Logger();
 
     /// Return identifier of log message kind by name.
