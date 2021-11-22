@@ -12,6 +12,29 @@ Differences from original author's code:
 - Added some examples from the official handbook (WIP).
 - Added a minimal implementation of a simulation infrastructure: Scheduler, Logger, Time Keeper, etc. (WIP).
 
+Maturity
+--------
+
+- Infrastructure:
+    - Simulator. :heavy_check_mark:
+    - Dynamic model loading and configuration through YAML. :white_check_mark:
+    - RPC: JSON RPC 2.0/ZMQ. :white_check_mark:
+    - SMP2 variables publication. :white_check_mark:
+- SMP2 Standard:
+    - Hardware in the Loop Scheduler + TimeKeeper. :heavy_check_mark:
+    - Discrete event Scheduler + TimeKeeper. :white_check_mark:
+    - Logger. :heavy_check_mark:
+    - Event Manager. :white_check_mark:
+    - Publication. :white_check_mark:
+    - Dynamic invocation. :white_check_mark:
+- Modelling support:
+    - SMP2 Handbook Counter example. :heavy_check_mark:
+- Code and process quality:
+    - CMake. :heavy_check_mark:
+    - Tests. :white_check_mark:
+    - Documentation. :white_check_mark:
+    - CI. :white_check_mark:
+
 Instructions
 ------------
 
