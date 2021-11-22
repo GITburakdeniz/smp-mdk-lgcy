@@ -30,7 +30,7 @@ void Counter::Publish(Smp::IPublication *receiver)
     if (state == Smp::MSK_Created)
     {
         state = Smp::MSK_Publishing;
-        //receiver->PublishField("counter", "Counter state", &counter);
+        receiver->PublishField("counter", "Counter state", &counter);
     }
     else
     {
@@ -40,7 +40,6 @@ void Counter::Publish(Smp::IPublication *receiver)
 // Perform custom configuration.
 void Counter::Configure(Smp::Services::ILogger*) 
 {
-    /*
     if (state == Smp::MSK_Publishing)
     {
         state = Smp::MSK_Configured;
@@ -49,10 +48,6 @@ void Counter::Configure(Smp::Services::ILogger*)
     {
         throw Smp::IModel::InvalidModelState(state, Smp::MSK_Publishing);
     }
-    */
-   
-   // FIXME. Workaround. Publishing not supported.
-   state = Smp::MSK_Configured;
 }
 
 // Get access to services, and register entry points.

@@ -94,15 +94,6 @@ int main(int argc,const char* argv[])
 		sim.GetLogger()->Log(nullptr,"Initializing models", Smp::Services::LMK_Information);
 		sim.Initialise();
 
-		// Add a custom entrypoint
-		//MyEntryPoint ep(&sim);
-		//Smp::Services::EventId myEvent = sim.GetScheduler()->AddSimulationTimeEvent(
-		//	&ep,
-		//			0,			// 0 s (ns)
-		//			1000000000, // 1 s (ns)
-		//	-1			// repeat forever
-		// );
-
 		// Run simulation
 		sim.GetLogger()->Log(nullptr,"Running simulation", Smp::Services::LMK_Information);
     	sim.Run();

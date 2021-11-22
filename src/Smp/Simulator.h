@@ -11,6 +11,8 @@
 #include "Smp/Services/TimeKeeper.h"
 #include "Smp/Services/EventManager.h"
 
+#include "Smp/Publication/Publication.h"
+
 #include <iostream>
 #include <atomic>
 #include <thread>
@@ -205,6 +207,8 @@ namespace Smp
         Services::IScheduler* m_scheduler;
         Services::ITimeKeeper* m_timeKeeper;
         Services::IEventManager* m_eventManager;
+
+        IPublication* m_publication;
 
         ModelCollection m_models;
     };

@@ -33,6 +33,9 @@ Simulator::Simulator():
     // Create event manager (dummy)
     this->m_eventManager = new Smp::Services::EventManager("event_manager", "Event Manager", this);
     this->m_logger->Log(this,"EventManager instanced");
+
+    // Create publication
+    this->m_publication = new Smp::Implementation::Publication();
 }
 
 Simulator::~Simulator()
@@ -48,6 +51,7 @@ Simulator::~Simulator()
     delete this->m_scheduler;
     delete this->m_timeKeeper;
     delete this->m_eventManager;
+    delete this->m_publication;
 }   
         
     
@@ -114,11 +118,8 @@ void Simulator::Publish()
     this->m_logger->Log(this,"Publication stage.");
     for(auto model: this->m_models)
     {
-        // FIXME: implement Receiver
-        //model->Publish()
+        model->Publish(this->m_publication);
     }    
-
-    // FIXME: unsupported
 }
 
 void Simulator::Configure()
