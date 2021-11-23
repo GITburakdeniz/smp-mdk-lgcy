@@ -2,12 +2,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_library(smp2 
-	${SMP2_SOURCES}
-)
+add_library(smp2  ${LIBSMP2_SOURCES} )
 
 target_include_directories(smp2 PRIVATE
-	${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}
         ../thirdparty/
 )
 

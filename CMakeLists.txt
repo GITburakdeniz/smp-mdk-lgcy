@@ -4,32 +4,33 @@ cmake_minimum_required(VERSION 3.10)
 project(smp-mdk)
 
 # FIXME 
-set( SMP2_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Management/EntryPointPublisher.cpp
-	${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Management/EventConsumer.cpp
-	${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Management/EventProvider.cpp
-	${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Management/ManagedComponent.cpp
-	${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Management/ManagedObject.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Aggregate.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/AnySimple.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Component.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Composite.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/DateTime.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Duration.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Model.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Object.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Mdk/Uuid.cpp
+set( LIBSMP2_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Management/EntryPointPublisher.cpp
+	${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Management/EventConsumer.cpp
+	${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Management/EventProvider.cpp
+	${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Management/ManagedComponent.cpp
+	${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Management/ManagedObject.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Aggregate.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/AnySimple.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Component.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Composite.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/DateTime.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Duration.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Model.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Object.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Mdk/Uuid.cpp
 
-    ${CMAKE_CURRENT_LIST_DIR}/src/Smp/Publication/Publication.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Smp/Publication/Publication.cpp
 
-	${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/Service.cpp
-	${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/Logger.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/Scheduler.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/TimeKeeper.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/Smp/Services/EventManager.cpp    
-	${CMAKE_CURRENT_LIST_DIR}/src/Smp/Simulator.cpp
+	${CMAKE_CURRENT_LIST_DIR}/libsmp2/Smp/Services/Service.cpp
+	${CMAKE_CURRENT_LIST_DIR}/libsmp2/Smp/Services/Logger.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Smp/Services/Scheduler.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Smp/Services/TimeKeeper.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/libsmp2/Smp/Services/EventManager.cpp    
+	${CMAKE_CURRENT_LIST_DIR}/libsmp2/Smp/Simulator.cpp
 )
 
-add_subdirectory(src)
+add_subdirectory(libsmp2)
 add_subdirectory(examples)
+add_subdirectory(simulator)
 #add_subdirectory(tests)

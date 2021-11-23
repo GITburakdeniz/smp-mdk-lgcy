@@ -27,6 +27,7 @@ Maturity
     - Event Manager. :white_check_mark:
     - Publication. :white_check_mark:
     - Dynamic invocation. :white_check_mark:
+    - Save/restore. :white_check_mark:
 - Modelling support:
     - SMP2 Handbook Counter example. :heavy_check_mark:
 - Code and process quality:
