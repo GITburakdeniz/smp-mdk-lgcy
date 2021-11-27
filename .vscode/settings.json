@@ -52,6 +52,16 @@
         "condition_variable": "cpp",
         "string_view": "cpp",
         "mutex": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "csignal": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_set": "cpp",
+        "optional": "cpp",
+        "regex": "cpp",
+        "set": "cpp",
+        "future": "cpp",
+        "iomanip": "cpp",
+        "valarray": "cpp"
     }
 }

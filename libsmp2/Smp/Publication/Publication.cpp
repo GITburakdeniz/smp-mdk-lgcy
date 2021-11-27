@@ -213,7 +213,15 @@ void Publication::PublishField(
     const Bool input,
     const Bool output)
 {
-    //FIXME
+    this->m_publishedFields[name] = PublishedField{
+            name,
+            description,
+            address,
+            view,
+            state,
+            input,
+            output
+    };
 }    
 
 /// Publish UInt64 field.

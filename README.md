@@ -48,7 +48,7 @@ Requirements:
 - CMake
 - Boost
 
-Build library and examples:
+Build library, simulator and examples:
 
 ~~~bash
 mkdir build

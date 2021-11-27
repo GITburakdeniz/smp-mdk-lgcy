@@ -32,5 +32,6 @@ set( LIBSMP2_SOURCES
 
 add_subdirectory(libsmp2)
 add_subdirectory(examples)
+add_subdirectory(models)
 add_subdirectory(simulator)
 #add_subdirectory(tests)

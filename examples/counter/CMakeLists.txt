@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 find_package(Boost COMPONENTS system filesystem REQUIRED)
 
 # set the project name
-project(counter)
+project(counter_example)
 
 # add the executable
 add_executable(${PROJECT_NAME}

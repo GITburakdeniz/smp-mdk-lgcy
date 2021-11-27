@@ -1,0 +1,12 @@
+# Configuration YAML
+
+models_path: "./models/counter/"
+models:
+  - name: counter1
+    class: "CounterModel"
+    libname: libcounter.so
+    params: 
+  - name: counter2
+    class: "CounterModel"
+    libname: libcounter.so
+    params:       
