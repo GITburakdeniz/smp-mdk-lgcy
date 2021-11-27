@@ -17,12 +17,12 @@ Maturity
 
 Still WIP. A more detailed status for each item of SMP2 standard to be provided in next tag.
 
-- Simulator infrastructure:
+- [Simulator facility](./simulator/):
     - Simulator service. :heavy_check_mark:
-    - Dynamic model loading and configuration through XML assemblies (standard) or YAML. :white_check_mark:    
-    - RPC: JSON RPC 2.0/ZMQ. :white_check_mark:
+    - Dynamic model loading and configuration using YAML. :heavy_check_mark:
+    - RPC: JSON RPC 2.0/ZMQ. :heavy_check_mark:
     - SMP2 variables publication. :white_check_mark:
-- SMP2 Standard:
+- [SMP2 Standard implementation](./libsmp2):
     - Hardware in the Loop Scheduler + TimeKeeper. :heavy_check_mark:
     - Discrete event Scheduler + TimeKeeper. :white_check_mark:
     - Managed models. :white_check_mark:
@@ -31,8 +31,9 @@ Still WIP. A more detailed status for each item of SMP2 standard to be provided 
     - Publication. :white_check_mark:
     - Dynamic invocation. :white_check_mark:
     - Save/restore. :white_check_mark:
-- Modelling support:
+- [SMP2 handbook examples](./examples):
     - SMP2 Handbook Counter example (non managed). :heavy_check_mark:
+- [Example models](./models)
 - Code and process quality:
     - CMake. :heavy_check_mark:
     - Tests. :white_check_mark:
@@ -47,6 +48,8 @@ Requirements:
 - C++ compiler
 - CMake
 - Boost
+
+Follow specific instructions for [general third-party libraries installation](./thirdparty) and [simulator-specific third party libraries](./simulator/thirdparty).
 
 Build library, simulator and examples:
 
@@ -66,7 +69,7 @@ Examples and the simulator application can be run from command line:
 ~~~
 
 ~~~bash
-./simulator/simulator -p 5050 -c test.xml
+./simulator/simulator --config=../data/config.yml --rpc_port=5050
 ~~~
 
 Related resources and references
