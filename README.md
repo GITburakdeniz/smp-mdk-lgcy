@@ -15,21 +15,24 @@ Differences from original author's code:
 Maturity
 --------
 
-- Infrastructure:
-    - Simulator. :heavy_check_mark:
-    - Dynamic model loading and configuration through YAML. :white_check_mark:
+Still WIP. A more detailed status for each item of SMP2 standard to be provided in next tag.
+
+- Simulator infrastructure:
+    - Simulator service. :heavy_check_mark:
+    - Dynamic model loading and configuration through XML assemblies (standard) or YAML. :white_check_mark:    
     - RPC: JSON RPC 2.0/ZMQ. :white_check_mark:
     - SMP2 variables publication. :white_check_mark:
 - SMP2 Standard:
     - Hardware in the Loop Scheduler + TimeKeeper. :heavy_check_mark:
     - Discrete event Scheduler + TimeKeeper. :white_check_mark:
+    - Managed models. :white_check_mark:
     - Logger. :heavy_check_mark:
     - Event Manager. :white_check_mark:
     - Publication. :white_check_mark:
     - Dynamic invocation. :white_check_mark:
     - Save/restore. :white_check_mark:
 - Modelling support:
-    - SMP2 Handbook Counter example. :heavy_check_mark:
+    - SMP2 Handbook Counter example (non managed). :heavy_check_mark:
 - Code and process quality:
     - CMake. :heavy_check_mark:
     - Tests. :white_check_mark:
@@ -56,10 +59,14 @@ make && make install
 
 Tested on Ubuntu 18.04.
     
-Examples can be run from command line:
+Examples and the simulator application can be run from command line:
 
 ~~~bash
 ./examples/counter/counter
+~~~
+
+~~~bash
+./simulator/simulator -p 5050 -c test.xml
 ~~~
 
 Related resources and references
