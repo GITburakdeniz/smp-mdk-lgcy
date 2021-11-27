@@ -36,6 +36,7 @@ Simulator::Simulator():
 
     // Create publication
     this->m_publication = new Smp::Implementation::Publication();
+    this->m_logger->Log(this,"Publication created");
 }
 
 Simulator::~Simulator()

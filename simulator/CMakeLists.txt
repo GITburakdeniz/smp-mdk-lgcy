@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
-find_package(Boost COMPONENTS system filesystem REQUIRED)
+set(CMAKE_CXX_STANDARD 17)
+
+find_package(Boost COMPONENTS system filesystem thread program_options REQUIRED)
 
 # set the project name
 project(simulator)
@@ -12,8 +14,11 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} 
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_SYSTEM_LIBRARY}
+    Boost::filesystem    
+    Boost::program_options
+    Boost::system
+    Boost::thread
+    zmq
     pthread
 )
 
@@ -21,4 +26,5 @@ target_include_directories(${PROJECT_NAME}
     PRIVATE
         ../libsmp2/
         ../thirdparty/
+        thirdparty
 )
