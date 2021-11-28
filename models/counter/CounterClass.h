@@ -6,7 +6,8 @@
 class CounterClass
 {
     protected:
-        Smp::Int64 counter; // Protected field to store counter
+        Smp::Int64 counter;     // Protected field to store counter
+        Smp::UInt32 frequency;  // Frequency in Hz
 
     public:
         

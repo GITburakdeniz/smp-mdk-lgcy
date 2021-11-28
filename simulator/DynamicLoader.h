@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <boost/format.hpp>
+
 #include <dlfcn.h>
 #include <yaml-cpp/yaml.h>
 

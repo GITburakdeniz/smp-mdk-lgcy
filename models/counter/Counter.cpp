@@ -69,12 +69,12 @@ void Counter::Connect(Smp::ISimulator *simulator)
     }
 }
 
-extern "C" Smp::IModel* create_model(Smp::String8 name, Smp::IComposite *parent)
+extern "C" Smp::IModel* create_Counter(Smp::String8 name, Smp::IComposite *parent)
 {    
     return dynamic_cast<Smp::IModel*>(new Counter(name,parent));
 }
 
-extern "C" void destroy_model( Smp::IModel* obj )
+extern "C" void destroy_Counter( Smp::IModel* obj )
 {
     delete dynamic_cast<Counter*>(obj);
 }

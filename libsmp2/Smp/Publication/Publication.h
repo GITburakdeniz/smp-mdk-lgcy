@@ -17,28 +17,11 @@ namespace Implementation
 class Publication: public IPublication
 {
 public:
-    // FIXME: only Uint32
+    // FIXME. Implement according to standard
     struct PublishedField {
-        /*
-        PublishedField( String8 name,
-                        String8 description,
-                        UInt32* address,
-                        Bool view,
-                        Bool state,
-                        Bool input,
-                        Bool output)
-            :
-                name(name),
-                description(description),
-                view(view),
-                state(state),
-                input(input),
-                output(output)
-        {}
-        */
         String8 name;
         String8 description;
-        UInt32* address;
+        void* address;
         Bool view;
         Bool state;
         Bool input;

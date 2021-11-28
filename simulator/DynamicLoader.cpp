@@ -48,6 +48,8 @@ void DynamicLoader::loadModel(const YAML::Node& modelNode, Smp::IComposite * par
 {
     DynamicModelEntry me;
 
+	const std::string& className = modelNode["class"].as<std::string>();
+
 	std::cout << "name: " << modelNode["name"].as<std::string>() << "\n";
 	std::cout << "class: " << modelNode["class"].as<std::string>()  << "\n";
     std::cout << "libname: " << modelNode["libname"].as<std::string>()  << "\n";
@@ -56,8 +58,10 @@ void DynamicLoader::loadModel(const YAML::Node& modelNode, Smp::IComposite * par
     std::string fullPath = this->m_modelsPath+"/"+modelNode["libname"].as<std::string>();
     me.handle = dlopen(fullPath.c_str(), RTLD_LAZY);
     assert(me.handle);
-    me.create = (Smp::IModel* (*)(Smp::String8 name, Smp::IComposite *parent))dlsym(me.handle, "create_model");
-    me.destroy = (void (*)(Smp::IModel*))dlsym(me.handle, "destroy_model");
+    me.create = (Smp::IModel* (*)(Smp::String8 name, Smp::IComposite *parent))dlsym(me.handle, 
+		(boost::format("create_%s") % className).str().c_str() );
+    me.destroy = (void (*)(Smp::IModel*))dlsym(me.handle, 
+		(boost::format("destroy_%s") % className).str().c_str() );
     me.model = me.create(modelNode["name"].as<std::string>().c_str(), parent);
     assert(me.model);
     this->m_models.push_back(me);
