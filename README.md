@@ -51,26 +51,23 @@ Requirements:
 
 Follow specific instructions for [general third-party libraries installation](./thirdparty) and [simulator-specific third party libraries](./simulator/thirdparty).
 
-Build library, simulator and examples:
+Build and install everything: SMP2 library and examples, simulator, models and tests:
 
 ~~~bash
 mkdir build
 cd build
 cmake ..
-make && make install
+make && sudo make install
 ~~~
 
 Tested on Ubuntu 18.04.
-    
-Examples and the simulator application can be run from command line:
 
-~~~bash
-./examples/counter/counter
-~~~
+Specific instructions for each component are in its directory README file.
 
-~~~bash
-./simulator/simulator --config=../data/config.yml --rpc_port=5050
-~~~
+- [Example instructions](./examples/README.md).
+- [Simulator instructions](./simulator/README.md).
+- [Example models](./models/README.md).
+- [SMP2 library](./libsmp2/README.md)
 
 Related resources and references
 --------------------------------

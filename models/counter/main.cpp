@@ -77,7 +77,6 @@ int main(int argc,const char* argv[])
 		Counter counter("counter", &sim);
 		sim.AddModel(&counter);
 
-
 		// Publish variables in the simulation environment
 		sim.GetLogger()->Log(nullptr,"Publishing model variables", Smp::Services::LMK_Information);
 		sim.Publish();

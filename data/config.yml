@@ -1,12 +1,16 @@
-# Configuration YAML
+# Simulation configuration
 
-models_path: "./models/counter/"
+
+# Models
+models_path: "../build/models/"
 models:
   - name: counter1
     class: "CounterModel"
-    libname: libcounter.so
+    libname: counter/libcounter.so
     params: 
+      frequency: 0.5
   - name: counter2
     class: "CounterModel"
-    libname: libcounter.so
-    params:       
+    libname: counter/libcounter.so
+    params: 
+      frequency: 1.0
