@@ -10,6 +10,7 @@
 
 #include "Mdk/Model.h"
 #include "Smp/IComposite.h"
+#include "IYAMLConfigurable.h"
 
 class DynamicLoader {
 public:

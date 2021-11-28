@@ -5,10 +5,13 @@
 #include "Smp/Services/IScheduler.h"
 #include "Smp/Services/IEventManager.h"
 
+#include "IYAMLConfigurable.h"
+
 /// This class turns the CounterClass into an Smp model.
 class Counter : 
     public CounterClass, 
-    public virtual Smp::IModel
+    public virtual Smp::IModel,
+    public IYAMLConfigurable
 {
     private:
         /// Private helper class for entry points
@@ -54,6 +57,10 @@ private:
     CounterEntryPoint *reset; ///< Entry point for Reset.
     void Init(); ///< Init private fields.
 
+
+    // FIXME: explain
+    double frequency;
+
 public:
     Counter(Smp::String8 name, Smp::IComposite *parent) : CounterClass()
     {
@@ -78,4 +85,8 @@ public:
     virtual void Publish(Smp::IPublication* receiver);
     virtual void Configure(Smp::Services::ILogger* logger);
     virtual void Connect(Smp::ISimulator* simulator);
+
+
+    // Implementation-specific
+    void ReadInitializationParameters(const YAML::Node& paramsNode);
 };

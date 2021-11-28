@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
+
 find_package(Boost COMPONENTS system filesystem REQUIRED)
+find_package (yaml-cpp)
 
 # set the project name
 project(counter)
@@ -13,10 +15,11 @@ add_library(${PROJECT_NAME} SHARED
     ${LIBSMP2_SOURCES}
 )
 
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${PROJECT_NAME} PRIVATE
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_SYSTEM_LIBRARY}
-    pthread
+    pthread    
+    #yaml-cpp
 )
 
 target_include_directories(${PROJECT_NAME}

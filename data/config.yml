@@ -8,9 +8,11 @@ models:
     class: Counter
     libname: counter/libcounter.so
     params: 
-      frequency: 0.5
+      message: "I'm called at 2Hz"
+      frequency: 2.0
   - name: counter2
     class: Counter
     libname: counter/libcounter.so
     params: 
+      message: "I'm called at 1Hz"
       frequency: 1.0

@@ -60,7 +60,7 @@ void Counter::Connect(Smp::ISimulator *simulator)
         scheduler = simulator->GetScheduler();
         //eventManager = simulator->GetEventManager();
         
-        scheduler->AddSimulationTimeEvent(count, 0, 1000000000, -1);
+        scheduler->AddSimulationTimeEvent(count, 0, this->frequency * 1000000000, -1);
         //eventManager->Subscribe(Smp::Services::SMP_EnterStandbyId, reset);
     }
     else
@@ -68,6 +68,9 @@ void Counter::Connect(Smp::ISimulator *simulator)
         throw Smp::IModel::InvalidModelState(state, Smp::MSK_Configured);
     }
 }
+
+
+/* Implementation-specific */
 
 extern "C" Smp::IModel* create_Counter(Smp::String8 name, Smp::IComposite *parent)
 {    
@@ -77,4 +80,9 @@ extern "C" Smp::IModel* create_Counter(Smp::String8 name, Smp::IComposite *paren
 extern "C" void destroy_Counter( Smp::IModel* obj )
 {
     delete dynamic_cast<Counter*>(obj);
+}
+
+void Counter::ReadInitializationParameters(const YAML::Node& paramsNode)
+{    
+    this->frequency =  paramsNode["frequency"].as<double>();
 }

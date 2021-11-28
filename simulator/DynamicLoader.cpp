@@ -57,13 +57,26 @@ void DynamicLoader::loadModel(const YAML::Node& modelNode, Smp::IComposite * par
     // Load library
     std::string fullPath = this->m_modelsPath+"/"+modelNode["libname"].as<std::string>();
     me.handle = dlopen(fullPath.c_str(), RTLD_LAZY);
-    assert(me.handle);
+    
+    if (!me.handle) 
+	{
+        std::cerr << "Cannot load library: " << dlerror() << std::endl;
+        // FIXME: throw exception
+		return;
+    }
+
     me.create = (Smp::IModel* (*)(Smp::String8 name, Smp::IComposite *parent))dlsym(me.handle, 
 		(boost::format("create_%s") % className).str().c_str() );
     me.destroy = (void (*)(Smp::IModel*))dlsym(me.handle, 
 		(boost::format("destroy_%s") % className).str().c_str() );
     me.model = me.create(modelNode["name"].as<std::string>().c_str(), parent);
     assert(me.model);
+
+	// Dynamic loading of parameters. Try to improve this.
+	IYAMLConfigurable* configurable = dynamic_cast<IYAMLConfigurable*>(me.model);
+	assert(configurable);
+	configurable->ReadInitializationParameters(modelNode["params"]);
+
     this->m_models.push_back(me);
 }
 
