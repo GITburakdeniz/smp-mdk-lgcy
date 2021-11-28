@@ -17,7 +17,7 @@ Maturity
 
 Still WIP. A more detailed status for each item of SMP2 standard to be provided in next tag.
 
-- [Simulator facility](./simulator/):
+- [Simulator service](./simulator/):
     - Simulator service. :heavy_check_mark:
     - Dynamic model loading and configuration using YAML. :heavy_check_mark:
     - RPC: JSON RPC 2.0/ZMQ. :heavy_check_mark:
@@ -64,10 +64,11 @@ Tested on Ubuntu 18.04.
 
 Specific instructions for each component are in its directory README file.
 
-- [Example instructions](./examples/README.md).
-- [Simulator instructions](./simulator/README.md).
-- [Example models](./models/README.md).
-- [SMP2 library](./libsmp2/README.md)
+- [Building and using the SMP2 library](./libsmp2/README.md)
+- [Building and running the SMP2 library examples](./examples/README.md).
+- [Building and running the simulation service](./simulator/README.md).
+- [Building and running the SMP2 example models for the simulator](./models/README.md).
+
 
 Related resources and references
 --------------------------------
