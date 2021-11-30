@@ -6,6 +6,7 @@
 namespace Smp {
 namespace Services {
 
+// Minimal implementation. Holds a table with path and model.
 class Resolver : public IResolver, public Service
 {
 public:
@@ -23,8 +24,9 @@ public:
     /// @param   sender Component that asks for resolving the reference.
     /// @return  Component identified by path, or null for invalid path.
     IComponent* ResolveRelative(String8 relativePath, IComponent* sender);    
-private:
 
+private:
+    Smp::IComponent* m_root;
 };
 
 } // end namespace Services

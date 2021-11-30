@@ -1,1 +1,0 @@
-../build/simulator/simulator --config config.yml --rpc_port 5050

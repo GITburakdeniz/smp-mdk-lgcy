@@ -70,6 +70,8 @@ IModel* Simulator::GetModel(String8 name)
 void Simulator::AddModel(IModel* model)
 {
     this->m_models.push_back(model);
+    // TODO: check name is not duplicated
+    this->m_modelsDict[model->GetName()] = model;
 }
 
 const ServiceCollection* Simulator::GetServices()

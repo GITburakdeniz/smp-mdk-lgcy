@@ -1,0 +1,21 @@
+# Simulation configuration
+
+# Models
+models_path: "../build/models/"
+models:  
+  - name: bus
+    class: Bus
+    libname: network/libnetwork.so
+    params:
+      nodes:
+        - node_a
+        - node_b 
+  - name: node_a
+    class: Node
+    libname: network/libnetwork.so
+    params: 
+  - name: node_b
+    class: Node
+    libname: network/libnetwork.so
+    params:
+        

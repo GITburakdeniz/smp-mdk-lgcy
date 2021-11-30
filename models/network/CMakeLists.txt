@@ -4,12 +4,12 @@ find_package(Boost COMPONENTS system filesystem REQUIRED)
 find_package (yaml-cpp)
 
 # set the project name
-project(counter)
+project(network)
 
 # add the executable
 add_library(${PROJECT_NAME} SHARED
-    Counter.cpp
-    CounterClass.cpp
+    Bus.cpp
+    Node.cpp
     ${LIBSMP2_SOURCES}
 )
 

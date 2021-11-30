@@ -211,6 +211,10 @@ namespace Smp
         IPublication* m_publication;
 
         ModelCollection m_models;
+
+        // Hold a dictionary of models. 
+        // FIXME: use a better method for this.
+        std::map<std::string,Smp::IModel*> m_modelsDict;
     };
 }
 

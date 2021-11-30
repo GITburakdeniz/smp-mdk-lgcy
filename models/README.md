@@ -3,16 +3,17 @@ Example models
 
 This module contains models that can be instanced in the simulator.
 
+- Counter example from SMP 2.0 Handbook - 1.2 Section 3 with required the modifications to use in the simulator (see below).
+- A simple network model made from a bus and two or more nodes.
 
-Implementation specific considerations
+Implementation-specific considerations
 --------------------------------------
 
-While it is a design driver for the [SMP2 framework implementation](../libsmp2) and [SMP2 simulation infrastructure](../simulator) to rely on as few implementation-specific details as possible to simplify portability, some considerations need to be taken for dynamic libraries that contain C++ SMP2 models. 
+While it is a design driver for the [SMP2 framework implementation](../libsmp2) and [SMP2 simulation infrastructure](../simulator) to rely on as few implementation-specific details as possible to simplify portability, some considerations need to be taken for dynamic libraries that contain C++ SMP2 models.
 
 - Models are dynamically loaded from `.so` files specified in a YAML configuration file at runtime.
 - Each `.so` must provide a C interface for creation an destruction of model classes as depicted in the example below.
 - Models can be configured using parameters in the YAML. This configuration mechanism is different from the proposed SMP2 assemblies.
-
 
 **Symbol exportation in `.so`**
 
@@ -32,7 +33,20 @@ extern "C" void destroy_Counter( Smp::IModel* obj )
 
 **Configuration at runtime**
 
-This is a WIP.
+Currently, the simulator does not provide support for SMP2 assemblies. 
+However, models can implement the [IYAMLConfigurable](../libsmp2/IYAMLConfigurable.h) interface (not from the SMP2 standard) to read parameters from the configuration YAML at execution time.
+
+If implemented, `ReadInitializationParameters` is called at model instantation giving read acces to the YAML node `params`.
+
+~~~c++
+#include <yaml-cpp/yaml.h>
+
+class IYAMLConfigurable
+{
+public:
+    virtual void ReadInitializationParameters(const YAML::Node& paramsNode) = 0;
+};
+~~~
 
 **Example configuration entry from YAML file**
 
@@ -52,4 +66,4 @@ models:
     libname: counter/libcounter.so
     params: 
       frequency: 1.0
-~~~      
+~~~

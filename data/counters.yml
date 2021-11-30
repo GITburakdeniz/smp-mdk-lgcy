@@ -1,6 +1,5 @@
 # Simulation configuration
 
-
 # Models
 models_path: "../build/models/"
 models:
@@ -8,11 +7,9 @@ models:
     class: Counter
     libname: counter/libcounter.so
     params: 
-      message: "I'm called at 2Hz"
       frequency: 2.0
   - name: counter2
     class: Counter
     libname: counter/libcounter.so
     params: 
-      message: "I'm called at 1Hz"
       frequency: 1.0

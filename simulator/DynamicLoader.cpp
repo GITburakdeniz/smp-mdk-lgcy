@@ -78,6 +78,7 @@ void DynamicLoader::loadModel(const YAML::Node& modelNode, Smp::IComposite * par
 	configurable->ReadInitializationParameters(modelNode["params"]);
 
     this->m_models.push_back(me);
+	//FIXME: register with resolver
 }
 
 std::vector<DynamicLoader::DynamicModelEntry>& DynamicLoader::getModels()

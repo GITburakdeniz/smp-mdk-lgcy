@@ -15,7 +15,8 @@ Resolver::~Resolver()
 
 IComponent* Resolver::ResolveAbsolute(String8 absolutePath)
 {
-    // FIXME: Not implemented
+    std::vector<std::string> result;
+    boost::split(result, absolutePath, boost::is_any_of("."));
     return nullptr;
 }
 
