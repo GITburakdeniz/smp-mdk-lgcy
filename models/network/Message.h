@@ -3,8 +3,11 @@
 
 struct Message
 {
-    uint32_t id;    
-    const char data[8];
-}
+    Message() {}
+    uint32_t originator_id;
+    uint32_t id;
+    uint32_t len;
+    char data[8];
+};
 
 #endif //

@@ -1,1 +1,0 @@
-../build/simulator/simulator --config counters.yml --rpc_port 5050

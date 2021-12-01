@@ -62,15 +62,17 @@ const ModelCollection* Simulator::GetModels()
 }
 
 IModel* Simulator::GetModel(String8 name)
-{
-    // FIXME: unsupported
-    return nullptr;
+{    
+    return this->m_modelsDict[std::string(name)];
 }
 
 void Simulator::AddModel(IModel* model)
 {
+    this->m_logger->Log(this,
+        (boost::format("Adding model %s.") % model->GetName()).str().c_str() );
     this->m_models.push_back(model);
     // TODO: check name is not duplicated
+    
     this->m_modelsDict[model->GetName()] = model;
 }
 

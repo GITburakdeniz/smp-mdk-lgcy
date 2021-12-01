@@ -8,8 +8,7 @@ project(network)
 
 # add the executable
 add_library(${PROJECT_NAME} SHARED
-    Bus.cpp
-    Node.cpp
+    Network.cpp
     ${LIBSMP2_SOURCES}
 )
 

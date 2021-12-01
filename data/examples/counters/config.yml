@@ -1,7 +1,7 @@
 # Simulation configuration
 
 # Models
-models_path: "../build/models/"
+models_path: "../../../build/models/"
 models:
   - name: counter1
     class: Counter

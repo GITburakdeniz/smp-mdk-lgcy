@@ -18,6 +18,7 @@
 #include <thread>
 #include <chrono>
 #include <boost/asio.hpp>
+#include <boost/format.hpp>
 
 namespace Smp
 {
