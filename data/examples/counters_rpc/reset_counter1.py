@@ -7,12 +7,16 @@ import zmq
 # Use ZMQ backend
 socket = zmq.Context().socket(zmq.REQ)
 socket.connect("tcp://localhost:5050")
+
+
+# Invoke method
 socket.send_string(request_json(method="model_request",
                                 params={
                                     "operation": "reset",
                                     "model":"counter1"
                                 }))
 
+# Check response
 response = parse_json(socket.recv().decode())
 if isinstance(response, Ok):
     print(response.result)
