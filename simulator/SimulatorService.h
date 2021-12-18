@@ -7,6 +7,7 @@
 #include "Smp/Exceptions.h"
 #include "Smp/IEntryPoint.h"
 #include "Smp/Services/IScheduler.h"
+#include "Smp/IDynamicInvocation.h"
 
 #include "Mdk/Model.h"
 #include "Mdk/Object.h"
@@ -32,6 +33,8 @@ private:
 	DynamicLoader m_dl;
 
 	/* RPC Methods */
+
+	// Just a test.
 	jsonrpcpp::Response rpc_hello(jsonrpcpp::request_ptr request)
 	{
 		return jsonrpcpp::Response (
@@ -39,6 +42,8 @@ private:
 			(boost::format("Hello, %s.") %  request->params().get<std::string>("name")).str()
 		);			
 	}
+
+	jsonrpcpp::Response rpc_model_request(jsonrpcpp::request_ptr request);
 };
 
 #endif // SIMULATOR_SERVICE_H

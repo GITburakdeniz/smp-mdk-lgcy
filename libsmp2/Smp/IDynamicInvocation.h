@@ -179,10 +179,7 @@ namespace Smp
         /// @param   request Request object.
         /// @remarks On successful invocation, the return value of the
         ///          operation can be retrieved via GetReturnValue().
-        virtual void Invoke(IRequest* request) throw (
-            Smp::IDynamicInvocation::InvalidOperationName, 
-            Smp::IDynamicInvocation::InvalidParameterCount, 
-            Smp::IDynamicInvocation::InvalidParameterType) = 0;
+        virtual void Invoke(IRequest* request) = 0;
 
         /// Delete request.
         /// Destroys a request that has been created

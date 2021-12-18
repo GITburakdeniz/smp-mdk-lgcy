@@ -1,0 +1,15 @@
+# Simulation configuration
+
+# Models
+models_path: "../../../build/models/"
+models:
+  - name: counter1
+    class: CounterRPC
+    libname: counter_rpc/libcounter_rpc.so
+    params: 
+      frequency: 1.0
+  - name: counter2
+    class: CounterRPC
+    libname: counter_rpc/libcounter_rpc.so
+    params: 
+      frequency: 1.0

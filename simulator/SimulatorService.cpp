@@ -20,9 +20,12 @@ SimulatorService::~SimulatorService()
 
 void SimulatorService::registerRPCMethods() 
 {
-	this->server.register_handler(
-		"hello", 
+	this->server.register_handler( "hello", 
 		std::bind( &SimulatorService::rpc_hello,  this, std::placeholders::_1) 
+	);
+
+	this->server.register_handler( "model_request", 
+		std::bind( &SimulatorService::rpc_model_request,  this, std::placeholders::_1) 
 	);
 }
 
@@ -72,4 +75,38 @@ void SimulatorService::cleanupAndShutdown()
 	// Exit simulation
 	this->m_sim.GetLogger()->Log(nullptr,"Leaving simulation", Smp::Services::LMK_Information);
 	this->m_sim.Exit();
+}
+
+
+
+
+jsonrpcpp::Response SimulatorService::rpc_model_request(jsonrpcpp::request_ptr request)
+{
+	// Obtain IModel. FIXME: Use resolver.
+	Smp::IModel* model = this->m_sim.GetModel(request->params().get<std::string>("model").c_str());
+	assert(model);
+
+	// Obtain IDynamicInvocation 
+	Smp::IDynamicInvocation* di = dynamic_cast<Smp::IDynamicInvocation*>(model);
+	assert(di);
+
+	// Create request
+	Smp::IRequest* req = di->CreateRequest(request->params().get<std::string>("operation").c_str());
+	assert(req);
+
+	// Collect paramters, if any
+	if(req->GetParameterCount() > 0 )
+	{
+		// TODO: collect parameters
+	}
+	
+	// Invoke request
+	di->Invoke(req);
+
+	// FIXME, pass to RPC response.
+	Smp::AnySimple returnValue = req->GetReturnValue();
+
+	di->DeleteRequest(req);
+
+	return jsonrpcpp::Response (*request, "success");
 }

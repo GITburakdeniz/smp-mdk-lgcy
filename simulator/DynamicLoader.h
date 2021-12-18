@@ -1,3 +1,8 @@
+/* Dynamic configuration interface (Non SMP2)
+ * FIXME: Consider https://gist.github.com/eyalroz/832836d8c005ec58db76ce7c7b745fdc for a mechanism more
+ * similar to the proposed by the SMP2 standard in IDynamicSimulator.
+ */
+
 #ifndef DYNAMIC_LOADER_H
 #define DYNAMIC_LOADER_H
 
