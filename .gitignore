@@ -28,3 +28,4 @@ smp_sdk_tests
 *.log
 *.trs
 build
+draft

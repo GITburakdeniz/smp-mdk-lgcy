@@ -4,13 +4,11 @@
 #include "Smp/Simulator.h"
 #include "Smp/Exceptions.h"
 
-// A custom dummy model
-//#include "Mdk/Model.h"
 
 #include "Smp/IEntryPoint.h"
 #include "Smp/Services/IScheduler.h"
 #include "Mdk/Object.h"
-#include "Counter.h"
+#include "ManagedCounter.h"
 
 int main(int argc,const char* argv[])
 {
@@ -24,7 +22,7 @@ int main(int argc,const char* argv[])
 		// 1. Create models
 		sim.GetLogger()->Log(nullptr,"Creating models", Smp::Services::LMK_Information);
 
-		Counter counter("counter", &sim);
+		ManagedCounter counter("counter", &sim);
 		sim.AddModel(&counter);
 
 		// Publish variables in the simulation environment
