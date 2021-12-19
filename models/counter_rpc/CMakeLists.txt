@@ -9,6 +9,7 @@ project(counter_rpc)
 # add the executable
 add_library(${PROJECT_NAME} SHARED
     CounterRPC.cpp
+    CounterResetRequest.cpp
     ${LIBSMP2_SOURCES}
 )
 
