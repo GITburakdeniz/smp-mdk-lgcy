@@ -1,0 +1,15 @@
+# Simulation configuration
+
+# Models
+models_path: "../../../build/models/"
+models:
+  - name: counter1
+    class: Counter
+    libname: counter/libcounter.so
+    params: 
+      frequency: 2.0
+  - name: counter2
+    class: Counter
+    libname: counter/libcounter.so
+    params: 
+      frequency: 1.0
